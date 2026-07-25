@@ -99,7 +99,7 @@ console.log("----returnStats---",returnStats)
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium text-gray-800">
-                    {review.userID.name}
+                    {review?.userID?.name}
                   </span>
 
                   <div className="flex gap-0.5">

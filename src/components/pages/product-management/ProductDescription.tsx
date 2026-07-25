@@ -7,7 +7,7 @@ import { TProduct } from "@/types";
 import { Ellipsis, X } from "lucide-react";
 import Image from "next/image";
 import React from "react";
-
+import Barcode from "react-barcode";
 interface productDescriptionProps {
   product: TProduct;
 }
@@ -60,8 +60,12 @@ const ProductDescription: React.FC<productDescriptionProps> = ({ product }) => {
           {/* Sticky Header */}
           <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-bold text-gray-900">Product Details</h2>
-              <p className="text-sm text-gray-500">View complete product information</p>
+              <h2 className="text-lg font-bold text-gray-900">
+                Product Details
+              </h2>
+              <p className="text-sm text-gray-500">
+                View complete product information
+              </p>
             </div>
             <button className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
               <X size={18} className="text-gray-500" />
@@ -374,6 +378,16 @@ const ProductDescription: React.FC<productDescriptionProps> = ({ product }) => {
               <p className="text-sm text-gray-600">
                 <span className="font-semibold">Warranty:</span> jgfjgfgf
               </p>
+            </div>
+
+            <div className="bg-white rounded-lg p-5 border border-gray-200 flex items-center justify-center ">
+              <Barcode
+                value={product.barcode ?? "NO GENERATED"}
+                format="CODE128"
+                width={2}
+                height={70}
+                displayValue={true}
+              />
             </div>
           </div>
         </SheetContent>

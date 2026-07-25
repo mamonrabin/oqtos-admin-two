@@ -29,14 +29,14 @@ export const useProducts = () => {
   });
 };
 
-type GetProductsParams = {
-  page?: number;
-  limit?: number;
-  brand?: string;
-  category?: string;
-  subCategory?: string;
-  dateFilter?: string;
-};
+// type GetProductsParams = {
+//   page?: number;
+//   limit?: number;
+//   brand?: string;
+//   category?: string;
+//   subCategory?: string;
+//   dateFilter?: string;
+// };
 
 
 

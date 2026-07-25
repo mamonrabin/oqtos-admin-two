@@ -207,3 +207,11 @@
 .ProseMirror li {
   margin: 0.25rem 0;
 }
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}

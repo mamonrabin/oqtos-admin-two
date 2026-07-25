@@ -134,13 +134,13 @@ const ReviewList = () => {
 
                     <TableCell className="py-3 px-4">
                       <span className="text-sm font-semibold text-gray-900">
-                        {review.userID.name || "N/A"}
+                        {review?.userID?.name || "N/A"}
                       </span>
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
                       <span className="text-sm text-gray-700">
-                        {review.userID.email || "N/A"}
+                        {review?.userID?.email || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">

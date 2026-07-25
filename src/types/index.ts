@@ -84,6 +84,7 @@ export type TProduct = {
   inventoryType?: string;
   inventories?: TInventory[];
   stock_status?: string;
+  status?: string;
   label?: string;
   tags?: string[];
   specifications?: TSpecification[];
@@ -94,6 +95,7 @@ export type TProduct = {
   quantity?: number;
   slug?: string;
   sku?: string;
+  barcode?: string;
   price?: number;
   availableQuantity?: number;
 };

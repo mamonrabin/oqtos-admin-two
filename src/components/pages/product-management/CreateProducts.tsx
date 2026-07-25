@@ -63,9 +63,9 @@ const CreateProducts = () => {
   type ProductForm = {
     title: string;
     description: string;
-    mrpPrice: string;
+    mrpPrice: number;
     discountType: string;
-    discount: string;
+    discount: number;
     thumbnailImage: FileList;
     backviewImage: FileList;
     images: FileList;

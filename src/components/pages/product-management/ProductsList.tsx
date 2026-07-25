@@ -13,7 +13,7 @@ import Image from "next/image";
 import { Trash } from "lucide-react";
 import Pagination from "@/reuseble_components/Paginations";
 import EditProduct from "./EditProduct";
-import { useDeleteProduct } from "@/hooks/product.hook";
+import { useDeleteProduct, useUpdateProduct } from "@/hooks/product.hook";
 
 import { BASE_URL } from "@/config";
 import ProductDescription from "./ProductDescription";
@@ -21,6 +21,7 @@ import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { toast } from "sonner";
 import { TMeta, TProduct } from "@/types";
 import React from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const tableHeaders = [
   "SL",
@@ -39,6 +40,7 @@ const tableHeaders = [
   "Category",
   "Subcategory",
   "Brand",
+  "Status",
   "Action",
 ];
 
@@ -56,14 +58,15 @@ const ProductsList:React.FC<ProductsListProps> = ({ products, meta, isLoading, s
 
   // const { data: productsList, isLoading } = useAllProducts({page, limit});
   const { mutate: deleteProduct } = useDeleteProduct();
+  const { mutate } = useUpdateProduct();
   // const products = productsList?.data?.data;
   // const meta = productsList?.data?.meta;
 
   console.log("-------how many have----------", products);
 
   const handleDelete = (id: string) => {
-    toast("Delete Category?", {
-      description: "This category will be permanently deleted.",
+    toast("Delete Product?", {
+      description: "This product will be permanently deleted.",
       action: {
         label: "Delete",
         onClick: () => {
@@ -311,6 +314,46 @@ const ProductsList:React.FC<ProductsListProps> = ({ products, meta, isLoading, s
                         {product.brand ? product.brand.title : "N/A"}
                       </span>
                     </TableCell>
+                   
+
+
+                     <TableCell className="py-3 px-3">
+                      <Select
+                        defaultValue={product.status ? product.status : "N/A"}
+                        onValueChange={(value) => {
+                          const formData = new FormData();
+                          formData.append("status", value);
+
+                          mutate(
+                            {
+                              id: product._id,
+                              formData,
+                            },
+                            {
+                              onSuccess: (res) => {
+                                toast.success(
+                                  res?.message || "Status updated successfully",
+                                );
+                              },
+                              onError: (error: any) => {
+                                toast.error(
+                                  error?.response?.data?.message ||
+                                    "Something went wrong.",
+                                );
+                              },
+                            },
+                          );
+                        }}
+                      >
+                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="InActive">InActive</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </TableCell>
 
                     {/* Action */}
                     <TableCell className="py-3 px-4">
@@ -322,7 +365,7 @@ const ProductsList:React.FC<ProductsListProps> = ({ products, meta, isLoading, s
                           <Trash size={16} />
                         </button>
 
-                        <EditProduct />
+                        <EditProduct product={product} />
                       </div>
                     </TableCell>
                   </TableRow>

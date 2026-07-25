@@ -37,8 +37,8 @@ const ReviewText: React.FC<DescriptionProps> = ({review}) => {
             {/* Product Title Section */}
             <div className="border-b border-gray-200 pb-4">
            
-              <p className="text-sm text-gray-700 mt-1">user_name: {userID.name || "N/A"}</p>
-              <p className="text-sm text-gray-700 mt-1">user_email: {userID.email || "N/A"}</p>
+              <p className="text-sm text-gray-700 mt-1">user_name: {userID?.name || "N/A"}</p>
+              <p className="text-sm text-gray-700 mt-1">user_email: {userID?.email || "N/A"}</p>
               <p className="text-sm text-gray-700 mt-1">product_title: {productID.title || "N/A"}</p>
               <p className="text-sm text-gray-700 mt-1">product_rating: {rating || "N/A"}</p>
               <p className="text-sm text-gray-700 mt-1">type: {type || "N/A"}</p>

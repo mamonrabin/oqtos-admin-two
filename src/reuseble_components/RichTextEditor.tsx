@@ -11,7 +11,7 @@ import {
 
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-
+import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
 
 import {
@@ -33,12 +33,13 @@ import {
 type RichTextEditorProps = {
   value?: string;
   onChange?: (value: string) => void;
-
+  placeholder?:string
 };
 
 export default function RichTextEditor({
   value = "",
   onChange,
+  placeholder='Add details or write your description...'
 }: RichTextEditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
@@ -46,6 +47,9 @@ export default function RichTextEditor({
       StarterKit,
       TextAlign.configure({
         types: ["heading", "paragraph"],
+      }),
+      Placeholder.configure({
+        placeholder
       }),
     ],
     content: value,
@@ -109,16 +113,16 @@ export default function RichTextEditor({
             editor.isActive("heading", { level: 1 })
               ? "h1"
               : editor.isActive("heading", { level: 2 })
-              ? "h2"
-              : editor.isActive("heading", { level: 3 })
-              ? "h3"
-              : editor.isActive("heading", { level: 4 })
-              ? "h4"
-              : editor.isActive("heading", { level: 5 })
-              ? "h5"
-              : editor.isActive("heading", { level: 6 })
-              ? "h6"
-              : "paragraph"
+                ? "h2"
+                : editor.isActive("heading", { level: 3 })
+                  ? "h3"
+                  : editor.isActive("heading", { level: 4 })
+                    ? "h4"
+                    : editor.isActive("heading", { level: 5 })
+                      ? "h5"
+                      : editor.isActive("heading", { level: 6 })
+                        ? "h6"
+                        : "paragraph"
           }
           onValueChange={(value) => {
             if (value === "paragraph") {
@@ -139,12 +143,24 @@ export default function RichTextEditor({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="paragraph">Normal Text</SelectItem>
-            <SelectItem className="text-2xl font-bold" value="h1">Heading 1</SelectItem>
-            <SelectItem className="text-xl font-bold" value="h2">Heading 2</SelectItem>
-            <SelectItem className="text-lg font-bold" value="h3">Heading 3</SelectItem>
-            <SelectItem className="text-base font-bold" value="h4">Heading 4</SelectItem>
-            <SelectItem className="text-sm font-bold" value="h5">Heading 5</SelectItem>
-            <SelectItem className="text-xs font-bold" value="h6">Heading 6</SelectItem>
+            <SelectItem className="text-2xl font-bold" value="h1">
+              Heading 1
+            </SelectItem>
+            <SelectItem className="text-xl font-bold" value="h2">
+              Heading 2
+            </SelectItem>
+            <SelectItem className="text-lg font-bold" value="h3">
+              Heading 3
+            </SelectItem>
+            <SelectItem className="text-base font-bold" value="h4">
+              Heading 4
+            </SelectItem>
+            <SelectItem className="text-sm font-bold" value="h5">
+              Heading 5
+            </SelectItem>
+            <SelectItem className="text-xs font-bold" value="h6">
+              Heading 6
+            </SelectItem>
           </SelectContent>
         </Select>
 
