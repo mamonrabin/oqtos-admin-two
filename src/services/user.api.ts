@@ -17,6 +17,11 @@ export const getAllUsers = async (
   return data;
 };
 
+export const getAllStaffs = async () => {
+  const { data } = await AxiosInstance.get("/user/staffs");
+  return data;
+};
+
 export const deleteUser = async (id: string) => {
   const { data } = await AxiosInstance.delete(`/user/${id}`);
   return data;
@@ -44,8 +49,8 @@ export const updateUser = async ({
 }: {
   id: string;
   payload: {
-    role: string;
-    isActive: string;
+    role?: string;
+    isActive?: string;
   };
 }) => {
   const { data } = await AxiosInstance.patch(`/user/${id}`, payload);

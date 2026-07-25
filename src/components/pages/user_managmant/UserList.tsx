@@ -18,12 +18,13 @@ import { useState } from "react";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { toast } from "sonner";
 
-import { useAllUsers, useDeleteUser } from "@/hooks/user.hook";
+import { useAllUsers, useDeleteUser, useUpdateUser } from "@/hooks/user.hook";
 import { TUser } from "@/types";
 import Image from "next/image";
 import SelectInput from "@/reuseble_components/SelectInput";
 import { useForm } from "react-hook-form";
-import EditUser from "./EditUser";
+
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type FormData = {
   date: string;
@@ -62,7 +63,11 @@ const UserList = () => {
   const users = userList?.data;
   const meta = userList?.data?.meta;
 
-  console.log("/////////////---users/////////////", users);
+  const { mutate} = useUpdateUser();
+
+
+
+
 
   const {
     control,
@@ -84,7 +89,7 @@ const UserList = () => {
         onClick: () => {
           deleteUser(id, {
             onSuccess: (res: any) => {
-              toast.success(res?.message || "Coupon deleted successfully");
+              toast.success(res?.message || "User deleted successfully");
             },
             onError: (error: any) => {
               toast.error(
@@ -218,13 +223,47 @@ const UserList = () => {
                         {user.address || "N/A"}
                       </span>
                     </TableCell>
-                    <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
-                        <TableCell className="text-center">
-                          {user.isActive || "N/A"}
-                        </TableCell>
-                      </span>
+                  
+                           <TableCell className="py-3 px-4">
+                      <Select
+                        defaultValue={user.isActive}
+                        onValueChange={(value) => {
+                          mutate(
+                            {
+                              id: user._id,
+                              payload: {
+                                isActive: value,
+                              },
+                            },
+                            {
+                              onSuccess: (res) => {
+                                toast.success(
+                                  res?.message || "Status updated successfully",
+                                );
+                              },
+                              onError: (error: any) => {
+                                toast.error(
+                                  error?.response?.data?.message ||
+                                    "Something went wrong.",
+                                );
+                              },
+                            },
+                          );
+                        }}
+                      >
+                        <SelectTrigger className="w-[100px] rounded">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          <SelectItem value="ACTIVE">ACTIVE</SelectItem>
+                          <SelectItem value="INACTIVE">INACTIVE</SelectItem>
+                          <SelectItem value="BLOCKED">BLOCKED</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </TableCell>
+
+
                     <TableCell className="py-3 px-4">
                       <span className="text-sm font-semibold text-gray-900">
                         {user.role || "N/A"}
@@ -250,7 +289,7 @@ const UserList = () => {
                           <Trash size={16} />
                         </button>
                         {/* <EditCoupon user={user} /> */}
-                        <EditUser  user={user} />
+                        {/* <EditUser  user={user} /> */}
                       </div>
                     </TableCell>
                   </TableRow>

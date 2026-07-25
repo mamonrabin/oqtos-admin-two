@@ -20,13 +20,13 @@ const socialTypes = [
   { label: "Instagram", value: "instagram" },
   { label: "Twitter", value: "twitter" },
   { label: "Youtube", value: "youtube" },
+  { label: "Linkedin", value: "linkedin" },
   { label: "tiktok", value: "tiktok" },
   { label: "Likie", value: "likie" },
 ];
-
 type EditFormData = {
   link: string;
-  type: string;
+  socialType: string;
 };
 
 interface EditSocilaProps {
@@ -52,8 +52,8 @@ const EditSocila = ({ social }: EditSocilaProps) => {
       payload.link = data.link;
     }
 
-    if (data.type) {
-      payload.type = data.type;
+    if (data.socialType) {
+      payload.socialType = data.socialType;
     }
 
     mutate(
@@ -102,11 +102,11 @@ const EditSocila = ({ social }: EditSocilaProps) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
               <SelectInput<EditFormData>
                 label="Social Type"
-                name="type"
+                name="socialType"
                 options={socialTypes}
                 control={control}
                 placeholder={social.type}
-                error={errors.type}
+                error={errors.socialType}
                 inputstyle="rounded lg:mt-1 !w-full !h-[40px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
 

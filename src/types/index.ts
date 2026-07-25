@@ -5,6 +5,7 @@ export type TSubmenu = {
   href: string;
   label: string;
   active: boolean;
+  icon?:any
 };
 
 export type TMenu = {
@@ -182,6 +183,7 @@ export type TSocial = {
   _id: string;
   link: string;
   type: string;
+  socialType: string;
 };
 
 export type TLogo = {

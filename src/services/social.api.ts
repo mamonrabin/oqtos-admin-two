@@ -23,8 +23,9 @@ export const updateSocial = async ({
 }: {
   id: string;
   payload: {
-    link: string;
-    type: string;
+    link?: string;
+    socialType?: string;
+    type?: string;
   };
 }) => {
   const { data } = await AxiosInstance.patch(`/socialIcon/${id}`, payload);

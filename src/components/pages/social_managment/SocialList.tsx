@@ -12,17 +12,19 @@ import {
 import { Trash, FolderOpen } from "lucide-react";
 
 import { toast } from "sonner";
-import { TPolicy, TSocial } from "@/types";
+import { TSocial } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 
-import { useAllSocials, useDeleteSocial } from "@/hooks/social.hook";
+import { useAllSocials, useDeleteSocial, useUpdateSocial } from "@/hooks/social.hook";
 import EditSocila from "./EditSocila";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const tableHeaders = ["SL", "Socila Media", "Link",  "Actions"];
+const tableHeaders = ["SL", "Socila Media", "Link", "type", "Actions"];
 
 const SocialList = () => {
   const { data: socialLinks, isLoading } = useAllSocials();
   const { mutate: deleteSocialLink } = useDeleteSocial();
+  const { mutate } = useUpdateSocial();
 
   const sociles = socialLinks?.data;
 
@@ -61,10 +63,11 @@ const SocialList = () => {
             <FolderOpen size={20} className="text-blue-600" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-gray-900">Social Media List</h2>
+            <h2 className="text-xl font-bold text-gray-900">
+              Social Media List
+            </h2>
             <p className="text-sm text-gray-500">
-              Total <span className="font-semibold text-gray-700">0</span>{" "}
-              link
+              Total <span className="font-semibold text-gray-700">0</span> link
             </p>
           </div>
         </div>
@@ -101,20 +104,61 @@ const SocialList = () => {
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
-                        {social.type}
+                      <span className="text-sm font-semibold text-gray-900">
+                        {social.socialType}
                       </span>
                     </TableCell>
 
-                    
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm text-gray-700 capitalize">
+                      <span className="text-sm text-gray-700">
                         {social.link}
                       </span>
                     </TableCell>
 
-                  
+                    {/* <TableCell className="py-3 px-4">
+                      <span className="text-sm font-semibold text-gray-900">
+                        {social.type}
+                      </span>
+                    </TableCell> */}
 
+                     <TableCell className="py-3 px-4">
+                      <Select
+                        defaultValue={social.type}
+                        onValueChange={(value) => {
+                          mutate(
+                            {
+                              id: social._id,
+                              payload: {
+                                type: value,
+                              },
+                            },
+                            {
+                              onSuccess: (res) => {
+                                toast.success(
+                                  res?.message || "Status updated successfully",
+                                );
+                              },
+                              onError: (error: any) => {
+                                toast.error(
+                                  error?.response?.data?.message ||
+                                    "Something went wrong.",
+                                );
+                              },
+                            },
+                          );
+                        }}
+                      >
+                        <SelectTrigger className="w-[100px] rounded">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+
+                        <SelectContent >
+                          <SelectItem  value="ACTIVE">ACTIVE</SelectItem>
+                          <SelectItem value="INACTIVE">INACTIVE</SelectItem>
+                          
+                        </SelectContent>
+                      </Select>
+                    </TableCell>
                     <TableCell className="py-3 px-4">
                       <div className="flex items-center gap-2">
                         <button
@@ -126,7 +170,7 @@ const SocialList = () => {
 
                         {/* <EditCategory category={category} /> */}
                         {/* <EditPolicy social={social}/> */}
-                           <EditSocila social={social}/>
+                        <EditSocila social={social} />
                       </div>
                     </TableCell>
                   </TableRow>
@@ -155,8 +199,6 @@ const SocialList = () => {
           )}
         </Table>
       </div>
-
-     
     </div>
   );
 };

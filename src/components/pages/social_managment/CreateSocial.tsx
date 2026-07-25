@@ -17,13 +17,14 @@ const socialTypes = [
   { label: "Instagram", value: "instagram" },
   { label: "Twitter", value: "twitter" },
   { label: "Youtube", value: "youtube" },
+  { label: "Linkedin", value: "linkedin" },
   { label: "tiktok", value: "tiktok" },
   { label: "Likie", value: "likie" },
 ];
 
 type socialFormData = {
   link: string;
-  type: string;
+  socialType: string;
 };
 
 const CreateSocial = () => {
@@ -40,7 +41,7 @@ const CreateSocial = () => {
   const onSubmit: SubmitHandler<socialFormData> = (data) => {
     const payload = {
       link: data.link,
-      type: data.type,
+      socialType: data.socialType,
      
     };
     mutate(payload, {
@@ -88,10 +89,10 @@ const CreateSocial = () => {
         <div className="grid md:grid-cols-2 md:gap-4 gap-2">
             <SelectInput<socialFormData>
             label="Social Type"
-            name="type"
+            name="socialType"
             options={socialTypes}
             control={control}
-            error={errors.type}
+            error={errors.socialType}
             required
             inputstyle="rounded lg:mt-1 !w-full !h-[40px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />

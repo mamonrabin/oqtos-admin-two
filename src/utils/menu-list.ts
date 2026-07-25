@@ -32,18 +32,25 @@ export function getMenuList(pathname: string): TGroup[] {
           submenus: [],
         },
         {
-          href: "/new_order",
-          label: "New Orders",
-          active: pathname.includes("/new_order"),
-          icon: ShoppingCart,
-          submenus: [],
-        },
-        {
-          href: "/order-list",
+          href: "/order",
           label: "Orders",
-          active: pathname.includes("/order-list"),
-          icon: ClipboardList,
-          submenus: [],
+          active: pathname.includes("/order"),
+          icon: ShoppingCart,
+          submenus: [
+            {
+              href: "/new_order",
+              label: "New Orders",
+              active: pathname.includes("/new_order"),
+              icon: ShoppingCart,
+            },
+
+            {
+              href: "/order-list",
+              label: "Orders",
+              active: pathname.includes("/order-list"),
+              icon: ClipboardList,
+            },
+          ],
         },
       ],
     },
@@ -51,9 +58,9 @@ export function getMenuList(pathname: string): TGroup[] {
       groupLabel: "Management",
       menus: [
         {
-          href: "/category",
-          label: "Category",
-          active: pathname.includes("/category"),
+          href: "/catalog",
+          label: "Catalog",
+          active: pathname.includes("/catalog"),
           icon: FolderTree,
           submenus: [
             {
@@ -66,15 +73,23 @@ export function getMenuList(pathname: string): TGroup[] {
               label: "Subcategory",
               active: pathname === "/category/subcategory",
             },
+
+            {
+              href: "/brand",
+              label: "Brand",
+              active: pathname.includes("/brand"),
+              icon: Badge,
+            },
+
+            {
+              href: "/product-review",
+              label: "Review",
+              active: pathname.includes("/product-review"),
+              icon: Star,
+            },
           ],
         },
-        {
-          href: "/brand",
-          label: "Brand",
-          active: pathname.includes("/brand"),
-          icon: Badge,
-          submenus: [],
-        },
+
         {
           href: "/products",
           label: "Products",
@@ -83,59 +98,74 @@ export function getMenuList(pathname: string): TGroup[] {
           submenus: [],
         },
         {
-          href: "/coupon",
-          label: "Coupon",
-          active: pathname.includes("/coupon"),
-          icon: TicketPercent,
-          submenus: [],
-        },
-        {
-          href: "/campaign",
-          label: "Campaign",
-          active: pathname.includes("/campaign"),
+          href: "/marketing",
+          label: "Marketing",
+          active: pathname.includes("/marketing"),
           icon: Sparkles,
-          submenus: [],
+          submenus: [
+            {
+              href: "/campaign",
+              label: "Campaign",
+              active: pathname.includes("/campaign"),
+              icon: Sparkles,
+            },
+            {
+              href: "/coupon",
+              label: "Coupon",
+              active: pathname.includes("/coupon"),
+              icon: TicketPercent,
+            },
+          ],
         },
-        {
-          href: "/user",
-          label: "Customer",
-          active: pathname.includes("/user"),
-          icon: Users,
-          submenus: [],
-        },
+
       ],
     },
     {
       groupLabel: "Pages",
+
       menus: [
         {
-          href: "/banners",
-          label: "Banners",
-          active: pathname.includes("/banners"),
+          href: "/page-section",
+          label: "Page_Section",
+          active: pathname.includes("/page-section"),
           icon: Images,
-          submenus: [],
+          submenus: [
+            {
+              href: "/banners",
+              label: "Banners",
+              active: pathname.includes("/banners"),
+              icon: Images,
+            },
+
+            {
+              href: "/about",
+              label: "About",
+              active: pathname.includes("/about"),
+              icon: Info,
+            },
+
+            {
+              href: "/contact",
+              label: "Contact",
+              active: pathname.includes("/contact"),
+              icon: Phone,
+            },
+            {
+              href: "/policy",
+              label: "Policy",
+              active: pathname.includes("/policy"),
+              icon: FileText,
+            },
+
+            {
+              href: "/logo",
+              label: "Set Logo",
+              active: pathname.includes("/logo"),
+              icon: Image,
+            },
+          ],
         },
-        {
-          href: "/policy",
-          label: "Policy",
-          active: pathname.includes("/policy"),
-          icon: FileText,
-          submenus: [],
-        },
-        {
-          href: "/about",
-          label: "About",
-          active: pathname.includes("/about"),
-          icon: Info,
-          submenus: [],
-        },
-        {
-          href: "/contact",
-          label: "Contact",
-          active: pathname.includes("/contact"),
-          icon: Phone,
-          submenus: [],
-        },
+
         {
           href: "/social",
           label: "Social",
@@ -143,25 +173,35 @@ export function getMenuList(pathname: string): TGroup[] {
           icon: Share2,
           submenus: [],
         },
-        {
-          href: "/logo",
-          label: "Set Logo",
-          active: pathname.includes("/logo"),
-          icon: Image,
-          submenus: [],
-        },
-        {
-          href: "/product-review",
-          label: "Product Review",
-          active: pathname.includes("/product-review"),
-          icon: Star,
-          submenus: [],
-        },
+
         {
           href: "/home_controll",
           label: "Home Page Control",
           active: pathname.includes("/home_controll"),
           icon: Layout,
+          submenus: [],
+        },
+      ],
+    },
+
+    {
+      groupLabel: "Preferences",
+
+      menus: [
+        
+        {
+          href: "/staffs",
+          label: "Staffs",
+          active: pathname.includes("/staffs"),
+          icon: Share2,
+          submenus: [],
+        },
+
+        {
+          href: "/user",
+          label: "Customer",
+          active: pathname.includes("/user"),
+          icon: Users,
           submenus: [],
         },
       ],
