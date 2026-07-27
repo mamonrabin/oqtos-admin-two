@@ -36,9 +36,10 @@ export const updatePolicy = async ({
 }: {
   id: string;
   payload: {
-    title: string;
-    description: string;
-    type: string;
+    title?: string;
+    description?: string;
+    type?: string;
+    status?:string;
   };
 }) => {
   const { data } = await AxiosInstance.patch(`/policy/${id}`, payload);

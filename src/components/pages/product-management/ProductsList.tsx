@@ -295,7 +295,7 @@ const ProductsList:React.FC<ProductsListProps> = ({ products, meta, isLoading, s
                     {/* Category */}
                     <TableCell className="text-center py-3 px-4">
                       <span className="text-sm text-gray-700">
-                        {product.category.categoryName}
+                        {product?.category?.categoryName || 'N/A'}
                       </span>
                     </TableCell>
 

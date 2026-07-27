@@ -32,18 +32,25 @@ export const deleteCoupon = async (id: string) => {
   return data;
 };
 
+type TUpdateCouponPayload = {
+  status?:string;
+  code?: string;
+  discount?: number;
+  discountType?: string;
+  useLimit?: number;
+  perUserLimit?: number;
+  startDate?: string;
+  expireDate?: string;
+  couponType?: string;
+};
+
 export const updateCoupon = async ({
   id,
-  formData,
+  payload,
 }: {
   id: string;
-  formData: FormData;
+  payload: TUpdateCouponPayload;
 }) => {
-  const { data } = await AxiosInstance.put(`/coupon/${id}`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-
+  const { data } = await AxiosInstance.put(`/coupon/${id}`, payload);
   return data;
 };

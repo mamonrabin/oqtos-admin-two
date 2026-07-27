@@ -145,7 +145,7 @@ const ReviewList = () => {
                     </TableCell>
                     <TableCell className="py-3 px-4">
                       <span className="text-sm text-gray-700">
-                        {review.productID.title || "N/A"}
+                        {review.productID?.title || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
@@ -186,7 +186,7 @@ const ReviewList = () => {
                           );
                         }}
                       >
-                        <SelectTrigger className="w-[100px] rounded">
+                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
                           <SelectValue placeholder="Select status" />
                         </SelectTrigger>
 

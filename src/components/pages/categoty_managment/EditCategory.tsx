@@ -35,7 +35,12 @@ const EditCategory = ({ category }: EditCategoryProps) => {
     reset,
     watch,
     formState: { errors },
-  } = useForm<EditFormData>();
+  } = useForm<EditFormData>({
+    defaultValues:{
+       categoryName: category.categoryName || "",
+       title: category.title || "N/A",
+    }
+  });
 
   const { mutate, isPending } = useUpdateCategory();
 

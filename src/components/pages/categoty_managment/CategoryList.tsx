@@ -12,19 +12,31 @@ import {
 import { Trash, FolderOpen } from "lucide-react";
 import EditCategory from "./EditCategory";
 import Pagination from "@/reuseble_components/Paginations";
-import { useCategories, useDeleteCategory } from "@/hooks/category.hook";
+import {
+  useCategories,
+  useDeleteCategory,
+  useUpdateCategory,
+} from "@/hooks/category.hook";
 import { useState } from "react";
 import { BASE_URL } from "@/config";
 import Image from "next/image";
 import { toast } from "sonner";
 import { TCategory } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const tableHeaders = [
   "#",
   "Category Name",
   "Title",
   "Category Image",
+  "Status",
   "Actions",
 ];
 
@@ -32,11 +44,9 @@ const CategoryList = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  const {
-    data: categorysList,
-    isLoading,
-  } = useCategories(page, limit);
+  const { data: categorysList, isLoading } = useCategories(page, limit);
   const { mutate: deleteCategory } = useDeleteCategory();
+  const { mutate } = useUpdateCategory();
 
   const categories = categorysList?.data?.data;
   const meta = categorysList?.data?.meta;
@@ -78,11 +88,14 @@ const CategoryList = () => {
           <div>
             <h2 className="text-xl font-bold text-gray-900">Category List</h2>
             <p className="text-sm text-gray-500">
-              Total <span className="font-semibold text-gray-700">{meta?.total || 0}</span> categories
+              Total{" "}
+              <span className="font-semibold text-gray-700">
+                {meta?.total || 0}
+              </span>{" "}
+              categories
             </p>
           </div>
         </div>
-        
       </div>
 
       {/* Table Container */}
@@ -91,8 +104,8 @@ const CategoryList = () => {
           <TableHeader className="bg-gray-50">
             <TableRow className="hover:bg-transparent border-b border-gray-200">
               {tableHeaders.map((header) => (
-                <TableHead 
-                  key={header} 
+                <TableHead
+                  key={header}
                   className="text-xs font-semibold text-gray-600 uppercase tracking-wider py-3 px-4"
                 >
                   {header}
@@ -107,8 +120,8 @@ const CategoryList = () => {
             <TableBody>
               {categories?.length ? (
                 categories.map((category: TCategory, index: number) => (
-                  <TableRow 
-                    key={category._id} 
+                  <TableRow
+                    key={category._id}
                     className="hover:bg-gray-50/50 transition-colors border-b border-gray-100"
                   >
                     <TableCell className="py-3 px-4 text-sm text-gray-500 font-medium text-center">
@@ -140,12 +153,49 @@ const CategoryList = () => {
                       </div>
                     </TableCell>
 
+                    <TableCell className="py-3 px-3">
+                      <Select
+                        defaultValue={category.status ? category.status : "N/A"}
+                        onValueChange={(value) => {
+                          const formData = new FormData();
+                          formData.append("status", value);
+
+                          mutate(
+                            {
+                              id: category._id,
+                              formData,
+                            },
+                            {
+                              onSuccess: (res) => {
+                                toast.success(
+                                  res?.message || "Status updated successfully",
+                                );
+                              },
+                              onError: (error: any) => {
+                                toast.error(
+                                  error?.response?.data?.message ||
+                                    "Something went wrong.",
+                                );
+                              },
+                            },
+                          );
+                        }}
+                      >
+                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="InActive">InActive</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </TableCell>
+
                     <TableCell className="py-3 px-4">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleDelete(category._id)}
                           className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-all duration-200 hover:shadow-sm"
-                          
                         >
                           <Trash size={16} />
                         </button>
@@ -165,8 +215,12 @@ const CategoryList = () => {
                       <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
                         <FolderOpen size={32} className="text-gray-300" />
                       </div>
-                      <p className="text-lg font-medium text-gray-700">No categories found</p>
-                      <p className="text-sm text-gray-400">Start by adding your first category</p>
+                      <p className="text-lg font-medium text-gray-700">
+                        No categories found
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Start by adding your first category
+                      </p>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -178,7 +232,6 @@ const CategoryList = () => {
 
       {/* Footer/Pagination */}
       <div className="py-4 px-4">
-        
         <Pagination
           page={meta?.page}
           limit={meta?.limit}

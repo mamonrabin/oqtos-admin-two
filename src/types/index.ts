@@ -1,11 +1,9 @@
-
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type TSubmenu = {
   href: string;
   label: string;
   active: boolean;
-  icon?:any
+  icon?: any;
 };
 
 export type TMenu = {
@@ -27,6 +25,7 @@ export type TCategory = {
   title: string;
   slug: string;
   image: string;
+  status: string;
 };
 
 export type TSubCategory = {
@@ -36,6 +35,7 @@ export type TSubCategory = {
     categoryName: string;
   };
   subcategoryName: string;
+  status: string;
   image: string;
   slug: string;
   createdAt: string;
@@ -118,6 +118,7 @@ export type TCoupon = {
   startDate: string;
   expireDate: string;
   couponType: string;
+  status: string;
   categoryID?: TCategory;
   brandID?: TBrand;
   subCategoryID?: TSubCategory;
@@ -130,6 +131,7 @@ export type TCampaign = {
   _id: string;
   title: string;
   image?: string;
+  status?: string;
   couponId: TCoupon;
 };
 
@@ -159,6 +161,7 @@ export type TBanner = {
   category?: TCategory;
   image: string;
   description?: string;
+  status?: string;
   link?: string;
   type: string;
 };
@@ -166,6 +169,7 @@ export type TBanner = {
 export type TPolicy = {
   _id: string;
   title: string;
+  status: string;
   description: string;
   type: string;
 };
@@ -184,7 +188,7 @@ export type TContact = {
 export type TSocial = {
   _id: string;
   link: string;
-  type: string;
+  status: string;
   socialType: string;
 };
 
@@ -196,6 +200,7 @@ export type TLogo = {
   address: string;
   phone: string;
   whatsapp: string;
+  status: string;
   email: string;
   type: string;
 };
@@ -362,7 +367,6 @@ export type TLowStockAlert = {
   alertType: "LOW" | "CRITICAL";
 };
 export type TTotalHighestOrderProduct = {
-  
   totalSold: number;
   totalOrders: number;
   revenue: number;
@@ -371,7 +375,6 @@ export type TTotalHighestOrderProduct = {
   slug: string;
 };
 export type TInventoryValueStats = {
-  
   totalProducts: number;
   totalStock: number;
   totalMRPValue: number;
@@ -381,17 +384,15 @@ export type TInventoryValueStats = {
 
 export type TProductStats = {
   lowStockAlerts: TLowStockAlert[];
-  totalHighestOrderProduct:TTotalHighestOrderProduct[]
-  inventoryValueStats:TInventoryValueStats[]
+  totalHighestOrderProduct: TTotalHighestOrderProduct[];
+  inventoryValueStats: TInventoryValueStats[];
 };
-
 
 export type THomeControll = {
   _id: string;
   title: string;
+  subTitle: string;
   landing: string;
   order: string;
-  enabled: string;
- 
+  status: string;
 };
-

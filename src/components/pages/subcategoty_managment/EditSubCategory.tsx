@@ -37,7 +37,12 @@ const EditSubCategory = ({ subcategory }: EditSubCategoryProps) => {
     control,
     reset,
     formState: { errors },
-  } = useForm<EditFormData>();
+  } = useForm<EditFormData>({
+    defaultValues:{
+       category: subcategory.category?._id || "",
+       subcategoryName: subcategory.subcategoryName || "N/A",
+    }
+  });
 
   const { mutate, isPending } = useUpdateSubCategory();
 
@@ -96,7 +101,7 @@ const EditSubCategory = ({ subcategory }: EditSubCategoryProps) => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6 overflow-y-auto">
             {/* Current Sub Category Preview */}
 
             {/* Form Fields */}

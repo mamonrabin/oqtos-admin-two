@@ -120,7 +120,7 @@ const UserList = () => {
             <p className="text-sm text-gray-500">
               Total{" "}
               <span className="font-semibold text-gray-700">
-                {meta?.total || 0}
+               {users?.length || 0}
               </span>{" "}
               users
             </p>
@@ -251,7 +251,7 @@ const UserList = () => {
                           );
                         }}
                       >
-                        <SelectTrigger className="w-[100px] rounded">
+                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
                           <SelectValue placeholder="Select status" />
                         </SelectTrigger>
 

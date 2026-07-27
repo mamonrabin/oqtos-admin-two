@@ -18,8 +18,15 @@ import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { useAllSocials, useDeleteSocial, useUpdateSocial } from "@/hooks/social.hook";
 import EditSocila from "./EditSocila";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+import StatusSelect from "@/reuseble_components/StatusSelect";
 
-const tableHeaders = ["SL", "Socila Media", "Link", "type", "Actions"];
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
+
+const tableHeaders = ["SL", "Socila Media", "Link", "status", "Actions"];
 
 const SocialList = () => {
   const { data: socialLinks, isLoading } = useAllSocials();
@@ -67,7 +74,7 @@ const SocialList = () => {
               Social Media List
             </h2>
             <p className="text-sm text-gray-500">
-              Total <span className="font-semibold text-gray-700">0</span> link
+              Total <span className="font-semibold text-gray-700">{sociles?.length || 0}</span> link
             </p>
           </div>
         </div>
@@ -121,43 +128,25 @@ const SocialList = () => {
                       </span>
                     </TableCell> */}
 
-                     <TableCell className="py-3 px-4">
-                      <Select
-                        defaultValue={social.type}
-                        onValueChange={(value) => {
-                          mutate(
-                            {
-                              id: social._id,
-                              payload: {
-                                type: value,
-                              },
-                            },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
-                          );
-                        }}
-                      >
-                        <SelectTrigger className="w-[100px] rounded">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
+                    
 
-                        <SelectContent >
-                          <SelectItem  value="ACTIVE">ACTIVE</SelectItem>
-                          <SelectItem value="INACTIVE">INACTIVE</SelectItem>
-                          
-                        </SelectContent>
-                      </Select>
+                      <TableCell className="py-3 px-4">
+                      <StatusSelect
+                      value={social.status ?? "Active"}
+                      options={statusOptions}
+                      className="w-[100px]"
+                      onChange={(status) => {
+                        mutate(
+                          {
+                            id: social._id,
+                            payload: {
+                            status
+                            },
+                          },
+                          mutationToast,
+                        );
+                      }}
+                    />
                     </TableCell>
                     <TableCell className="py-3 px-4">
                       <div className="flex items-center gap-2">

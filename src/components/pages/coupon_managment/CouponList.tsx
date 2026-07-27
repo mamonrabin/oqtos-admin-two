@@ -21,8 +21,9 @@ import { useState } from "react";
 import { TCoupon } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { toast } from "sonner";
-import { useCoupons, useDeleteCoupon } from "@/hooks/coupon.hook";
+import { useCoupons, useDeleteCoupon, useUpdateCoupon } from "@/hooks/coupon.hook";
 import EditCoupon from "./EditCoupon";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const tableHeaders = [
   "SL",
@@ -38,6 +39,7 @@ const tableHeaders = [
   "Brand",
   "Category",
   "Subcategory",
+  "status",
   "Action",
 ];
 
@@ -47,6 +49,7 @@ const CouponList = () => {
 
   const { data: couponList, isLoading } = useCoupons(page, limit);
   const { mutate: deleteCoupon } = useDeleteCoupon();
+    const { mutate} = useUpdateCoupon();
 
   const coupons = couponList?.data?.data;
   const meta = couponList?.data?.meta;
@@ -91,7 +94,7 @@ const CouponList = () => {
             <h2 className="text-xl font-bold text-gray-900">Coupon List</h2>
             <p className="text-sm text-gray-500">
               Total{" "}
-              <span className="font-semibold text-gray-700">
+              <span className=" text-gray-700">
                 {meta?.total || 0}
               </span>{" "}
               coupons
@@ -108,7 +111,7 @@ const CouponList = () => {
               {tableHeaders.map((header) => (
                 <TableHead
                   key={header}
-                  className="text-xs font-semibold text-gray-600 uppercase tracking-wider py-3 px-4"
+                  className="text-xs  text-gray-600 uppercase tracking-wider py-3 px-4"
                 >
                   {header}
                 </TableHead>
@@ -131,72 +134,110 @@ const CouponList = () => {
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {coupon.code}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {coupon.discount}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {coupon.discountType}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {coupon.useLimit}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         <TableCell className="text-center">
                           {coupon.perUserLimit || "01"}
                         </TableCell>
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {coupon.used ? coupon.used : "00"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {new Date(coupon.startDate).toLocaleDateString("en-US")}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {new Date(coupon.expireDate).toLocaleDateString(
                           "en-US",
                         )}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {coupon.couponType}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {coupon?.brandID?.title ? coupon.brandID.title : "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {coupon?.categoryID?.categoryName
                           ? coupon.categoryID.categoryName
                           : "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm  text-gray-900 ">
                         {coupon?.subCategoryID?.subcategoryName
                           ? coupon.subCategoryID.subcategoryName
                           : "N/A"}
                       </span>
+                    </TableCell>
+
+
+                        <TableCell className="py-3 px-3">
+                      <Select
+                        defaultValue={coupon.status}
+                        onValueChange={(value) => {
+                          mutate(
+                            {
+                              id: coupon._id,
+                              payload: {
+                                status: value,
+                              },
+                            },
+                            {
+                              onSuccess: (res) => {
+                                toast.success(
+                                  res?.message || "Status updated successfully",
+                                );
+                              },
+                              onError: (error: any) => {
+                                toast.error(
+                                  error?.response?.data?.message ||
+                                    "Something went wrong.",
+                                );
+                              },
+                            },
+                          );
+                        }}
+                      >
+                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="InActive">InActive</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </TableCell>
 
                     <TableCell className="py-3 px-4">

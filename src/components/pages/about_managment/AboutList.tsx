@@ -11,18 +11,30 @@ import {
 
 import { Trash, FolderOpen } from "lucide-react";
 
+
+
+
+const aboutTypes = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
+
+
 import { toast } from "sonner";
 import { TAbout } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
-import { useAllAbouts, useDeleteAbout } from "@/hooks/about.hook";
+import { useAllAbouts, useDeleteAbout, useUpdateAbout } from "@/hooks/about.hook";
 import AboutDescription from "./AboutDescription";
 import EditAbout from "./EditAbout";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
 
 const tableHeaders = ["SL", "description", "type", "Actions"];
 
 const AboutList = () => {
   const { data: allAboutes, isLoading } = useAllAbouts();
   const { mutate: deletePolicy } = useDeleteAbout();
+    const { mutate} = useUpdateAbout();
 
   const aboutes = allAboutes?.data;
 
@@ -63,7 +75,7 @@ const AboutList = () => {
           <div>
             <h2 className="text-xl font-bold text-gray-900">About List</h2>
             <p className="text-sm text-gray-500">
-              Total <span className="font-semibold text-gray-700">0</span> about
+              Total <span className="font-semibold text-gray-700">{aboutes?.length}</span> about
             </p>
           </div>
         </div>
@@ -106,9 +118,23 @@ const AboutList = () => {
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm text-gray-700 capitalize">
-                        {about.type}
-                      </span>
+                     
+                      <StatusSelect
+                        value={about.type}
+                        options={aboutTypes}
+                        className="w-[100px]"
+                        onChange={(type) => {
+                          mutate(
+                            {
+                              id: about._id,
+                              payload: {
+                                type,
+                              },
+                            },
+                            mutationToast,
+                          );
+                        }}
+                      />
                     </TableCell>
 
                     <TableCell className="py-3 px-4">

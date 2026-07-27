@@ -9,13 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 
 import { Trash, FolderOpen } from "lucide-react";
 
@@ -28,14 +22,46 @@ import {
   useDeleteHome,
   useUpdateHome,
 } from "@/hooks/homeController.hook";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import EditHomeController from "./EditHomeController";
+
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
+const pagesections = [
+  { label: "Categories", value: "Categories" },
+  { label: "Best Selling", value: "Best Selling" },
+  { label: "Flash Sale", value: "Flash Sale" },
+  { label: "Featured Products", value: "Featured Products" },
+  { label: "New Arrivals", value: "New Arrivals" },
+  { label: "About", value: "About" },
+  { label: "Brands", value: "Brands" },
+  { label: "Testimonials", value: "Testimonials" },
+  { label: "FAQ", value: "FAQ" },
+  { label: "Newsletter", value: "Newsletter" },
+];
+const ordersections = [
+  { label: "first", value: "first" },
+  { label: "second", value: "second" },
+  { label: "third", value: "third" },
+  { label: "fourth", value: "fourth" },
+  { label: "fifth", value: "fifth" },
+  { label: "sixth", value: "sixth" },
+  { label: "seventh", value: "seventh" },
+  { label: "eighth", value: "eighth" },
+  { label: "ninth", value: "ninth" },
+  { label: "tenth", value: "tenth" },
+];
 
 const tableHeaders = [
   "SL",
   "title",
-  "landing title",
-  "landing type",
+  "sub title",
+  "section type",
   "order List",
-  "enabled Type",
+  "status",
   "Actions",
 ];
 
@@ -90,7 +116,7 @@ const HomeControllerList = () => {
             <p className="text-sm text-gray-500">
               Total{" "}
               <span className="font-semibold text-gray-700">
-                {homeItems?.length}
+                {homeItems?.length || 0}
               </span>{" "}
               item
             </p>
@@ -130,148 +156,76 @@ const HomeControllerList = () => {
 
                     <TableCell className="py-3 px-4">
                       <span className="text-sm font-semibold text-gray-900">
-                        {item.title || "N/A"}
+                        {item?.title?.slice(0, 25) || "N/A"}
                       </span>
                     </TableCell>
-
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm text-gray-700">
-                        {item.landing || "N/A"}
-                      </span>
+                      {item?.subTitle ? (
+                        <span className="text-sm text-gray-900">
+                          {item.subTitle.slice(0, 35)}...
+                        </span>
+                      ) : (
+                        <span>N/A</span>
+                      )}
                     </TableCell>
 
-
-
                     <TableCell className="py-3 px-4">
-                      <Select
-                        defaultValue={item.landing}
-                        onValueChange={(value) => {
+                      <StatusSelect
+                        value={item.landing}
+                        options={pagesections}
+                        className="w-[130px]"
+                        onChange={(landing) => {
                           mutate(
                             {
                               id: item._id,
                               payload: {
-                                landing: value,
+                                landing,
                               },
                             },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
+                            mutationToast,
                           );
                         }}
-                      >
-                        <SelectTrigger className="w-[100px] rounded">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                          <SelectItem value="Categories">Categories</SelectItem>
-                          <SelectItem value="Best Selling">Best Selling</SelectItem>
-                          <SelectItem value="Flash Sale">Flash Sale</SelectItem>
-                          <SelectItem value="Featured Products">Featured Products</SelectItem>
-                          <SelectItem value="New Arrivals">New Arrivals</SelectItem>
-                          <SelectItem value="About">About</SelectItem>
-                          <SelectItem value="Brands">Brands</SelectItem>
-                          <SelectItem value="Testimonials">Testimonials</SelectItem>
-                          <SelectItem value="FAQ">FAQ</SelectItem>
-                          <SelectItem value="Newsletter">Newsletter</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      />
+                     
                     </TableCell>
 
-
-
                     <TableCell className="py-3 px-4">
-                      <Select
-                        defaultValue={item.order}
-                        onValueChange={(value) => {
+                        <StatusSelect
+                        value={item.order}
+                        options={ordersections}
+                        className="w-[100px]"
+                        onChange={(order) => {
                           mutate(
                             {
                               id: item._id,
                               payload: {
-                                order: value,
+                                order,
                               },
                             },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
+                            mutationToast,
                           );
                         }}
-                      >
-                        <SelectTrigger className="w-[100px] rounded">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                          <SelectItem value="first">first</SelectItem>
-                          <SelectItem value="second">second</SelectItem>
-                          <SelectItem value="third">third</SelectItem>
-                          <SelectItem value="fourth">fourth</SelectItem>
-                          <SelectItem value="fifth">fifth</SelectItem>
-                          <SelectItem value="sixth">sixth</SelectItem>
-                          <SelectItem value="seventh">seventh</SelectItem>
-                          <SelectItem value="eighth">eighth</SelectItem>
-                          <SelectItem value="ninth">ninth</SelectItem>
-                          <SelectItem value="tenth">tenth</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      />
+                 
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
-                      <Select
-                        defaultValue={item.enabled}
-                        onValueChange={(value) => {
+                      <StatusSelect
+                        value={item.status ?? "Active"}
+                        options={statusOptions}
+                        className="w-[100px]"
+                        onChange={(status) => {
                           mutate(
                             {
                               id: item._id,
                               payload: {
-                                enabled: value,
+                                status,
                               },
                             },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
+                            mutationToast,
                           );
                         }}
-                      >
-                        <SelectTrigger className="w-[100px] rounded">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                          <SelectItem value="Active">Active</SelectItem>
-                          <SelectItem value="In Active">In Active</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      />
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
@@ -283,6 +237,7 @@ const HomeControllerList = () => {
                           <Trash size={16} />
                         </button>
                         {/* <EditAbout about={about} /> */}
+                        <EditHomeController item={item} />
                       </div>
                     </TableCell>
                   </TableRow>

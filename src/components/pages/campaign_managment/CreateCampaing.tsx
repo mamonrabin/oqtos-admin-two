@@ -88,7 +88,7 @@ const CreateCampaing = () => {
             label="Campaing Title"
             name="title"
             type="text"
-            placeholder="Enter brand name"
+            placeholder="Enter campaing title"
             register={register}
             error={errors.title}
             required

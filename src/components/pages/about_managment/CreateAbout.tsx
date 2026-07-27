@@ -1,26 +1,18 @@
-/* eslint-disable react-hooks/incompatible-library */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import { Plus } from "lucide-react";
-
 import { toast } from "sonner";
 
 import RichTextEditor from "@/reuseble_components/RichTextEditor";
 import { useCreateAbout } from "@/hooks/about.hook";
-import SelectInput from "@/reuseble_components/SelectInput";
-
-const aboutTypes = [
-  { label: "Active", value: "active" },
-  { label: "In Active", value: "inactive" },
-];
 
 
 type AboutFormData = {
-type:string
+
   description: string;
  
 };
@@ -37,7 +29,7 @@ const CreateAbout = () => {
   const onSubmit: SubmitHandler<AboutFormData> = (data) => {
     const payload = {
       description: data.description,
-      type: data.type,
+      
      
     };
     mutate(payload, {
@@ -98,13 +90,6 @@ const CreateAbout = () => {
             )}
           />
 
-          <SelectInput<AboutFormData>
-            label="About Type"
-            name="type"
-            options={aboutTypes}
-            control={control}
-            inputstyle="rounded lg:mt-1 !w-full !h-[40px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
         </div>
 
          

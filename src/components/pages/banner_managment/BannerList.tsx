@@ -16,9 +16,27 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { TBanner } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
-import { useAllBanners } from "@/hooks/banner.hook";
-import { useDeleteCategory } from "@/hooks/category.hook";
+import {
+  useAllBanners,
+  useDeleteBanner,
+  useUpdateBanner,
+} from "@/hooks/banner.hook";
+
 import EditBanner from "./EditBanner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
 
 const tableHeaders = [
   "#",
@@ -28,27 +46,29 @@ const tableHeaders = [
   "description",
   "category",
   "link",
+  "status",
   "Actions",
 ];
 
 const BannerList = () => {
   const { data: bannerList, isLoading } = useAllBanners();
-  const { mutate: deleteCategory } = useDeleteCategory();
+  const { mutate: deleteBanner } = useDeleteBanner();
+  const { mutate } = useUpdateBanner();
 
   const banners = bannerList?.data;
   //   const meta = bannersList?.data?.meta;
 
-  console.log("---banner---",banners)
+  console.log("---banner---", banners);
 
   const handleDelete = (id: string) => {
-    toast("Delete Category?", {
+    toast("Delete Banner?", {
       description: "This banner will be permanently deleted.",
       action: {
         label: "Delete",
         onClick: () => {
-          deleteCategory(id, {
+          deleteBanner(id, {
             onSuccess: (res: any) => {
-              toast.success(res?.message || "Category deleted successfully");
+              toast.success(res?.message || "banner deleted successfully");
             },
             onError: (error: any) => {
               toast.error(
@@ -118,8 +138,8 @@ const BannerList = () => {
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
-                        {banner.title || "N/A"}
+                      <span className="text-sm font-semibold text-gray-900">
+                        {banner?.title?.slice(0,20) || "N/A"}..
                       </span>
                     </TableCell>
 
@@ -136,28 +156,81 @@ const BannerList = () => {
                       </div>
                     </TableCell>
 
-
-                     <TableCell className="py-3 px-4">
-                      <span className="text-sm text-gray-700 capitalize">
+                    <TableCell className="py-3 px-4">
+                      <span className="text-sm text-gray-700">
                         {banner.type || "N/A"}
                       </span>
                     </TableCell>
-                     <TableCell className="py-3 px-4">
-                      <span className="text-sm text-gray-700 capitalize">
+                    <TableCell className="py-3 px-4">
+                      <span className="text-sm text-gray-700">
                         {banner.description || "N/A"}
                       </span>
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm text-gray-700 capitalize">
+                      <span className="text-sm text-gray-700">
                         {banner?.category?.categoryName || "N/A"}
                       </span>
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm text-gray-700 capitalize">
-                        {banner.link || "N/A"}
+                      <span className="text-sm text-gray-700">
+                        {banner?.link?.slice(0,20) || "N/A"}..
                       </span>
+                    </TableCell>
+
+                    <TableCell className="py-3 px-3">
+                      {/* <Select
+                        defaultValue={banner.status ? banner.status : "N/A"}
+                        onValueChange={(value) => {
+                          const formData = new FormData();
+                          formData.append("status", value);
+
+                          mutate(
+                            {
+                              id: banner._id,
+                              formData,
+                            },
+                            {
+                              onSuccess: (res) => {
+                                toast.success(
+                                  res?.message || "Status updated successfully",
+                                );
+                              },
+                              onError: (error: any) => {
+                                toast.error(
+                                  error?.response?.data?.message ||
+                                    "Something went wrong.",
+                                );
+                              },
+                            },
+                          );
+                        }}
+                      >
+                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="InActive">InActive</SelectItem>
+                        </SelectContent>
+                      </Select> */}
+                      <StatusSelect
+                        value={banner.status ?? "Active"}
+                        options={statusOptions}
+                        className="w-[100px]"
+                        onChange={(status) => {
+                          const formData = new FormData();
+                          formData.append("status", status);
+                          mutate(
+                            {
+                              id: banner._id,
+                              formData,
+                            },
+                            mutationToast,
+                          );
+                        }}
+                      />
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
@@ -168,7 +241,7 @@ const BannerList = () => {
                         >
                           <Trash size={16} />
                         </button>
-                        <EditBanner banner={banner}/>
+                        <EditBanner banner={banner} />
                       </div>
                     </TableCell>
                   </TableRow>
@@ -184,7 +257,7 @@ const BannerList = () => {
                         <FolderOpen size={32} className="text-gray-300" />
                       </div>
                       <p className="text-lg font-medium text-gray-700">
-                        No categories found
+                        No banner found
                       </p>
                       <p className="text-sm text-gray-400">
                         Start by adding your first banner

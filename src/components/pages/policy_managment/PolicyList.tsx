@@ -14,31 +14,46 @@ import { Trash, FolderOpen } from "lucide-react";
 import { toast } from "sonner";
 import { TPolicy } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
-import { useAllPolicys, useDeletePolicy } from "@/hooks/policy.hook";
+import { useAllPolicys, useDeletePolicy, useUpdatePolicy } from "@/hooks/policy.hook";
 import PolicyDescription from "./PolicyDescription";
 import EditPolicy from "./EditPolicy";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+import StatusSelect from "@/reuseble_components/StatusSelect";
 
-const tableHeaders = ["SL", "Title", "description", "type", "Actions"];
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
+
+const tableHeaders = [
+  "SL",
+  "Title",
+  "description",
+  "type",
+  "status",
+  "Actions",
+];
 
 const PolicyList = () => {
   const { data: policies, isLoading } = useAllPolicys();
   const { mutate: deletePolicy } = useDeletePolicy();
+    const { mutate} = useUpdatePolicy();
 
   const allPolices = policies?.data;
 
   const handleDelete = (id: string) => {
-    toast("Delete Category?", {
-      description: "This category will be permanently deleted.",
+    toast("Delete Policy?", {
+      description: "This policy will be permanently deleted.",
       action: {
         label: "Delete",
         onClick: () => {
           deletePolicy(id, {
             onSuccess: (res: any) => {
-              toast.success(res?.message || "Category deleted successfully");
+              toast.success(res?.message || "policy deleted successfully");
             },
             onError: (error: any) => {
               toast.error(
-                error?.response?.data?.message || "Failed to delete category",
+                error?.response?.data?.message || "Failed to delete policy",
               );
             },
           });
@@ -63,7 +78,7 @@ const PolicyList = () => {
           <div>
             <h2 className="text-xl font-bold text-gray-900">Policy List</h2>
             <p className="text-sm text-gray-500">
-              Total <span className="font-semibold text-gray-700">0</span>{" "}
+              Total <span className="font-semibold text-gray-700">{allPolices?.length || 0}</span>{" "}
               policy
             </p>
           </div>
@@ -102,13 +117,13 @@ const PolicyList = () => {
 
                     <TableCell className="py-3 px-4">
                       <span className="text-sm font-semibold text-gray-900 capitalize">
-                        {policy.title}
+                        {policy?.title?.slice(0,25)}..
                       </span>
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
                       <span className="text-sm text-gray-700 capitalize">
-                        <PolicyDescription policy={policy}/>
+                        <PolicyDescription policy={policy} />
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
@@ -116,8 +131,30 @@ const PolicyList = () => {
                         {policy.type}
                       </span>
                     </TableCell>
-
-                  
+                    <TableCell className="py-3 px-4">
+                      <span className="text-sm text-gray-700 capitalize">
+                        {policy.type}
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
+                      <StatusSelect
+                      value={policy.status ?? "Active"}
+                      options={statusOptions}
+                      className="w-[100px]"
+                      onChange={(status) => {
+                        mutate(
+                          {
+                            id: policy._id,
+                            payload: {
+                            status,
+                            },
+                          },
+                          mutationToast,
+                        );
+                      }}
+                    />
+                    </TableCell>
+                    
 
                     <TableCell className="py-3 px-4">
                       <div className="flex items-center gap-2">
@@ -129,8 +166,7 @@ const PolicyList = () => {
                         </button>
 
                         {/* <EditCategory category={category} /> */}
-                        <EditPolicy policy={policy}/>
-
+                        <EditPolicy policy={policy} />
                       </div>
                     </TableCell>
                   </TableRow>
@@ -159,8 +195,6 @@ const PolicyList = () => {
           )}
         </Table>
       </div>
-
-     
     </div>
   );
 };

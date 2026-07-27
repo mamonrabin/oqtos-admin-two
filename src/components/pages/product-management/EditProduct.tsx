@@ -124,7 +124,6 @@ const EditProduct: React.FC<productProps> = ({ product, refetch }) => {
   const {
     register,
     handleSubmit,
-    reset,
     watch,
     setValue,
     control,
@@ -159,124 +158,7 @@ const EditProduct: React.FC<productProps> = ({ product, refetch }) => {
     name: "specifications",
   });
 
-//   const onSubmit: SubmitHandler<EditFormData> = (data) => {
-//     const formData = new FormData();
 
-//     // Core fields
-//     formData.append("title", data.title);
-//     formData.append("description", data.description);
-//     formData.append("mrpPrice", data.mrpPrice);
-//     formData.append("category", data.category);
-
-//     if (data.discountType) formData.append("discountType", data.discountType);
-//     if (data.subCategory) formData.append("subCategory", data.subCategory);
-//     if (data.brand) formData.append("brand", data.brand);
-//     if (data.label) formData.append("label", data.label);
-//     formData.append("freeShipping", data.freeShipping === "yes" ? "true" : "false");
-//     formData.append("discount", data.discount || "0");
-
-//     // Images - only append if new files are selected
-//     if (data.thumbnailImage && data.thumbnailImage.length > 0) {
-//       formData.append("thumbnailImage", data.thumbnailImage[0]);
-//     }
-
-//     if (data.backviewImage && data.backviewImage.length > 0) {
-//       formData.append("backviewImage", data.backviewImage[0]);
-//     }
-
-//     if (data.images && data.images.length > 0) {
-//       Array.from(data.images).forEach((file) => {
-//         formData.append("images", file);
-//       });
-//     }
-
-//     // Inventory
-//     if (data.inventoryType) {
-//       formData.append("inventoryType", data.inventoryType);
-//     }
-
-//     if (data.inventories && data.inventories.length > 0) {
-//   // Filter out empty inventory items
-//   const validInventories = data.inventories.filter(
-//     (inv) => inv.quantity && Number(inv.quantity) > 0
-//   );
-
-//   if (validInventories.length > 0) {
-//     validInventories.forEach((inv, index) => {
-//       if (inv.color) formData.append(`inventories[${index}][color]`, inv.color);
-//       if (inv.colorName) formData.append(`inventories[${index}][colorName]`, inv.colorName);
-//       if (inv.size) formData.append(`inventories[${index}][size]`, inv.size);
-//       if (inv.quantity) formData.append(`inventories[${index}][quantity]`, inv.quantity);
-//     });
-//   }
-// }
-
-//     // Specifications - filter out empty ones
-//     if (data.specifications) {
-//       const specs = data.specifications.filter(
-//         (spec) => spec.key.trim() || spec.value.trim()
-//       );
-//       if (specs.length > 0) {
-//         formData.append("specifications", JSON.stringify(specs));
-//       }
-//     }
-
-//     // if (data.tags && data.tags.length > 0) {
-//     //   formData.append("tags", JSON.stringify(data.tags));
-//     // }
-
-//     if (data.tags && data.tags.length > 0) {
-//   data.tags.forEach((tag, index) => {
-//     formData.append(`tags[${index}]`, tag);
-//   });
-// }
-
-//     if (data.metaTitle) formData.append("metaTitle", data.metaTitle);
-//     if (data.metaDescription)
-//       formData.append("metaDescription", data.metaDescription);
-
-//     updateProductMutation(
-//       { id: product._id, formData },
-//       {
-//         onSuccess: (res) => {
-//           toast.success(res?.message || "Product updated successfully");
-//           setOpen(false);
-//           if (refetch) refetch();
-//         },
-//         onError: (error: any) => {
-//           toast.error(
-//             error?.response?.data?.message ||
-//               "Something went wrong. Please try again."
-//           );
-//         },
-//       }
-//     );
-//   };
-
-  // Reset form when product changes or sheet opens
-  // useEffect(() => {
-  //   if (open) {
-  //     reset({
-  //       title: product.title || "",
-  //       description: product.description || "",
-  //       specifications: getDefaultSpecifications(),
-  //       mrpPrice: String(product.mrpPrice || ""),
-  //       discountType: product.discountType || "",
-  //       discount: String(product.discount || ""),
-  //       freeShipping: product.freeShipping ? "yes" : "no",
-  //       category: product.category?._id || "",
-  //       subCategory: product.subCategory?._id || "",
-  //       brand: product.brand?._id || "",
-  //       label: product.label || "",
-  //       metaTitle: product.metaTitle || "",
-  //       metaDescription: product.metaDescription || "",
-  //       tags: product.tags || [],
-  //       inventoryType: product.inventoryType || "",
-  //       inventories: getDefaultInventory(),
-  //     });
-  //     setSelectedCategory(product.category?._id || "");
-  //   }
-  // }, [open, product]);
 
   const onSubmit: SubmitHandler<EditFormData> = (data) => {
   const formData = new FormData();

@@ -23,8 +23,8 @@ export const updateAbout = async ({
 }: {
   id: string;
   payload: {
-    description: string;
-    type: string;
+    description?: string;
+    type?: string;
   };
 }) => {
   const { data } = await AxiosInstance.patch(`/about/${id}`, payload);

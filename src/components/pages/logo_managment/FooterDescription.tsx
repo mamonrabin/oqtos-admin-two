@@ -23,7 +23,7 @@ const FooterDescription: React.FC<DescriptionProps> = ({ logo }) => {
     phone,
     whatsapp,
     email,
-    type
+    status
   } = logo;
 
   return (
@@ -50,7 +50,7 @@ const FooterDescription: React.FC<DescriptionProps> = ({ logo }) => {
               </p>
               <p className="text-sm text-gray-500 mt-1">Email: {email || "N/A"}</p>
               <p className="text-sm text-gray-500 mt-1">Address: {address || "N/A"}</p>
-              <p className="text-sm font-medium text-[#155DFC]  mt-1">Status: {type || "N/A"}</p>
+              <p className="text-sm font-medium text-[#155DFC]  mt-1">Status: {status || "N/A"}</p>
             </div>
 
             {/* Description */}

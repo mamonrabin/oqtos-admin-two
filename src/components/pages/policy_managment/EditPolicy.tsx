@@ -4,14 +4,12 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useUpdatePolicy } from "@/hooks/policy.hook";
 
-
-
 import InputField from "@/reuseble_components/InputField";
 import RichTextEditor from "@/reuseble_components/RichTextEditor";
 import SelectInput from "@/reuseble_components/SelectInput";
 import { TPolicy } from "@/types";
 import { SquarePen } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -42,12 +40,18 @@ const EditPolicy = ({ policy }: EditPolicyProps) => {
     reset,
     control,
     formState: { errors },
-  } = useForm<EditFormData>();
+  } = useForm<EditFormData>({
+    defaultValues: {
+      title: policy.title || "",
+      description: policy.description || "",
+      type: policy.type || "",
+    },
+  });
 
   const { mutate, isPending } = useUpdatePolicy();
 
   const onSubmit = (data: EditFormData) => {
-     const payload: Partial<EditFormData> = {};
+    const payload: Partial<EditFormData> = {};
 
     if (data.title) {
       payload.title = data.title;
@@ -78,6 +82,16 @@ const EditPolicy = ({ policy }: EditPolicyProps) => {
     );
   };
 
+  useEffect(() => {
+    if (open) {
+      reset({
+        title: policy.title,
+        description: policy.description,
+        type: policy.type,
+      });
+    }
+  }, [open, policy, reset]);
+
   return (
     <div>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -100,7 +114,7 @@ const EditPolicy = ({ policy }: EditPolicyProps) => {
 
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
-            {/* Current Category Preview */}
+    
 
             {/* Form Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">

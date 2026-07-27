@@ -38,7 +38,12 @@ const EditCampaing = ({ compain }: EditCampaingProps) => {
     control,
     watch,
     formState: { errors },
-  } = useForm<EditFormData>();
+  } = useForm<EditFormData>({
+    defaultValues:{
+       title: compain.title|| "",
+       couponId: compain.couponId?._id  || "N/A",
+    }
+  });
 
   const { mutate, isPending } = useUpdateampaign();
 
@@ -108,7 +113,7 @@ console.log("svggggggggggggggg---id-----",compain._id)
                 inputstyle="w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
 
-              <div>
+              <div className="space-y-4">
                 {" "}
                 <SelectInput<EditFormData>
                   label="Coupon"
@@ -174,7 +179,7 @@ console.log("svggggggggggggggg---id-----",compain._id)
                     Updating...
                   </span>
                 ) : (
-                  "Update Brand"
+                  "Update Campaing"
                 )}
               </button>
             </div>

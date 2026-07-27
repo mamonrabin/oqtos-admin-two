@@ -16,11 +16,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-const aboutTypes = [
-  { label: "", value: "" },
-  { label: "Active", value: "active" },
-  { label: "In Active", value: "inactive" },
-];
+
 
 type EditFormData = {
   description: string;
@@ -37,8 +33,11 @@ const EditAbout = ({ about }: EditAboutProps) => {
     handleSubmit,
     reset,
     control,
-    formState: { errors },
-  } = useForm<EditFormData>();
+  } = useForm<EditFormData>({
+    defaultValues: {
+       description: about.description || "",
+    }
+  });
 
   const { mutate, isPending } = useUpdateAbout();
 
@@ -49,10 +48,7 @@ const EditAbout = ({ about }: EditAboutProps) => {
     if (data.description) {
       payload.description = data.description;
     }
-    if (data.type) {
-      payload.type = data.type;
-    }
-
+   
     mutate(
       { id: about._id, payload: payload as EditFormData },
       {
@@ -95,20 +91,7 @@ const EditAbout = ({ about }: EditAboutProps) => {
           <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
             {/* Current Category Preview */}
 
-            {/* Form Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              
-
-              <SelectInput<EditFormData>
-                label="About Type"
-                name="type"
-                options={aboutTypes}
-                control={control}
-                placeholder={about.type || "N/A"}
-                error={errors.type}
-                inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
+           
 
             <div className="mt-4">
               <p className="text-sm font-medium text-gray-700 pb-2">
@@ -121,6 +104,7 @@ const EditAbout = ({ about }: EditAboutProps) => {
                   <RichTextEditor
                     value={field.value}
                     onChange={field.onChange}
+                    placeholder={about.description}
                   />
                 )}
               />

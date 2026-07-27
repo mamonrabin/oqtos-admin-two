@@ -105,7 +105,7 @@ const EditSocila = ({ social }: EditSocilaProps) => {
                 name="socialType"
                 options={socialTypes}
                 control={control}
-                placeholder={social.type}
+                placeholder={social.socialType}
                 error={errors.socialType}
                 inputstyle="rounded lg:mt-1 !w-full !h-[40px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />

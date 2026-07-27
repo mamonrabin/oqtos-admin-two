@@ -8,11 +8,10 @@ import { useAllCategories } from "@/hooks/category.hook";
 import { useUpdateCoupon } from "@/hooks/coupon.hook";
 import { useAllSubCategories } from "@/hooks/subCategory.hook";
 
-
 import InputField from "@/reuseble_components/InputField";
 import SelectInput from "@/reuseble_components/SelectInput";
 import { TBrand, TCategory, TCoupon, TSubCategory } from "@/types";
-import { SquarePen} from "lucide-react";
+import { SquarePen } from "lucide-react";
 import { useState } from "react";
 
 import { useForm } from "react-hook-form";
@@ -62,7 +61,22 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
     reset,
     watch,
     formState: { errors },
-  } = useForm<CouponUpdateFormData>();
+  } = useForm<CouponUpdateFormData>({
+    defaultValues: {
+      code: coupon.code || "",
+      discount: coupon.discount || "",
+      discountType:
+        coupon.discountType === "Percentage" ? "percentage" : "flat",
+      useLimit: coupon.useLimit,
+      perUserLimit: coupon.perUserLimit,
+      startDate: new Date(coupon.startDate),
+      expireDate: new Date(coupon.expireDate),
+      couponType: coupon.couponType,
+      categoryID: coupon.categoryID?._id,
+      subCategoryID: coupon.subCategoryID?._id,
+      brandID: coupon.brandID?._id,
+    },
+  }); 
 
   const { data: categorysList } = useAllCategories();
   const { data: subCategorysList } = useAllSubCategories();
@@ -76,38 +90,37 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
   const couponType = watch("couponType");
 
   const onSubmit = (data: CouponUpdateFormData) => {
-    const formData = new FormData();
-
-    formData.append("code", data.code);
-    formData.append("discount", String(data.discount));
-    formData.append(
-      "discountType",
-      data.discountType === "percentage" ? "Percentage" : "flat",
-    );
-    formData.append("useLimit", String(data.useLimit));
-    formData.append("perUserLimit", String(data.perUserLimit));
-    formData.append(
-      "startDate",
-      data.startDate ? new Date(data.startDate).toISOString() : "",
-    );
-    formData.append(
-      "expireDate",
-      data.expireDate ? new Date(data.expireDate).toISOString() : "",
-    );
-    formData.append("couponType", data.couponType);
-
-    if (data.categoryID) formData.append("categoryID", data.categoryID);
-    if (data.subCategoryID)
-      formData.append("subCategoryID", data.subCategoryID);
-    if (data.brandID) formData.append("brandID", data.brandID);
-
-  console.log("jkgdofijsiodfjdopkgvsdop----------",formData)
+    const payload = {
+      code: data.code || coupon.code,
+      discount: Number(data.discount ?? coupon.discount),
+      discountType:
+        data.discountType === "percentage"
+          ? "Percentage"
+          : data.discountType === "flat"
+            ? "flat"
+            : coupon.discountType,
+      useLimit: Number(data.useLimit ?? coupon.useLimit),
+      perUserLimit: Number(data.perUserLimit ?? coupon.perUserLimit),
+      startDate: data.startDate
+        ? new Date(data.startDate).toISOString()
+        : coupon.startDate,
+      expireDate: data.expireDate
+        ? new Date(data.expireDate).toISOString()
+        : coupon.expireDate,
+      couponType: data.couponType || coupon.couponType,
+      categoryID: data.categoryID,
+      subCategoryID: data.subCategoryID,
+      brandID: data.brandID,
+    };
 
     mutate(
-      { id: coupon._id, formData },
+      {
+        id: coupon._id,
+        payload,
+      },
       {
         onSuccess: (res) => {
-          toast.success(res?.message || "coupon updated successfully");
+          toast.success(res?.message || "Coupon updated successfully");
           reset();
           setOpen(false);
         },
@@ -154,7 +167,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                 placeholder={coupon.code}
                 register={register}
                 error={errors.code}
-                
                 inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
 
@@ -165,7 +177,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                 control={control}
                 placeholder={coupon.discountType}
                 error={errors.discountType}
-                
                 inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
 
@@ -176,7 +187,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                 placeholder={String(coupon.discount)}
                 register={register}
                 error={errors.discount}
-                
                 inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
               <InputField
@@ -187,7 +197,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                 placeholder={String(coupon.useLimit)}
                 register={register}
                 error={errors.useLimit}
-                
                 inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
               <InputField
@@ -198,7 +207,7 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                 placeholder={String(coupon.perUserLimit)}
                 register={register}
                 error={errors.perUserLimit}
-                // 
+                //
                 inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
               <InputField
@@ -208,7 +217,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                 placeholder=""
                 register={register}
                 error={errors.startDate}
-                
                 inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
               <InputField
@@ -218,7 +226,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                 placeholder=""
                 register={register}
                 error={errors.expireDate}
-                
                 inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
 
@@ -245,7 +252,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                   placeholder={coupon?.categoryID?.categoryName}
                   control={control}
                   error={errors.categoryID}
-                  
                   inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -262,7 +268,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                   placeholder={coupon?.subCategoryID?.subcategoryName}
                   control={control}
                   error={errors.subCategoryID}
-                  
                   inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -280,7 +285,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                   placeholder={coupon?.brandID?.title}
                   control={control}
                   error={errors.brandID}
-                  
                   inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>

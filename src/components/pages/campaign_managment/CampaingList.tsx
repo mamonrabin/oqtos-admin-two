@@ -16,10 +16,11 @@ import { Trash, FolderOpen } from "lucide-react";
 import { toast } from "sonner";
 import { TCampaign } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
-import { useAllCampaigns, useDeleteCampaign } from "@/hooks/campaign.hook";
+import { useAllCampaigns, useDeleteCampaign, useUpdateampaign } from "@/hooks/campaign.hook";
 import Image from "next/image";
 import { BASE_URL } from "@/config";
 import EditCampaing from "./EditCampaing";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const tableHeaders = [
   "#",
@@ -28,24 +29,26 @@ const tableHeaders = [
   "Coupon Code",
   "Coupon Type",
   "Discount",
+  "status",
   "Action",
 ];
 
 const CampaingList = () => {
   const { data: compainList, isLoading } = useAllCampaigns();
-  const { mutate: deleteCategory } = useDeleteCampaign();
+  const { mutate: deleteCampaing } = useDeleteCampaign();
+  const { mutate} = useUpdateampaign();
 
   const compaines = compainList?.data;
 
   const handleDelete = (id: string) => {
-    toast("Delete Category?", {
-      description: "This compain will be permanently deleted.",
+    toast("Delete Compaing?", {
+      description: "This campain will be permanently deleted.",
       action: {
         label: "Delete",
         onClick: () => {
-          deleteCategory(id, {
+          deleteCampaing(id, {
             onSuccess: (res: any) => {
-              toast.success(res?.message || "Category deleted successfully");
+              toast.success(res?.message || "campaing deleted successfully");
             },
             onError: (error: any) => {
               toast.error(
@@ -74,7 +77,7 @@ const CampaingList = () => {
           <div>
             <h2 className="text-xl font-bold text-gray-900">Campaing List</h2>
             <p className="text-sm text-gray-500">
-              Total <span className="font-semibold text-gray-700">10</span>{" "}
+              Total <span className="font-semibold text-gray-700">{compaines?.length || 0}</span>{" "}
               campaing
             </p>
           </div>
@@ -150,6 +153,45 @@ const CampaingList = () => {
                       <span className="text-sm text-gray-700 capitalize">
                         {compain?.couponId?.discount}
                       </span>
+                    </TableCell>
+
+
+                     <TableCell className="py-3 px-3">
+                      <Select
+                        defaultValue={compain.status ? compain.status : "N/A"}
+                        onValueChange={(value) => {
+                          const formData = new FormData();
+                          formData.append("status", value);
+
+                          mutate(
+                            {
+                              id: compain._id,
+                              formData,
+                            },
+                            {
+                              onSuccess: (res) => {
+                                toast.success(
+                                  res?.message || "Status updated successfully",
+                                );
+                              },
+                              onError: (error: any) => {
+                                toast.error(
+                                  error?.response?.data?.message ||
+                                    "Something went wrong.",
+                                );
+                              },
+                            },
+                          );
+                        }}
+                      >
+                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="InActive">InActive</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </TableCell>
 
                     <TableCell className="py-3 px-4">

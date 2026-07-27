@@ -27,7 +27,8 @@ import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { useAllLogo, useDeleteLogo, useUpdateLogo } from "@/hooks/setLogo.hook";
 import FooterDescription from "./FooterDescription";
 import EditLogo from "./EditLogo";
-
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
 
 // const logoTypes = [
 //   { label: "Active", value: "active" },
@@ -37,6 +38,15 @@ import EditLogo from "./EditLogo";
 // type LogoFormData = {
 //   type: string;
 // };
+
+
+
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
+
+
 
 const tableHeaders = [
   "SL",
@@ -57,7 +67,7 @@ const LogoList = () => {
   const { mutate: deleteLogo } = useDeleteLogo();
   const logoes = logoList?.data;
 
-  const { mutate} = useUpdateLogo();
+  const { mutate } = useUpdateLogo();
 
   const handleDelete = (id: string) => {
     toast("Delete Logo?", {
@@ -171,47 +181,28 @@ const LogoList = () => {
 
                     <TableCell className="py-3 px-4">
                       <span className="text-sm text-gray-700 ">
-                        {logo.type || "N/A"}
+                        {logo.status || "N/A"}
                       </span>
                     </TableCell>
-                    <TableCell className="py-3 px-4">
-                      <Select
-                        defaultValue={logo.type}
-                        onValueChange={(value) => {
-                          const formData = new FormData();
-                          formData.append("type", value);
 
+
+                    <TableCell className="py-3 px-4">
+                      <StatusSelect
+                        value={logo.status ?? "Active"}
+                        options={statusOptions}
+                        className="w-[100px]"
+                        onChange={(status) => {
+                          const formData = new FormData();
+                          formData.append("status", status);
                           mutate(
                             {
                               id: logo._id,
                               formData,
                             },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
+                            mutationToast,
                           );
                         }}
-                      >
-                        <SelectTrigger className="w-[100px] rounded">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                          <SelectItem value="">N/A</SelectItem>
-                          <SelectItem value="active">Active</SelectItem>
-                          <SelectItem value="inactive">Inactive</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      />
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
@@ -243,7 +234,7 @@ const LogoList = () => {
                         >
                           <Trash size={16} />
                         </button>
-                        <EditLogo logo={logo}/>
+                        <EditLogo logo={logo} />
                       </div>
                     </TableCell>
                   </TableRow>

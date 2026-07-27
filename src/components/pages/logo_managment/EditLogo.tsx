@@ -9,16 +9,10 @@ import InputField from "@/reuseble_components/InputField";
 import SelectInput from "@/reuseble_components/SelectInput";
 import { TLogo } from "@/types";
 import { SquarePen } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
-const logoTypes = [
-  { label: "", value: "" },
-  { label: "Active", value: "active" },
-  { label: "In Active", value: "inactive" },
-];
 
 type EditFormData = {
   headerLogo: FileList;
@@ -28,7 +22,6 @@ type EditFormData = {
   phone: string;
   whatsapp: string;
   email: string;
-  type: string;
 };
 
 interface EditLogoProps {
@@ -41,10 +34,17 @@ const EditLogo = ({ logo }: EditLogoProps) => {
     register,
     handleSubmit,
     reset,
-    control,
     watch,
     formState: { errors },
-  } = useForm<EditFormData>();
+  } = useForm<EditFormData>({
+    defaultValues: {
+      description: logo.description || "",
+      address: logo.address || "",
+      phone: logo.phone || "",
+      whatsapp: logo.whatsapp || "",
+      email: logo.email || "",
+    },
+  });
 
   const { mutate, isPending } = useUpdateLogo();
 
@@ -72,9 +72,6 @@ const EditLogo = ({ logo }: EditLogoProps) => {
     if (data.whatsapp) {
       formData.append("whatsapp", data.whatsapp);
     }
-    if (data.type) {
-      formData.append("type", data.type);
-    }
 
     mutate(
       { id: logo._id, formData },
@@ -93,6 +90,18 @@ const EditLogo = ({ logo }: EditLogoProps) => {
       },
     );
   };
+
+  useEffect(() => {
+    if (open) {
+      reset({
+        description: logo.description,
+        address: logo.address,
+        phone: logo.phone,
+        whatsapp: logo.whatsapp,
+        email: logo.email,
+      });
+    }
+  }, [open, logo, reset]);
 
   return (
     <div>
@@ -132,7 +141,9 @@ const EditLogo = ({ logo }: EditLogoProps) => {
                   name="footerLogo"
                   watch={watch}
                   register={register}
-                  existingImage={logo.footerLogo ? BASE_URL + logo.footerLogo : undefined}
+                  existingImage={
+                    logo.footerLogo ? BASE_URL + logo.footerLogo : undefined
+                  }
                   uploaderSyle="max-w-full!"
                   error={errors.footerLogo}
                 />
@@ -186,17 +197,6 @@ const EditLogo = ({ logo }: EditLogoProps) => {
                   register={register}
                   error={errors.email}
                   inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                />
-              </div>
-
-              <div>
-                <SelectInput<EditFormData>
-                  label="Status Type"
-                  name="type"
-                  options={logoTypes}
-                  control={control}
-                  placeholder={logo.type}
-                  inputstyle="rounded lg:mt-1 !w-full !h-[40px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             </div>

@@ -8,12 +8,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Plus, FolderOpen } from "lucide-react";
 import { useCreateLogo } from "@/hooks/setLogo.hook";
-import SelectInput from "@/reuseble_components/SelectInput";
 
-const logoTypes = [
-  { label: "Active", value: "active" },
-  { label: "In Active", value: "inactive" },
-];
+
+
 
 type LogoFormData = {
   headerLogo: FileList;
@@ -23,7 +20,6 @@ type LogoFormData = {
   phone: string;
   whatsapp: string;
   email: string;
-  type: string;
 };
 
 const CreateLogo = () => {
@@ -31,7 +27,6 @@ const CreateLogo = () => {
     register,
     handleSubmit,
     reset,
-    control,
     watch,
     formState: { errors },
   } = useForm<LogoFormData>();
@@ -47,7 +42,6 @@ const CreateLogo = () => {
     formData.append("phone", data.phone);
     formData.append("whatsapp", data.whatsapp);
     formData.append("email", data.email);
-    formData.append("type", data.type);
 
     mutate(formData, {
       onSuccess: (res) => {
@@ -153,18 +147,7 @@ const CreateLogo = () => {
           />
          </div>
 
-         <div>
-            
-          <SelectInput<LogoFormData>
-            label="Status Type"
-            name="type"
-            options={logoTypes}
-            control={control}
-            required
-            error={errors.type}
-            inputstyle="rounded lg:mt-1 !w-full !h-[40px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-         </div>
+         
         </div>
 
         {/* Submit Button */}

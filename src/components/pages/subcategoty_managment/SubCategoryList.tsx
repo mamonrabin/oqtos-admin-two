@@ -14,17 +14,19 @@ import { Trash, Layers } from "lucide-react";
 import Pagination from "@/reuseble_components/Paginations";
 import EditSubCategory from "./EditSubCategory";
 import { useState } from "react";
-import { useDeleteSubCategory, useSubCategories } from "@/hooks/subCategory.hook";
+import { useDeleteSubCategory, useSubCategories, useUpdateSubCategory } from "@/hooks/subCategory.hook";
 import { BASE_URL } from "@/config";
 import { TSubCategory } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const tableHeaders = [
   "#",
   "Sub Category",
   "Category",
   "Sub Category Image",
+  "status",
   "Actions",
 ];
 
@@ -38,6 +40,7 @@ const SubCategoryList = () => {
   } = useSubCategories(page, limit);
 
   const { mutate: deleteSubCategory } = useDeleteSubCategory();
+  const { mutate} = useUpdateSubCategory();
 
   const subcategories = subcategorysList?.data?.data;
   const meta = subcategorysList?.data?.meta;
@@ -139,6 +142,45 @@ const SubCategoryList = () => {
                           unoptimized
                         />
                       </div>
+                    </TableCell>
+
+
+                    <TableCell className="py-3 px-3">
+                      <Select
+                        defaultValue={subcategory.status ? subcategory.status : "N/A"}
+                        onValueChange={(value) => {
+                          const formData = new FormData();
+                          formData.append("status", value);
+
+                          mutate(
+                            {
+                              id: subcategory._id,
+                              formData,
+                            },
+                            {
+                              onSuccess: (res) => {
+                                toast.success(
+                                  res?.message || "Status updated successfully",
+                                );
+                              },
+                              onError: (error: any) => {
+                                toast.error(
+                                  error?.response?.data?.message ||
+                                    "Something went wrong.",
+                                );
+                              },
+                            },
+                          );
+                        }}
+                      >
+                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="InActive">InActive</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </TableCell>
 
                     <TableCell className="py-3 px-4">

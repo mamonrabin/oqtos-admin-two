@@ -10,7 +10,7 @@ import InputField from "@/reuseble_components/InputField";
 import SelectInput from "@/reuseble_components/SelectInput";
 import { TBanner, TCategory } from "@/types";
 import { SquarePen } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -40,60 +40,84 @@ const EditBanner = ({ banner }: EditBannerProps) => {
   const categories = categorysList?.data?.data;
 
   const [open, setOpen] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    control,
-    formState: { errors },
-  } = useForm<EditFormData>();
+const {
+  register,
+  handleSubmit,
+  reset,
+  watch,
+  control,
+  formState: { errors },
+} = useForm<EditFormData>({
+  defaultValues: {
+    title: banner.title,
+    description: banner.description,
+    category: banner.category?._id,
+    link: banner.link,
+    type: banner.type,
+  },
+});
 
   const { mutate, isPending } = useUpdateBanner();
 
   const onSubmit = (data: EditFormData) => {
-    const formData = new FormData();
+  const formData = new FormData();
 
-    if (data.title) {
-      formData.append("title", data.title);
-    }
-    if (data.description) {
-      formData.append("description", data.description);
-    }
+  if (data.title !== banner.title) {
+    formData.append("title", data.title);
+  }
 
-    if (data.category) {
-      formData.append("category", data.category);
-    }
+  if (data.description !== banner.description) {
+    formData.append("description", data.description);
+  }
 
-    if (data.type) {
-      formData.append("type", data.type);
-    }
+  if (data.category !== banner.category?._id) {
+    formData.append("category", data.category);
+  }
 
-    if (data.link) {
-      formData.append("link", data.link);
-    }
+  if (data.type !== banner.type) {
+    formData.append("type", data.type);
+  }
 
-    if (data.image && data.image.length > 0) {
-      formData.append("image", data.image[0]);
-    }
+  if (data.link !== banner.link) {
+    formData.append("link", data.link);
+  }
 
-    mutate(
-      { id: banner._id, formData },
-      {
-        onSuccess: (res) => {
-          toast.success(res?.message || "Category updated successfully");
-          reset();
-          setOpen(false);
-        },
-        onError: (error: any) => {
-          toast.error(
-            error?.response?.data?.message ??
-              "Something went wrong. Please try again.",
-          );
-        },
+  if (data.image?.length) {
+    formData.append("image", data.image[0]);
+  }
+
+  mutate(
+    {
+      id: banner._id,
+      formData,
+    },
+    {
+      onSuccess: (res) => {
+        toast.success(res?.message || "Banner updated successfully");
+        reset();
+        setOpen(false);
       },
-    );
-  };
+      onError: (error: any) => {
+        toast.error(
+          error?.response?.data?.message ||
+            "Something went wrong. Please try again."
+        );
+      },
+    }
+  );
+};
+
+useEffect(() => {
+  if (open) {
+    reset({
+      title: banner.title,
+      description: banner.description,
+      category: banner.category?._id,
+      link: banner.link,
+      type: banner.type,
+    });
+  }
+}, [open, banner, reset]);
 
   return (
     <div>
@@ -158,11 +182,11 @@ const EditBanner = ({ banner }: EditBannerProps) => {
 
               <InputField
                 label="Banner Link"
-                name="title"
+                name="link"
                 type="text"
                 placeholder={banner.link || "N/A"}
                 register={register}
-                error={errors.title}
+                error={errors.link}
                 inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
