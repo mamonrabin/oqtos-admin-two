@@ -7,6 +7,8 @@ export const AxiosInstance = axios.create({
   withCredentials: true,
 });
 
+console.log("Base URL:", AxiosInstance.defaults.baseURL);
+
 AxiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
 

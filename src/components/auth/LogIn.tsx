@@ -10,6 +10,7 @@ import logo from "@/assets/logo/qutox.webp";
 import { useSingIn } from "@/hooks/auth.hook";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { AxiosInstance } from "@/lib/AxiosInstance";
 
 type LoginForm = {
   email: string;
@@ -35,6 +36,7 @@ const LogIn = () => {
 
    const { mutate, isPending } = useSingIn();
 
+   console.log(AxiosInstance.defaults.baseURL);
 
   const onSubmit = async (data: LoginForm) => {
   const payload = {
