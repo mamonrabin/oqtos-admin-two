@@ -10,7 +10,7 @@ import InputField from "@/reuseble_components/InputField";
 import SelectInput from "@/reuseble_components/SelectInput";
 import { TCategory, TSubCategory } from "@/types";
 import { SquarePen, X, Layers } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -38,10 +38,10 @@ const EditSubCategory = ({ subcategory }: EditSubCategoryProps) => {
     reset,
     formState: { errors },
   } = useForm<EditFormData>({
-    defaultValues:{
-       category: subcategory.category?._id || "",
-       subcategoryName: subcategory.subcategoryName || "N/A",
-    }
+    defaultValues: {
+      category: subcategory.category?._id || "",
+      subcategoryName: subcategory.subcategoryName || "N/A",
+    },
   });
 
   const { mutate, isPending } = useUpdateSubCategory();
@@ -73,6 +73,15 @@ const EditSubCategory = ({ subcategory }: EditSubCategoryProps) => {
     );
   };
 
+  useEffect(() => {
+    if (open) {
+      reset({
+        category: subcategory.category?._id,
+        subcategoryName: subcategory.subcategoryName,
+      });
+    }
+  }, [open, subcategory, reset]);
+
   return (
     <div>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -82,7 +91,7 @@ const EditSubCategory = ({ subcategory }: EditSubCategoryProps) => {
           </button>
         </SheetTrigger>
 
-      <SheetContent className="!max-w-2xl p-0">
+        <SheetContent className="!max-w-2xl p-0">
           {/* Header */}
           <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -101,7 +110,10 @@ const EditSubCategory = ({ subcategory }: EditSubCategoryProps) => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6 overflow-y-auto">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="p-6 space-y-6 overflow-y-auto"
+          >
             {/* Current Sub Category Preview */}
 
             {/* Form Fields */}

@@ -18,10 +18,17 @@ type SubCategoryFormData = {
   image: FileList;
 };
 
+
+
 const CreateSubCategory = () => {
   const { data: categorysList } = useAllCategories();
 
-  const categories = categorysList?.data?.data;
+  // const categories = categorysList?.data?.data;
+
+  const categories =
+  categorysList?.data?.data?.filter(
+    (category : TCategory) => category.status === "Active"
+  ) ?? [];
 
   const {
     register,
@@ -121,7 +128,6 @@ const CreateSubCategory = () => {
             watch={watch}
             register={register}
             error={errors.image}
-            required
           />
           <p className="text-xs text-gray-400 mt-1">Upload sub-category icon or image</p>
         </div>

@@ -376,7 +376,7 @@ const ProductDescription: React.FC<productDescriptionProps> = ({ product }) => {
             {/* Additional Info */}
             <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
               <p className="text-sm text-gray-600">
-                <span className="font-semibold">Warranty:</span> jgfjgfgf
+                <span className="font-semibold">Warranty:</span>
               </p>
             </div>
 

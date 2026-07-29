@@ -9,7 +9,7 @@ import InputField from "@/reuseble_components/InputField";
 import { TBrand } from "@/types";
 import { SquarePen} from "lucide-react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -30,7 +30,11 @@ const EditBrand = ({ brand }: EditBrandProps) => {
     reset,
     watch,
     formState: { errors },
-  } = useForm<EditFormData>();
+  } = useForm<EditFormData>({
+    defaultValues: {
+      title: brand.title || "",
+    },
+  });
 
   const { mutate, isPending } = useUpdateBrand();
 
@@ -59,6 +63,16 @@ const EditBrand = ({ brand }: EditBrandProps) => {
       },
     );
   };
+
+
+  useEffect(() => {
+      if (open) {
+        reset({
+          title: brand.title,
+        });
+      }
+    }, [open, brand, reset]);
+
 
   return (
     <div>

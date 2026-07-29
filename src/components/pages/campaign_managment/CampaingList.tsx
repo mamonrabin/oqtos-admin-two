@@ -16,11 +16,28 @@ import { Trash, FolderOpen } from "lucide-react";
 import { toast } from "sonner";
 import { TCampaign } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
-import { useAllCampaigns, useDeleteCampaign, useUpdateampaign } from "@/hooks/campaign.hook";
+import {
+  useAllCampaigns,
+  useDeleteCampaign,
+  useUpdateampaign,
+} from "@/hooks/campaign.hook";
 import Image from "next/image";
 import { BASE_URL } from "@/config";
 import EditCampaing from "./EditCampaing";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
 
 const tableHeaders = [
   "#",
@@ -36,7 +53,7 @@ const tableHeaders = [
 const CampaingList = () => {
   const { data: compainList, isLoading } = useAllCampaigns();
   const { mutate: deleteCampaing } = useDeleteCampaign();
-  const { mutate} = useUpdateampaign();
+  const { mutate } = useUpdateampaign();
 
   const compaines = compainList?.data;
 
@@ -77,7 +94,10 @@ const CampaingList = () => {
           <div>
             <h2 className="text-xl font-bold text-gray-900">Campaing List</h2>
             <p className="text-sm text-gray-500">
-              Total <span className="font-semibold text-gray-700">{compaines?.length || 0}</span>{" "}
+              Total{" "}
+              <span className="font-semibold text-gray-700">
+                {compaines?.length || 0}
+              </span>{" "}
               campaing
             </p>
           </div>
@@ -155,43 +175,25 @@ const CampaingList = () => {
                       </span>
                     </TableCell>
 
-
-                     <TableCell className="py-3 px-3">
-                      <Select
-                        defaultValue={compain.status ? compain.status : "N/A"}
-                        onValueChange={(value) => {
+                    <TableCell className="py-3 px-3">
+                      <StatusSelect
+                        value={compain.status ?? "Active"}
+                        options={statusOptions}
+                        className="w-[100px]"
+                        onChange={(status) => {
                           const formData = new FormData();
-                          formData.append("status", value);
-
+                          formData.append("status", status);
                           mutate(
                             {
                               id: compain._id,
                               formData,
                             },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
+                            mutationToast,
                           );
                         }}
-                      >
-                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Active">Active</SelectItem>
-                          <SelectItem value="InActive">InActive</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      />
+
+                     
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
@@ -203,7 +205,7 @@ const CampaingList = () => {
                           <Trash size={16} />
                         </button>
                         {/* <EditCategory compain={compain} /> */}
-                        <EditCampaing compain={compain}  />
+                        <EditCampaing compain={compain} />
                       </div>
                     </TableCell>
                   </TableRow>

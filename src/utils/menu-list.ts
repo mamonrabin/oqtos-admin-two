@@ -118,6 +118,14 @@ export function getMenuList(pathname: string): TGroup[] {
           ],
         },
 
+        {
+          href: "/user",
+          label: "Customer",
+          active: pathname.includes("/user"),
+          icon: Users,
+          submenus: [],
+        },
+
       ],
     },
     {
@@ -194,14 +202,6 @@ export function getMenuList(pathname: string): TGroup[] {
           label: "Staffs",
           active: pathname.includes("/staffs"),
           icon: Share2,
-          submenus: [],
-        },
-
-        {
-          href: "/user",
-          label: "Customer",
-          active: pathname.includes("/user"),
-          icon: Users,
           submenus: [],
         },
       ],

@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -10,24 +9,36 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {  Package } from "lucide-react";
-
+import { Package } from "lucide-react";
 
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 
-
-import { useAllStaffs} from "@/hooks/user.hook";
+import { useAllStaffs } from "@/hooks/user.hook";
 import { TUser } from "@/types";
 import Image from "next/image";
 
 import { useForm } from "react-hook-form";
 
-
 type FormData = {
   date: string;
 };
 
-
+const getStatusColor = (status?: string) => {
+  switch (status) {
+    case "ACTIVE":
+      return "bg-green-100 text-green-700 border-green-300";
+    case "ADMIN":
+      return "bg-green-100 text-green-700 border-green-300";
+    case "INACTIVE":
+      return "bg-yellow-100 text-yellow-700 border-yellow-300";
+    case "STAFF":
+      return "bg-yellow-100 text-yellow-700 border-yellow-300";
+    case "BLOCKED":
+      return "bg-red-100 text-red-700 border-red-300";
+    default:
+      return "bg-gray-100 text-gray-700 border-gray-300";
+  }
+};
 
 const tableHeaders = [
   "SL",
@@ -39,53 +50,14 @@ const tableHeaders = [
   "address",
   "status",
   "role",
-  "Date",
+  "joinig Date",
 ];
 
 const Staffs = () => {
-
-
-
   const { data: userList, isLoading } = useAllStaffs();
-  // const { mutate: deleteUser } = useDeleteUser();
-
   const users = userList?.data;
 
-
-  console.log("/////////////---users/////////////", users);
-
-  const {
-  
-  } = useForm<FormData>();
-
- 
-
-  // const handleDelete = (id: string) => {
-  //   toast("Delete Coupon?", {
-  //     description: "This user will be permanently deleted.",
-  //     action: {
-  //       label: "Delete",
-  //       onClick: () => {
-  //         deleteUser(id, {
-  //           onSuccess: (res: any) => {
-  //             toast.success(res?.message || "Coupon deleted successfully");
-  //           },
-  //           onError: (error: any) => {
-  //             toast.error(
-  //               error?.response?.data?.message || "Failed to delete user",
-  //             );
-  //           },
-  //         });
-  //       },
-  //     },
-  //     cancel: {
-  //       label: "Cancel",
-  //       onClick: () => {},
-  //     },
-  //     duration: 10000,
-  //   });
-  // };
-
+  const {} = useForm<FormData>();
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
       {/* Header */}
@@ -97,16 +69,11 @@ const Staffs = () => {
           <div>
             <h2 className="text-xl font-bold text-gray-900">Staffs List</h2>
             <p className="text-sm text-gray-500">
-              Total{" "}
-              <span className="font-semibold text-gray-700">
-                {users?.length ?? 0}
-              </span>{" "}
+              Total <span className=" text-gray-700">{users?.length ?? 0}</span>{" "}
               staffs
             </p>
           </div>
         </div>
-
-     
       </div>
 
       {/* Table Container */}
@@ -117,7 +84,7 @@ const Staffs = () => {
               {tableHeaders.map((header) => (
                 <TableHead
                   key={header}
-                  className="text-xs font-semibold text-gray-600 uppercase tracking-wider py-3 px-4"
+                  className="text-xs  text-gray-600 uppercase tracking-wider py-3 px-4"
                 >
                   {header}
                 </TableHead>
@@ -159,44 +126,47 @@ const Staffs = () => {
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.name || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.email || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.auths?.[0]?.provider || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.phone || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.address || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
-                        <TableCell className="text-center">
-                          {user.isActive || "N/A"}
-                        </TableCell>
+                      <span
+                        className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${getStatusColor(user?.isActive)}`}
+                      >
+                        {user?.isActive || "N/A"}
+                      </span>
+                    </TableCell>
+                    
+                    <TableCell className="py-3 px-4">
+                      <span
+                        className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${getStatusColor(user?.role)}`}
+                      >
+                        {user?.role || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
-                        {user.role || "N/A"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {new Date(user.createdAt).toLocaleDateString("en-US", {
                           day: "numeric",
                           month: "long",
@@ -242,8 +212,6 @@ const Staffs = () => {
           )}
         </Table>
       </div>
-
-     
     </div>
   );
 };

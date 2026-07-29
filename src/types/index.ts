@@ -48,6 +48,7 @@ export type TBrand = {
   title: string;
   image: string;
   slug: string;
+  status: string;
 };
 
 export type TInventory = {

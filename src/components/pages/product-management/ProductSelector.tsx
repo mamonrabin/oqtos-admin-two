@@ -39,9 +39,9 @@ const ProductSelector: React.FC<ProductProps> = ({
   const { data: subCategoryList } = useAllSubCategories();
   const { data: brandList } = useAllBrands();
 
-  const categories = categoryList?.data?.data;
-  const subCategories = subCategoryList?.data?.data;
-  const brands = brandList?.data?.data;
+  const categories = categoryList?.data;
+  const subCategories = subCategoryList?.data;
+  const brands = brandList?.data;
 
   const filteredSubCategories = selectedCategory
     ? subCategories?.filter(

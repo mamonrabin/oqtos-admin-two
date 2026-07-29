@@ -21,7 +21,14 @@ import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { toast } from "sonner";
 import { TMeta, TProduct } from "@/types";
 import React from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
 
 const tableHeaders = [
   "SL",
@@ -52,17 +59,15 @@ interface ProductsListProps {
   setLimit: (limit: number) => void;
 }
 
-const ProductsList:React.FC<ProductsListProps> = ({ products, meta, isLoading, setPage, setLimit }) => {
-  // const [page, setPage] = useState(1);
-  // const [limit, setLimit] = useState(10);
-
-  // const { data: productsList, isLoading } = useAllProducts({page, limit});
+const ProductsList: React.FC<ProductsListProps> = ({
+  products,
+  meta,
+  isLoading,
+  setPage,
+  setLimit,
+}) => {
   const { mutate: deleteProduct } = useDeleteProduct();
   const { mutate } = useUpdateProduct();
-  // const products = productsList?.data?.data;
-  // const meta = productsList?.data?.meta;
-
-  console.log("-------how many have----------", products);
 
   const handleDelete = (id: string) => {
     toast("Delete Product?", {
@@ -295,7 +300,7 @@ const ProductsList:React.FC<ProductsListProps> = ({ products, meta, isLoading, s
                     {/* Category */}
                     <TableCell className="text-center py-3 px-4">
                       <span className="text-sm text-gray-700">
-                        {product?.category?.categoryName || 'N/A'}
+                        {product?.category?.categoryName || "N/A"}
                       </span>
                     </TableCell>
 
@@ -314,45 +319,24 @@ const ProductsList:React.FC<ProductsListProps> = ({ products, meta, isLoading, s
                         {product.brand ? product.brand.title : "N/A"}
                       </span>
                     </TableCell>
-                   
 
-
-                     <TableCell className="py-3 px-3">
-                      <Select
-                        defaultValue={product.status ? product.status : "N/A"}
-                        onValueChange={(value) => {
+                    <TableCell className="py-3 px-3">
+                      <StatusSelect
+                        value={product.status ?? "Active"}
+                        options={statusOptions}
+                        className="w-[100px]"
+                        onChange={(status) => {
                           const formData = new FormData();
-                          formData.append("status", value);
-
+                          formData.append("status", status);
                           mutate(
                             {
                               id: product._id,
                               formData,
                             },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
+                            mutationToast,
                           );
                         }}
-                      >
-                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Active">Active</SelectItem>
-                          <SelectItem value="InActive">InActive</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      />
                     </TableCell>
 
                     {/* Action */}

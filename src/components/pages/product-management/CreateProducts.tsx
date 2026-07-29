@@ -43,8 +43,19 @@ const CreateProducts = () => {
   const { data: categorysList } = useAllCategories();
   const { data: subcategorysList } = useAllSubCategories();
   const { data: brandsList } = useAllBrands();
-  const categories = categorysList?.data?.data;
-  const subcategories = subcategorysList?.data?.data;
+  // const categories = categorysList?.data?.data;
+
+  const categories =
+  categorysList?.data?.filter(
+    (category : TCategory) => category.status === "Active"
+  ) ?? [];
+
+  // const subcategories = subcategorysList?.data?.data;
+
+  const subcategories =
+  subcategorysList?.data?.filter(
+    (subcategory : TSubCategory) => subcategory.status === "Active"
+  ) ?? [];
 
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
@@ -54,11 +65,10 @@ const CreateProducts = () => {
       )
     : [];
 
-  console.log("----subcategories-----", subcategories);
-  console.log("----selectedCategory-----", selectedCategory);
-  console.log("----filteredSubCategories-----", filteredSubCategories);
-
-  const brands = brandsList?.data?.data;
+  const brands =
+  brandsList?.data?.filter(
+    (brand : TBrand) => brand.status === "Active"
+  ) ?? [];
 
   type ProductForm = {
     title: string;

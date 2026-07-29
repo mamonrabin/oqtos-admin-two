@@ -1,10 +1,11 @@
-import { Bell, Search, ChevronDown } from "lucide-react";
+import { Bell, Search} from "lucide-react";
 import React, { useState } from "react";
 import Responsibebar from "./Responsibebar";
+import ProfileDropdown from "./ProfileDropdown";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
 
   return (
     <div className="flex items-center justify-between gap-4 py-3 px-4 md:px-8 bg-white border-b border-gray-200  sticky top-0 z-20">
@@ -29,9 +30,6 @@ const Header = () => {
             type="text"
             placeholder="Search products, brands..."
           />
-          <kbd className="hidden lg:inline-block text-xs text-gray-400 border border-gray-300 rounded px-1.5 py-0.5 bg-white">
-            ⌘K
-          </kbd>
         </div>
 
         {/* Search Button - Mobile */}
@@ -68,41 +66,7 @@ const Header = () => {
         </div>
 
         {/* Profile Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200"
-          >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold text-sm">
-              A
-            </div>
-            <div className="hidden sm:block text-left">
-              <p className="text-sm font-medium text-gray-800">Admin</p>
-              <p className="text-xs text-gray-500">admin@store.com</p>
-            </div>
-            <ChevronDown size={16} className="text-gray-400 hidden sm:block" />
-          </button>
-
-          {/* Dropdown Menu */}
-          {isProfileOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-              <div className="px-4 py-2 border-b border-gray-100">
-                <p className="text-sm font-medium text-gray-800">Admin</p>
-                <p className="text-xs text-gray-500">admin@store.com</p>
-              </div>
-              <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
-                Profile
-              </button>
-              <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
-                Settings
-              </button>
-              <hr className="my-1" />
-              <button className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
+        <ProfileDropdown/>
       </div>
     </div>
   );

@@ -24,6 +24,13 @@ import { toast } from "sonner";
 import { useCoupons, useDeleteCoupon, useUpdateCoupon } from "@/hooks/coupon.hook";
 import EditCoupon from "./EditCoupon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
 
 const tableHeaders = [
   "SL",
@@ -138,14 +145,14 @@ const CouponList = () => {
                         {coupon.code}
                       </span>
                     </TableCell>
-                    <TableCell className="py-3 px-4">
+                    <TableCell className="py-3 px-4 text-center">
                       <span className="text-sm  text-gray-900 ">
-                        {coupon.discount}
+                        {coupon.discountType}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
                       <span className="text-sm  text-gray-900 ">
-                        {coupon.discountType}
+                        {coupon.discount}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
@@ -204,40 +211,24 @@ const CouponList = () => {
 
 
                         <TableCell className="py-3 px-3">
-                      <Select
-                        defaultValue={coupon.status}
-                        onValueChange={(value) => {
-                          mutate(
-                            {
-                              id: coupon._id,
-                              payload: {
-                                status: value,
-                              },
+
+                          <StatusSelect
+                      value={coupon.status ?? "Active"}
+                      options={statusOptions}
+                      className="w-[100px]"
+                      onChange={(status) => {
+                        mutate(
+                          {
+                            id: coupon._id,
+                            payload: {
+                            status,
                             },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
-                          );
-                        }}
-                      >
-                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Active">Active</SelectItem>
-                          <SelectItem value="InActive">InActive</SelectItem>
-                        </SelectContent>
-                      </Select>
+                          },
+                          mutationToast,
+                        );
+                      }}
+                    />
+                     
                     </TableCell>
 
                     <TableCell className="py-3 px-4">

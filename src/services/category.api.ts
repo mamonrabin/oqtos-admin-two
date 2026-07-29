@@ -9,7 +9,7 @@ export const createCategory = async (formData: FormData) => {
 };
 
 export const getAllCategories = async () => {
-  const { data } = await AxiosInstance.get("/category");
+  const { data } = await AxiosInstance.get("/category/all");
   return data;
 };
 

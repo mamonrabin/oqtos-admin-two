@@ -17,12 +17,19 @@ import EditBrand from "./EditBrand";
 import { useState } from "react";
 
 import { BASE_URL } from "@/config";
-import { useBrands, useDeleteBrand } from "@/hooks/brand.hook";
+import { useBrands, useDeleteBrand, useUpdateBrand } from "@/hooks/brand.hook";
 import { TBrand } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { toast } from "sonner";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
 
-const tableHeaders = ["#", "Brand Name", "Brand Image", "Actions"];
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
+
+const tableHeaders = ["#", "Brand Name", "Brand Image", "status", "Actions"];
 
 const BrandList = () => {
   const [page, setPage] = useState(1);
@@ -30,6 +37,7 @@ const BrandList = () => {
 
   const { data: brandList, isLoading } = useBrands(page, limit);
   const { mutate: deleteBrand } = useDeleteBrand();
+   const { mutate} = useUpdateBrand();
 
   const brands = brandList?.data?.data;
   const meta = brandList?.data?.meta;
@@ -71,7 +79,11 @@ const BrandList = () => {
           <div>
             <h2 className="text-xl font-bold text-gray-900">Brand List</h2>
             <p className="text-sm text-gray-500">
-              Total <span className="font-semibold text-gray-700">{meta?.total || 0}</span> brands
+              Total{" "}
+              <span className="font-semibold text-gray-700">
+                {meta?.total || 0}
+              </span>{" "}
+              brands
             </p>
           </div>
         </div>
@@ -83,8 +95,8 @@ const BrandList = () => {
           <TableHeader className="bg-gray-50">
             <TableRow className="hover:bg-transparent border-b border-gray-200">
               {tableHeaders.map((header) => (
-                <TableHead 
-                  key={header} 
+                <TableHead
+                  key={header}
                   className="text-xs font-semibold text-gray-600 uppercase tracking-wider py-3 px-4"
                 >
                   {header}
@@ -99,20 +111,20 @@ const BrandList = () => {
             <TableBody>
               {brands?.length ? (
                 brands?.map((brand: TBrand, index: number) => (
-                  <TableRow 
-                    key={brand._id} 
+                  <TableRow
+                    key={brand._id}
                     className="hover:bg-gray-50/50 transition-colors border-b border-gray-100"
                   >
                     <TableCell className="py-3 px-4 text-sm text-gray-500 font-medium text-center">
                       {index + 1}
                     </TableCell>
-                    
+
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900 capitalize">
+                      <span className="text-sm font-semibold text-gray-900">
                         {brand.title}
                       </span>
                     </TableCell>
-                    
+
                     <TableCell className="py-3 px-4">
                       <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
                         <Image
@@ -125,7 +137,26 @@ const BrandList = () => {
                         />
                       </div>
                     </TableCell>
-                    
+
+                    <TableCell className="py-3 px-4">
+                      <StatusSelect
+                        value={brand.status ?? "Active"}
+                        options={statusOptions}
+                        className="w-[100px]"
+                        onChange={(status) => {
+                          const formData = new FormData();
+                          formData.append("status", status);
+                          mutate(
+                            {
+                              id: brand._id,
+                              formData,
+                            },
+                            mutationToast,
+                          );
+                        }}
+                      />
+                    </TableCell>
+
                     <TableCell className="py-3 px-4">
                       <div className="flex items-center gap-2">
                         <button
@@ -151,8 +182,12 @@ const BrandList = () => {
                       <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
                         <Package size={32} className="text-gray-300" />
                       </div>
-                      <p className="text-lg font-medium text-gray-700">No brands found</p>
-                      <p className="text-sm text-gray-400">Start by adding your first brand</p>
+                      <p className="text-lg font-medium text-gray-700">
+                        No brands found
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        Start by adding your first brand
+                      </p>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -164,7 +199,6 @@ const BrandList = () => {
 
       {/* Footer/Pagination */}
       <div className="py-4 px-4">
-        
         <Pagination
           page={meta?.page}
           limit={meta?.limit}

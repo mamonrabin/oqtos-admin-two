@@ -9,7 +9,7 @@ export const createSubCategory = async (formData: FormData) => {
 };
 
 export const getAllSubCategories = async () => {
-  const { data } = await AxiosInstance.get("/sub-category");
+  const { data } = await AxiosInstance.get("/sub-category/all");
   return data;
 };
 

@@ -19,7 +19,14 @@ import { BASE_URL } from "@/config";
 import { TSubCategory } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { toast } from "sonner";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+
+
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
 
 const tableHeaders = [
   "#",
@@ -146,41 +153,25 @@ const SubCategoryList = () => {
 
 
                     <TableCell className="py-3 px-3">
-                      <Select
-                        defaultValue={subcategory.status ? subcategory.status : "N/A"}
-                        onValueChange={(value) => {
-                          const formData = new FormData();
-                          formData.append("status", value);
 
+                  <StatusSelect
+                        value={subcategory.status ?? "Active"}
+                        options={statusOptions}
+                        className="w-[100px]"
+                        onChange={(status) => {
+                          const formData = new FormData();
+                          formData.append("status", status);
                           mutate(
                             {
                               id: subcategory._id,
                               formData,
                             },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
+                            mutationToast,
                           );
                         }}
-                      >
-                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Active">Active</SelectItem>
-                          <SelectItem value="InActive">InActive</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      />
+
+                    
                     </TableCell>
 
                     <TableCell className="py-3 px-4">

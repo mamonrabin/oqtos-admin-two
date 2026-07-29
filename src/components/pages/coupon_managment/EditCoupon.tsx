@@ -12,7 +12,7 @@ import InputField from "@/reuseble_components/InputField";
 import SelectInput from "@/reuseble_components/SelectInput";
 import { TBrand, TCategory, TCoupon, TSubCategory } from "@/types";
 import { SquarePen } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -76,7 +76,7 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
       subCategoryID: coupon.subCategoryID?._id,
       brandID: coupon.brandID?._id,
     },
-  }); 
+  });
 
   const { data: categorysList } = useAllCategories();
   const { data: subCategorysList } = useAllSubCategories();
@@ -133,6 +133,25 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
       },
     );
   };
+
+  useEffect(() => {
+    if (open) {
+      reset({
+        code: coupon.code,
+        discount: coupon.discount,
+        discountType:
+          coupon.discountType === "Percentage" ? "percentage" : "flat",
+        useLimit: coupon.useLimit,
+        perUserLimit: coupon.perUserLimit,
+        startDate: new Date(coupon.startDate),
+        expireDate: new Date(coupon.expireDate),
+        couponType: coupon.couponType,
+        categoryID: coupon.categoryID?._id,
+        subCategoryID: coupon.subCategoryID?._id,
+        brandID: coupon.brandID?._id,
+      });
+    }
+  }, [open, coupon, reset]);
 
   return (
     <div>

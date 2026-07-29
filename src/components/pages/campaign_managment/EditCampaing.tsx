@@ -11,7 +11,7 @@ import SelectInput from "@/reuseble_components/SelectInput";
 import { TCampaign, TCoupon } from "@/types";
 import { SquarePen } from "lucide-react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -76,7 +76,14 @@ const EditCampaing = ({ compain }: EditCampaingProps) => {
     );
   };
 
-console.log("svggggggggggggggg---id-----",compain._id)
+  useEffect(() => {
+    if (open) {
+      reset({
+        title: compain.title,
+       couponId: compain.couponId?._id
+      });
+    }
+  }, [open, compain, reset]);
 
 
   return (

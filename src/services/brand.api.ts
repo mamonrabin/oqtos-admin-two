@@ -9,7 +9,7 @@ export const createBrand = async (formData: FormData) => {
 };
 
 export const getAllBrands = async () => {
-  const { data } = await AxiosInstance.get("/brand");
+  const { data } = await AxiosInstance.get("/brand/all");
   return data;
 };
 

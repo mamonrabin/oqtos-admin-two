@@ -24,7 +24,8 @@ import Image from "next/image";
 import SelectInput from "@/reuseble_components/SelectInput";
 import { useForm } from "react-hook-form";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
 
 type FormData = {
   date: string;
@@ -65,6 +66,11 @@ const UserList = () => {
 
   const { mutate} = useUpdateUser();
 
+const statusOptions = [
+  { label: "ACTIVE", value: "ACTIVE" },
+  { label: "INACTIVE", value: "INACTIVE" },
+  { label: "BLOCKED", value: "BLOCKED" },
+];
 
 
 
@@ -119,7 +125,7 @@ const UserList = () => {
             <h2 className="text-xl font-bold text-gray-900">User List</h2>
             <p className="text-sm text-gray-500">
               Total{" "}
-              <span className="font-semibold text-gray-700">
+              <span className=" text-gray-700">
                {users?.length || 0}
               </span>{" "}
               users
@@ -157,7 +163,7 @@ const UserList = () => {
               {tableHeaders.map((header) => (
                 <TableHead
                   key={header}
-                  className="text-xs font-semibold text-gray-600 uppercase tracking-wider py-3 px-4"
+                  className="text-xs  text-gray-600 uppercase tracking-wider py-3 px-4"
                 >
                   {header}
                 </TableHead>
@@ -199,78 +205,60 @@ const UserList = () => {
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.name || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.email || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.auths?.[0]?.provider || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.phone || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.address || "N/A"}
                       </span>
                     </TableCell>
                   
                            <TableCell className="py-3 px-4">
-                      <Select
-                        defaultValue={user.isActive}
-                        onValueChange={(value) => {
-                          mutate(
-                            {
-                              id: user._id,
-                              payload: {
-                                isActive: value,
-                              },
-                            },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
-                          );
-                        }}
-                      >
-                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
+                    
 
-                        <SelectContent>
-                          <SelectItem value="ACTIVE">ACTIVE</SelectItem>
-                          <SelectItem value="INACTIVE">INACTIVE</SelectItem>
-                          <SelectItem value="BLOCKED">BLOCKED</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <StatusSelect
+                      value={user.isActive ?? "Active"}
+                      options={statusOptions}
+                      className="w-[110px]"
+                      onChange={(isActive) => {
+                        mutate(
+                          {
+                            id: user._id,
+                            payload: {
+                            isActive,
+                            },
+                          },
+                          mutationToast,
+                        );
+                      }}
+                    />
                     </TableCell>
 
 
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {user.role || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <span className="text-sm font-semibold text-gray-900">
+                      <span className="text-sm  text-gray-900">
                         {new Date(user.createdAt).toLocaleDateString("en-US", {
                           day: "numeric",
                           month: "long",

@@ -30,6 +30,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+
+const statusOptions = [
+  { label: "Active", value: "Active" },
+  { label: "Inactive", value: "InActive" },
+];
 
 const tableHeaders = [
   "#",
@@ -154,41 +161,22 @@ const CategoryList = () => {
                     </TableCell>
 
                     <TableCell className="py-3 px-3">
-                      <Select
-                        defaultValue={category.status ? category.status : "N/A"}
-                        onValueChange={(value) => {
+                      <StatusSelect
+                        value={category.status ?? "Active"}
+                        options={statusOptions}
+                        className="w-[100px]"
+                        onChange={(status) => {
                           const formData = new FormData();
-                          formData.append("status", value);
-
+                          formData.append("status", status);
                           mutate(
                             {
                               id: category._id,
                               formData,
                             },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
+                            mutationToast,
                           );
                         }}
-                      >
-                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Active">Active</SelectItem>
-                          <SelectItem value="InActive">InActive</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      />
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
