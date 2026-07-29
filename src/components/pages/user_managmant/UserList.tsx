@@ -234,7 +234,7 @@ const statusOptions = [
                     
 
                       <StatusSelect
-                      value={user.isActive ?? "Active"}
+                      value={user.isActive ?? "ACTIVE"}
                       options={statusOptions}
                       className="w-[110px]"
                       onChange={(isActive) => {

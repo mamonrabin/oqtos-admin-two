@@ -30,7 +30,11 @@ const StatusSelect = ({
     switch (status.toLowerCase()) {
       case "active":
         return "bg-green-100 text-green-700 border-green-300";
+      case "ADMIN":
+        return "bg-green-100 text-green-700 border-green-300";
       case "inactive":
+        return "bg-red-100 text-red-700 border-red-300";
+      case "STAFF":
         return "bg-red-100 text-red-700 border-red-300";
       // Landing Page Sections
       case "categories":

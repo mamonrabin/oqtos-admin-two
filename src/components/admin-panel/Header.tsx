@@ -1,11 +1,15 @@
-import { Bell, Search} from "lucide-react";
+import { Bell, Search } from "lucide-react";
 import React, { useState } from "react";
 import Responsibebar from "./Responsibebar";
 import ProfileDropdown from "./ProfileDropdown";
+import { useTodayOrderLength } from "@/hooks/order.hook";
+import Link from "next/link";
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { data: orderList } = useTodayOrderLength();
 
+  const order = orderList?.data;
 
   return (
     <div className="flex items-center justify-between gap-4 py-3 px-4 md:px-8 bg-white border-b border-gray-200  sticky top-0 z-20">
@@ -56,17 +60,19 @@ const Header = () => {
         )}
 
         {/* Notifications */}
-        <div className="relative">
-          <button className="w-9 h-9 rounded-lg border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 flex items-center justify-center relative">
-            <Bell size={18} className="text-gray-600" />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-[10px] font-bold flex items-center justify-center">
-              3
-            </span>
-          </button>
+        <div className="relative cursor-pointer">
+          <Link href="/new_order">
+            <button className="w-9 h-9 cursor-pointer rounded-lg border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 flex items-center justify-center relative">
+              <Bell size={18} className="text-gray-600" />
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-[10px] font-bold flex items-center justify-center">
+                {order?.length || 0}
+              </span>
+            </button>
+          </Link>
         </div>
 
         {/* Profile Dropdown */}
-        <ProfileDropdown/>
+        <ProfileDropdown />
       </div>
     </div>
   );

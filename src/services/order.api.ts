@@ -1,6 +1,6 @@
 import { AxiosInstance } from "../lib/AxiosInstance";
 
-export const  getOrders = async () => {
+export const getOrders = async () => {
   const { data } = await AxiosInstance.get("/order");
 
   return data;
@@ -36,7 +36,7 @@ export const getAllOrders = async ({
   paymentMethod,
   paymentStatus,
   status,
-  dateFilter
+  dateFilter,
 }: orderFilter) => {
   const params = new URLSearchParams();
 
@@ -53,19 +53,20 @@ export const getAllOrders = async ({
   return data;
 };
 
-
-export const getTodayOrders = async ({
-  page = 1,
-  limit = 10,
- 
-}: orderFilter) => {
+export const getTodayOrders = async ({ page = 1, limit = 10 }: orderFilter) => {
   const params = new URLSearchParams();
 
   params.append("page", page.toString());
   params.append("limit", limit.toString());
 
-
   const { data } = await AxiosInstance.get(`/order/today?${params.toString()}`);
+
+  return data;
+};
+
+
+export const getTodayOrderLength = async () => {
+  const { data } = await AxiosInstance.get("/order/today");
 
   return data;
 };
@@ -74,7 +75,6 @@ export const deleteOrder = async (id: string) => {
   const { data } = await AxiosInstance.delete(`/order/${id}`);
   return data;
 };
-
 
 export const updateOrder = async ({
   id,

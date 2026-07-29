@@ -4,58 +4,61 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { useUpdateUser } from "@/hooks/user.hook";
+import InputField from "@/reuseble_components/InputField";
 
-import SelectInput from "@/reuseble_components/SelectInput";
+
 import { TUser } from "@/types";
 
 import { SquarePen } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-const status = [
-  { label: "ACTIVE", value: "ACTIVE" },
-  { label: "INACTIVE", value: "INACTIVE" },
-  { label: "BLOCKED", value: "BLOCKED" },
-];
-const roles = [
-  { label: "SUPER_ADMIN", value: "SUPER_ADMIN" },
-  { label: "ADMIN", value: "ADMIN" },
-  { label: "USER", value: "USER" },
-];
+
 
 interface EditUserProps {
   user: TUser;
 }
 
 type UpdateFormData = {
-  isActive: string;
-  role: string;
+  name: string;
+  phone: string;
+  address: string;
 };
 
 const EditUser = ({ user }: EditUserProps) => {
   const [open, setOpen] = useState(false);
   const {
     handleSubmit,
-    control,
+    register,
     reset,
 
     formState: { errors },
-  } = useForm<UpdateFormData>();
+  } = useForm<UpdateFormData>({
+    defaultValues: {
+      name: user.name || "",
+      phone: user.phone || "",
+      address: user.address || "",
+    },
+  });
 
   const { mutate, isPending } = useUpdateUser();
 
   const onSubmit = (data: UpdateFormData) => {
     const payload: Partial<UpdateFormData> = {};
 
-    if (data.role) {
-      payload.role = data.role;
+    if (data.name) {
+      payload.name = data.name;
+    }
+    if (data.phone) {
+      payload.phone = data.phone;
+    }
+    if (data.address) {
+      payload.address = data.address;
     }
 
-    if (data.isActive) {
-      payload.isActive = data.isActive;
-    }
+   
 
     console.log(payload);
 
@@ -77,6 +80,17 @@ const EditUser = ({ user }: EditUserProps) => {
     );
   };
 
+ useEffect(() => {
+    if (open) {
+      reset({
+       name: user.name,
+      phone: user.phone,
+      address: user.address,
+      });
+    }
+  }, [open, user, reset]);
+
+
   return (
     <div>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -91,37 +105,43 @@ const EditUser = ({ user }: EditUserProps) => {
           <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-white">
             <div>
               <h2 className="text-lg font-semibold text-gray-900">
-                Edit Coupon
+                Edit User
               </h2>
               <p className="text-sm text-gray-500">
-                Update user role & status information
+                Update Admin or Staff  information
               </p>
             </div>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-4 space-y-4">
             {/* Current Category Preview */}
 
             {/* Form Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <SelectInput<UpdateFormData>
-                label="Status"
-                name="isActive"
-                options={status}
-                control={control}
-                placeholder={user.isActive}
-                error={errors.isActive}
-                inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            <div className="flex flex-col gap-4">
+             <InputField
+                label="Your Name"
+                name="name"
+                type="text"
+                register={register}
+                error={errors.name}
+                inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
-              <SelectInput<UpdateFormData>
-                label="User Status"
-                name="role"
-                options={roles}
-                control={control}
-                placeholder={user.role}
-                error={errors.role}
-                inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+             <InputField
+                label="phone Number"
+                name="phone"
+                type="text"
+                register={register}
+                error={errors.phone}
+                inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+             <InputField
+                label="Your Adress"
+                name="address"
+                type="text"
+                register={register}
+                error={errors.address}
+                inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
             </div>
 
@@ -164,7 +184,7 @@ const EditUser = ({ user }: EditUserProps) => {
                     Updating...
                   </span>
                 ) : (
-                  "Update Coupon"
+                  "Update User"
                 )}
               </button>
             </div>

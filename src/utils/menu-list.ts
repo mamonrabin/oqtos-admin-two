@@ -17,6 +17,8 @@ import {
   Badge,
   Sparkles,
   Package,
+  FolderOpen,
+  Workflow,
 } from "lucide-react";
 
 export function getMenuList(pathname: string): TGroup[] {
@@ -67,11 +69,13 @@ export function getMenuList(pathname: string): TGroup[] {
               href: "/category/category",
               label: "Category",
               active: pathname === "/category/category",
+              icon: FolderOpen,
             },
             {
               href: "/category/subcategory",
               label: "Subcategory",
               active: pathname === "/category/subcategory",
+              icon: FolderTree,
             },
 
             {
@@ -202,6 +206,13 @@ export function getMenuList(pathname: string): TGroup[] {
           label: "Staffs",
           active: pathname.includes("/staffs"),
           icon: Share2,
+          submenus: [],
+        },
+        {
+          href: "/integration",
+          label: "Integration",
+          active: pathname.includes("/integration"),
+          icon:Workflow,
           submenus: [],
         },
       ],

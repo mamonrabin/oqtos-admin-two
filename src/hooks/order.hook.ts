@@ -2,6 +2,7 @@ import {
   deleteOrder,
   getAllOrders,
   getOrders,
+  getTodayOrderLength,
   getTodayOrders,
   orderFilter,
   updateOrder,
@@ -14,6 +15,7 @@ export const useOrders = () => {
     queryFn: getOrders,
   });
 };
+
 
 export const useAllOrders = ({
   page = 1,
@@ -51,6 +53,14 @@ export const useTodayOrders = ({ page = 1, limit = 10 }: orderFilter) => {
     queryKey: ["orders", page, limit],
     queryFn: () => getTodayOrders({ page, limit }),
     placeholderData: (previousData) => previousData,
+  });
+};
+
+
+export const useTodayOrderLength = () => {
+  return useQuery({
+    queryKey: ["all-orders"],
+    queryFn: getTodayOrderLength,
   });
 };
 

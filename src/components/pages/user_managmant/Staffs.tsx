@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -9,15 +10,31 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Package } from "lucide-react";
+import { Package, Trash } from "lucide-react";
 
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 
-import { useAllStaffs } from "@/hooks/user.hook";
+import { useAllStaffs, useDeleteUser, useUpdateUser } from "@/hooks/user.hook";
 import { TUser } from "@/types";
 import Image from "next/image";
 
 import { useForm } from "react-hook-form";
+import { useSupperAdmin } from "@/hooks/auth.hook";
+import { toast } from "sonner";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+import EditUser from "./EditUser";
+
+const statusOptions = [
+  { label: "ACTIVE", value: "ACTIVE" },
+  { label: "INACTIVE", value: "INACTIVE" },
+  { label: "BLOCKED", value: "BLOCKED" },
+];
+const userOptions = [
+  { label: "ADMIN", value: "ADMIN" },
+  { label: "STAFF", value: "STAFF" },
+  { label: "USER", value: "USER " },
+];
 
 type FormData = {
   date: string;
@@ -56,6 +73,40 @@ const tableHeaders = [
 const Staffs = () => {
   const { data: userList, isLoading } = useAllStaffs();
   const users = userList?.data;
+
+    const { mutate: deleteUser } = useDeleteUser();
+
+    const { mutate} = useUpdateUser();
+
+  const { data: adminUser } = useSupperAdmin();
+  const currentUser = adminUser?.data;
+
+
+   const handleDelete = (id: string) => {
+    toast("Delete Coupon?", {
+      description: "This user will be permanently deleted.",
+      action: {
+        label: "Delete",
+        onClick: () => {
+          deleteUser(id, {
+            onSuccess: (res: any) => {
+              toast.success(res?.message || "User deleted successfully");
+            },
+            onError: (error: any) => {
+              toast.error(
+                error?.response?.data?.message || "Failed to delete user",
+              );
+            },
+          });
+        },
+      },
+      cancel: {
+        label: "Cancel",
+        onClick: () => {},
+      },
+      duration: 10000,
+    });
+  };
 
   const {} = useForm<FormData>();
   return (
@@ -150,21 +201,73 @@ const Staffs = () => {
                         {user.address || "N/A"}
                       </span>
                     </TableCell>
-                    <TableCell className="py-3 px-4">
+                    {/* <TableCell className="py-3 px-4">
                       <span
                         className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${getStatusColor(user?.isActive)}`}
                       >
                         {user?.isActive || "N/A"}
                       </span>
-                    </TableCell>
-                    
+                    </TableCell> */}
+
                     <TableCell className="py-3 px-4">
-                      <span
-                        className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${getStatusColor(user?.role)}`}
-                      >
-                        {user?.role || "N/A"}
-                      </span>
+                      {currentUser?.role === "ADMIN" && (
+                        <span
+                          className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${getStatusColor(user?.role)}`}
+                        >
+                          {user?.isActive || "N/A"}
+                        </span>
+                      )}
+
+                      {currentUser?.role === "SUPER_ADMIN" && (
+                        <StatusSelect
+                      value={user.isActive ?? "ACTIVE"}
+                      options={statusOptions}
+                      className="w-[110px]"
+                      onChange={(isActive) => {
+                        mutate(
+                          {
+                            id: user._id,
+                            payload: {
+                            isActive,
+                            },
+                          },
+                          mutationToast,
+                        );
+                      }}
+                    />
+                      )}
                     </TableCell>
+                    <TableCell className="py-3 px-4">
+                      {currentUser?.role === "ADMIN" && (
+                        <span
+                          className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${getStatusColor(user?.role)}`}
+                        >
+                          {user?.role || "N/A"}
+                        </span>
+                      )}
+
+                      {currentUser?.role === "SUPER_ADMIN" && (
+                        <StatusSelect
+                      value={user.role ?? "ADMIN"}
+                      options={userOptions}
+                      className="w-[110px]"
+                      onChange={(role) => {
+                        mutate(
+                          {
+                            id: user._id,
+                            payload: {
+                            role,
+                            },
+                          },
+                          mutationToast,
+                        );
+                      }}
+                    />
+                      )}
+                    </TableCell>
+
+
+
                     <TableCell className="py-3 px-4">
                       <span className="text-sm  text-gray-900">
                         {new Date(user.createdAt).toLocaleDateString("en-US", {
@@ -175,17 +278,20 @@ const Staffs = () => {
                       </span>
                     </TableCell>
 
-                    {/* <TableCell className="py-3 px-4">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleDelete(user._id)}
-                          className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-all duration-200 hover:shadow-sm"
-                          title="Delete Brand"
-                        >
-                          <Trash size={16} />
-                        </button>
-                      </div>
-                    </TableCell> */}
+                    <TableCell className="py-3 px-4">
+                      {currentUser?.role === "SUPER_ADMIN" && (
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleDelete(user._id)}
+                            className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-all duration-200 hover:shadow-sm"
+                            title="Delete Brand"
+                          >
+                            <Trash size={16} />
+                          </button>
+                          <EditUser user={user}/>
+                        </div>
+                      )}
+                    </TableCell>
                   </TableRow>
                 ))
               ) : (

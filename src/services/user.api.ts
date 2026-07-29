@@ -51,6 +51,9 @@ export const updateUser = async ({
   payload: {
     role?: string;
     isActive?: string;
+    name?: string;
+    phone?: string;
+    address?: string;
   };
 }) => {
   const { data } = await AxiosInstance.patch(`/user/${id}`, payload);

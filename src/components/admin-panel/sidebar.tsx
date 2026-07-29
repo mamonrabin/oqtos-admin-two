@@ -59,7 +59,7 @@ export function Sidebar() {
 
       {/* MENU AREA */}
       <div
-        className={` ${isOpen ? "h-[calc(100vh-80px)]" : "h-screen pb-12"} overflow-y-auto custom-scrollbar pt-4`}
+        className={` ${isOpen ? "h-[calc(100vh-100px)]" : "h-screen pb-12"} overflow-y-auto custom-scrollbar pt-4`}
       >
         <Menu isOpen={isOpen} />
       </div>

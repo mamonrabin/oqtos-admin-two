@@ -11,6 +11,7 @@ import { useAllReviews } from "@/hooks/review.hook";
 import TopSellingProducts from "./TopSellingProducts";
 import RecenteOrder from "./RecenteOrder";
 import { useAllOrders } from "@/hooks/order.hook";
+import DaySelector from "./DaySelector";
 
 const Overview = () => {
 
@@ -53,15 +54,7 @@ const Overview = () => {
           </p>
         </div>
         <div className="flex items-center gap-3 mt-3 sm:mt-0">
-          <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-gray-200 shadow-sm">
-            <Calendar size={16} className="text-gray-400" />
-            <select className="bg-transparent outline-none text-sm text-gray-700">
-              <option>Today</option>
-              <option>This Week</option>
-              <option>This Month</option>
-              <option>This Year</option>
-            </select>
-          </div>
+          <DaySelector/>
           <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm hover:shadow-md">
             <Download size={16} />
             Export
