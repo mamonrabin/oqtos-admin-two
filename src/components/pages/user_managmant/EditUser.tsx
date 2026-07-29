@@ -60,7 +60,6 @@ const EditUser = ({ user }: EditUserProps) => {
 
    
 
-    console.log(payload);
 
     mutate(
       { id: user._id, payload: payload as UpdateFormData },

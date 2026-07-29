@@ -56,7 +56,7 @@ const ReviewList = () => {
   const reviews = reviewList?.data;
   const meta = reviewList?.data?.meta;
 
-  console.log(reviews, "--------------------------------------reviews");
+
 
   const handleDelete = (id: string) => {
     toast("Delete Review?", {

@@ -39,7 +39,7 @@ const CreateCampaing = () => {
     formData.append("couponId", data.couponId);
     formData.append("image", data.image[0]);
 
-    console.log(data);
+
 
     mutate(formData, {
       onSuccess: (res) => {

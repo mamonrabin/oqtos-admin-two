@@ -55,7 +55,11 @@ const LogIn = () => {
 
       toast.success(res?.message || "Successfully you get access");
 
+       
+
       router.push("/dashboard");
+
+      
     },
 
     onError: (error: any) => {

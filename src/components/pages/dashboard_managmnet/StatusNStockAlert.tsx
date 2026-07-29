@@ -38,7 +38,7 @@ const StatusNStockAlert: React.FC<StatusNStockAlertProps> = ({
     },
   ];
 
-  console.log("---lowStockAlert----", lowStockAlert);
+
 
   // Order Status Data
 

@@ -61,7 +61,7 @@ const CouponList = () => {
   const coupons = couponList?.data?.data;
   const meta = couponList?.data?.meta;
 
-  console.log("/////////////---coupons/////////////", couponList);
+
 
   const handleDelete = (id: string) => {
     toast("Delete Coupon?", {

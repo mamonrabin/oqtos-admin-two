@@ -51,7 +51,7 @@ const SatisfactionNLocation: React.FC<SatisfactionNLocationProps> = ({
   const reasons = returnStats?.[0]?.reasons || [];
 
 
-console.log("----returnStats---",returnStats)
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
       {/* Satisfaction */}

@@ -34,7 +34,7 @@ const ContactList = () => {
   const contacts = contactList?.data?.data;
   const meta = contactList?.data?.meta;
 
-  console.log(meta, "--------------------------------------");
+
 
   const handleDelete = (id: string) => {
     toast("Delete Contact?", {

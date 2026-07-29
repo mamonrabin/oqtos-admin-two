@@ -58,7 +58,6 @@ const BannerList = () => {
   const banners = bannerList?.data;
   //   const meta = bannersList?.data?.meta;
 
-  console.log("---banner---", banners);
 
   const handleDelete = (id: string) => {
     toast("Delete Banner?", {

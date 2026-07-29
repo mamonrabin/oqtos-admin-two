@@ -28,7 +28,7 @@ const TopSell = () => {
 
   const products = productList?.data?.totalHighestOrderProduct;
 
-  console.log("products", products);
+  
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">

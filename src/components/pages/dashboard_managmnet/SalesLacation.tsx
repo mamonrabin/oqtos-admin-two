@@ -29,7 +29,7 @@ const SalesLacation = () => {
 
   const orders = ordersStats?.data?.cityStats;
 
-  console.log("orders cityStats", orders);
+  
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">

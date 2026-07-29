@@ -19,15 +19,15 @@ const SelectorSideBar = () => {
   ];
 
   const {
-    register,
+   
     control,
-    handleSubmit,
+   
     reset,
     formState: { errors },
   } = useForm<SubCategoryFormData>();
 
   const onSubmit: SubmitHandler<SubCategoryFormData> = (data) => {
-    console.log("All Data:", data);
+    
     reset();
   };
   return (

@@ -73,7 +73,7 @@ const HomeControllerList = () => {
 
   const homeItems = homeList?.data;
 
-  console.log(homeItems, "--------------------------------------homeItems");
+
 
   const handleDelete = (id: string) => {
     toast("Delete HomeSection?", {
