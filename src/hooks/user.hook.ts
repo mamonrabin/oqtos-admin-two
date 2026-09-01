@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteUser, getAllStaffs, getAllUsers, updateUser } from "@/services/user.api";
+import { deleteUser, getAllAffiliateUsers, getAllStaffs, getAllUsers, updateUser } from "@/services/user.api";
 
 export const useAllUsers = (
   page: number,
@@ -10,6 +10,17 @@ export const useAllUsers = (
   return useQuery({
     queryKey: ["users", page, limit, dateFilter],
     queryFn: () => getAllUsers(page, limit, dateFilter),
+    placeholderData: (previousData) => previousData,
+  });
+};
+export const useAllAffiliateUsers = (
+  page: number,
+  limit: number,
+  dateFilter: string,
+) => {
+  return useQuery({
+    queryKey: ["users", page, limit, dateFilter],
+    queryFn: () => getAllAffiliateUsers(page, limit, dateFilter),
     placeholderData: (previousData) => previousData,
   });
 };

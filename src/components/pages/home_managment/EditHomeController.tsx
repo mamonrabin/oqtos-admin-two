@@ -115,7 +115,6 @@ const EditHomeController = ({ item }: EditHomeControllerProps) => {
                 label="Title"
                 name="title"
                 type="text"
-                placeholder={item.title}
                 register={register}
                 error={errors.title}
                 inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
@@ -124,7 +123,6 @@ const EditHomeController = ({ item }: EditHomeControllerProps) => {
                 label="Sub Title"
                 name="subTitle"
                 type="text"
-                placeholder={item.subTitle}
                 register={register}
                 error={errors.subTitle}
                 inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"

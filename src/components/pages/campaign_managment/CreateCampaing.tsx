@@ -3,17 +3,46 @@
 
 import ImageUpload from "@/reuseble_components/ImageUpload";
 import InputField from "@/reuseble_components/InputField";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import SelectInput from "@/reuseble_components/SelectInput";
 import { useAllCoupons } from "@/hooks/coupon.hook";
-import { TCoupon } from "@/types";
+import {
+  TBrand,
+  TCategory,
+  TCoupon,
+  TProduct,
+  TSubCategory,
+} from "@/types";
 import { useCreateCampaign } from "@/hooks/campaign.hook";
+import { useAllCategories } from "@/hooks/category.hook";
+import { useAllSubCategories } from "@/hooks/subCategory.hook";
+import { useAllBrands } from "@/hooks/brand.hook";
+import { useProducts } from "@/hooks/product.hook";
+import Select from "react-select";
+const couponTypes = [
+  { label: "Product wise", value: "product" },
+  { label: "Category wise", value: "category" },
+  { label: "Sub-Category wise", value: "subCategory" },
+  { label: "Brand wise", value: "brand" },
+];
+const campaignType = [
+  { label: "Flash_Sale", value: "Flash_Sale" },
+  { label: "Eid_Sale", value: "Eid_Sale" },
+  { label: "Black_friday", value: "Black_friday" },
+  { label: "Summer_sale", value: "Summer_sale" },
+];
 
 type CampaingFormData = {
   title: string;
   couponId: string;
+  couponType: string;
+  campaigntype: string;
+  categoryID?: string;
+  subCategoryID?: string;
+  brandID?: string;
+  products?: string;
   image: FileList;
 };
 
@@ -31,15 +60,40 @@ const CreateCampaing = () => {
     formState: { errors },
   } = useForm<CampaingFormData>();
 
+  const { data: productsList } = useProducts();
+  const { data: categorysList } = useAllCategories();
+  const { data: subCategorysList } = useAllSubCategories();
+  const { data: brandList } = useAllBrands();
+
+  const products = productsList?.data;
+  const categories = categorysList?.data;
+  const subCategories = subCategorysList?.data;
+  const brands = brandList?.data;
+
+  console.log("----------products-----------", products);
+
   const { mutate, isPending } = useCreateCampaign();
+
+  const couponType = watch("couponType");
 
   const onSubmit: SubmitHandler<CampaingFormData> = (data) => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("couponId", data.couponId);
+    formData.append("couponType", data.couponType);
+    formData.append("campaigntype", data.campaigntype);
+    if (data.brandID) {
+      formData.append("brandID", data.brandID);
+    }
+
+    if (data.subCategoryID) {
+      formData.append("subCategoryID", data.subCategoryID);
+    }
+
+    if (data.products?.length) {
+      formData.append("products", JSON.stringify(data.products));
+    }
     formData.append("image", data.image[0]);
-
-
 
     mutate(formData, {
       onSuccess: (res) => {
@@ -108,13 +162,109 @@ const CreateCampaing = () => {
             inputstyle="rounded-lg !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
 
+          <SelectInput<CampaingFormData>
+            label="Coupon Type"
+            name="couponType"
+            options={couponTypes}
+            control={control}
+            error={errors.couponType}
+            inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+
+          <SelectInput<CampaingFormData>
+            label="campaignType"
+            name="campaigntype"
+            options={campaignType}
+            control={control}
+            error={errors.couponId}
+            required
+            inputstyle="rounded-lg !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+
+        {couponType === "product" && (
+          <div className="mt-4">
+            <Controller
+              control={control}
+              name="products"
+              render={({ field }) => (
+                <Select
+                  isMulti
+                  options={products?.map((product: TProduct) => ({
+                    label: product.title,
+                    value: product._id,
+                  }))}
+                  value={products
+                    ?.filter((p: TProduct) => field.value?.includes(p._id))
+                    .map((p: TProduct) => ({
+                      label: p.title,
+                      value: p._id,
+                    }))}
+                  onChange={(selected) =>
+                    field.onChange(selected.map((item) => item.value))
+                  }
+                />
+              )}
+            />
+          </div>
+        )}
+        {couponType === "category" && (
+          <div className="mt-4">
+            <SelectInput<CampaingFormData>
+              label="Category"
+              name="categoryID"
+              options={categories?.map((category: TCategory) => ({
+                label: category.categoryName,
+                value: category._id,
+              }))}
+              control={control}
+              error={errors.categoryID}
+              required
+              inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+        )}
+        {couponType === "subCategory" && (
+          <div className="mt-4">
+            <SelectInput<CampaingFormData>
+              label="Sub Category"
+              name="subCategoryID"
+              options={subCategories?.map((subcategory: TSubCategory) => ({
+                label: subcategory.subcategoryName,
+                value: subcategory._id,
+              }))}
+              control={control}
+              error={errors.subCategoryID}
+              required
+              inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+        )}
+
+        {couponType === "brand" && (
+          <div className="mt-4">
+            <SelectInput<CampaingFormData>
+              label="Brand"
+              name="brandID"
+              options={brands?.map((brand: TBrand) => ({
+                label: brand.title,
+                value: brand._id,
+              }))}
+              control={control}
+              error={errors.brandID}
+              required
+              inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+        )}
+
+        <div>
           <ImageUpload
             label="Banner or Image"
             name="image"
             watch={watch}
             register={register}
             error={errors.image}
-            
           />
         </div>
 

@@ -4,6 +4,8 @@ export const singIn = async (formData: FormData) => {
   const { data } = await AxiosInstance.post("/auth/login", formData);
   return data;
 };
+
+
 export const singOut = async () => {
   const { data } = await AxiosInstance.post("/auth/logout");
   return data;

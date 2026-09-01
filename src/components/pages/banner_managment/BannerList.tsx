@@ -23,13 +23,7 @@ import {
 } from "@/hooks/banner.hook";
 
 import EditBanner from "./EditBanner";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import StatusSelect from "@/reuseble_components/StatusSelect";
 import { mutationToast } from "@/reuseble_components/MutationToast";
 

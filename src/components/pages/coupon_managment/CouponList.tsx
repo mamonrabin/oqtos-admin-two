@@ -10,20 +10,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-
 import { Trash, Package } from "lucide-react";
 import Pagination from "@/reuseble_components/Paginations";
 // import EditBrand from "./EditBrand";
 import { useState } from "react";
 
-
-
 import { TCoupon } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { toast } from "sonner";
-import { useCoupons, useDeleteCoupon, useUpdateCoupon } from "@/hooks/coupon.hook";
+import {
+  useCoupons,
+  useDeleteCoupon,
+  useUpdateCoupon,
+} from "@/hooks/coupon.hook";
 import EditCoupon from "./EditCoupon";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { mutationToast } from "@/reuseble_components/MutationToast";
 import StatusSelect from "@/reuseble_components/StatusSelect";
 
@@ -42,10 +42,6 @@ const tableHeaders = [
   "Use Count",
   "Start Date",
   "Expire Date",
-  "Coupon Type",
-  "Brand",
-  "Category",
-  "Subcategory",
   "status",
   "Action",
 ];
@@ -56,12 +52,12 @@ const CouponList = () => {
 
   const { data: couponList, isLoading } = useCoupons(page, limit);
   const { mutate: deleteCoupon } = useDeleteCoupon();
-    const { mutate} = useUpdateCoupon();
+  const { mutate } = useUpdateCoupon();
 
   const coupons = couponList?.data?.data;
   const meta = couponList?.data?.meta;
 
-
+  console.log("---------couponList---------", couponList);
 
   const handleDelete = (id: string) => {
     toast("Delete Coupon?", {
@@ -100,10 +96,7 @@ const CouponList = () => {
           <div>
             <h2 className="text-xl font-bold text-gray-900">Coupon List</h2>
             <p className="text-sm text-gray-500">
-              Total{" "}
-              <span className=" text-gray-700">
-                {meta?.total || 0}
-              </span>{" "}
+              Total <span className=" text-gray-700">{meta?.total || 0}</span>{" "}
               coupons
             </p>
           </div>
@@ -184,51 +177,24 @@ const CouponList = () => {
                         )}
                       </span>
                     </TableCell>
-                    <TableCell className="py-3 px-4">
-                      <span className="text-sm  text-gray-900 ">
-                        {coupon.couponType}
-                      </span>
-                    </TableCell>
-                    <TableCell className="py-3 px-4">
-                      <span className="text-sm  text-gray-900 ">
-                        {coupon?.brandID?.title ? coupon.brandID.title : "N/A"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="py-3 px-4">
-                      <span className="text-sm  text-gray-900 ">
-                        {coupon?.categoryID?.categoryName
-                          ? coupon.categoryID.categoryName
-                          : "N/A"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="py-3 px-4">
-                      <span className="text-sm  text-gray-900 ">
-                        {coupon?.subCategoryID?.subcategoryName
-                          ? coupon.subCategoryID.subcategoryName
-                          : "N/A"}
-                      </span>
-                    </TableCell>
 
-
-                        <TableCell className="py-3 px-3">
-
-                          <StatusSelect
-                      value={coupon.status ?? "Active"}
-                      options={statusOptions}
-                      className="w-[100px]"
-                      onChange={(status) => {
-                        mutate(
-                          {
-                            id: coupon._id,
-                            payload: {
-                            status,
+                    <TableCell className="py-3 px-3">
+                      <StatusSelect
+                        value={coupon.status ?? "Active"}
+                        options={statusOptions}
+                        className="w-[100px]"
+                        onChange={(status) => {
+                          mutate(
+                            {
+                              id: coupon._id,
+                              payload: {
+                                status,
+                              },
                             },
-                          },
-                          mutationToast,
-                        );
-                      }}
-                    />
-                     
+                            mutationToast,
+                          );
+                        }}
+                      />
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
@@ -240,9 +206,8 @@ const CouponList = () => {
                         >
                           <Trash size={16} />
                         </button>
-                       
-                        <EditCoupon coupon={coupon}/>
-                    
+
+                        <EditCoupon coupon={coupon} />
                       </div>
                     </TableCell>
                   </TableRow>

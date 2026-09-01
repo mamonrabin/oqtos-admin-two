@@ -24,13 +24,6 @@ import {
 import Image from "next/image";
 import { BASE_URL } from "@/config";
 import EditCampaing from "./EditCampaing";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import StatusSelect from "@/reuseble_components/StatusSelect";
 import { mutationToast } from "@/reuseble_components/MutationToast";
 
@@ -45,6 +38,7 @@ const tableHeaders = [
   "Image",
   "Coupon Code",
   "Coupon Type",
+  "Campaign Type",
   "Discount",
   "status",
   "Action",
@@ -166,7 +160,12 @@ const CampaingList = () => {
                     </TableCell>
                     <TableCell className="py-3 px-4">
                       <span className="text-sm text-gray-700 capitalize">
-                        {compain?.couponId?.couponType}
+                        {compain?.couponType || "N/A"}
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
+                      <span className="text-sm text-gray-700 capitalize">
+                        {compain?.campaigntype || "N/A"}
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">

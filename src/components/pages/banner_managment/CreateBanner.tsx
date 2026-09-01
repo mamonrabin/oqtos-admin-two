@@ -32,7 +32,7 @@ type BannerFormData = {
 const CreateBanner = () => {
   const { data: categorysList } = useAllCategories();
 
-  const categories = categorysList?.data?.data;
+  const categories = categorysList?.data;
 
   const {
     register,
@@ -153,11 +153,11 @@ const CreateBanner = () => {
 
           <InputField
             label="Banner Link"
-            name="title"
+            name="link"
             type="text"
             placeholder="Enter Link"
             register={register}
-            error={errors.title}
+            error={errors.link}
             inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>

@@ -37,7 +37,7 @@ interface EditBannerProps {
 const EditBanner = ({ banner }: EditBannerProps) => {
   const { data: categorysList } = useAllCategories();
 
-  const categories = categorysList?.data?.data;
+  const categories = categorysList?.data;
 
   const [open, setOpen] = useState(false);
 const {
@@ -70,9 +70,12 @@ const {
     formData.append("description", data.description);
   }
 
-  if (data.category !== banner.category?._id) {
-    formData.append("category", data.category);
-  }
+  // if (data.category !== banner.category?._id) {
+  //   formData.append("category", data.category);
+  // }
+  if (data.category && data.category !== banner.category?._id) {
+  formData.append("category", data.category);
+}
 
   if (data.type !== banner.type) {
     formData.append("type", data.type);
@@ -112,7 +115,7 @@ useEffect(() => {
     reset({
       title: banner.title,
       description: banner.description,
-      category: banner.category?._id,
+       category: banner.category?._id || "",
       link: banner.link,
       type: banner.type,
     });
@@ -176,7 +179,7 @@ useEffect(() => {
                 }))}
                 control={control}
                 placeholder={banner.category?.categoryName || "N/A"}
-                error={errors.category}
+               
                 inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
 
@@ -189,6 +192,8 @@ useEffect(() => {
                 error={errors.link}
                 inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
+
+               
             </div>
 
             <div className="flex md:flex-row flex-col items-center gap-2 w-full mt-4">

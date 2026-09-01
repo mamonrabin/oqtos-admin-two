@@ -7,10 +7,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Plus } from "lucide-react";
 import SelectInput from "@/reuseble_components/SelectInput";
-import { useAllCategories } from "@/hooks/category.hook";
-import { TBrand, TCategory, TSubCategory } from "@/types";
-import { useAllSubCategories } from "@/hooks/subCategory.hook";
-import { useAllBrands } from "@/hooks/brand.hook";
+// import { useAllCategories } from "@/hooks/category.hook";
+// import { TBrand, TCategory, TSubCategory } from "@/types";
+// import { useAllSubCategories } from "@/hooks/subCategory.hook";
+// import { useAllBrands } from "@/hooks/brand.hook";
 import { useCreateCoupon } from "@/hooks/coupon.hook";
 import { toast } from "sonner";
 
@@ -33,10 +33,6 @@ type CouponFormData = {
   perUserLimit: number;
   startDate: Date | null;
   expireDate: Date | null;
-  couponType: string;
-  categoryID: string;
-  subCategoryID: string;
-  brandID: string;
 };
 
 const CreateCoupon = () => {
@@ -51,15 +47,15 @@ const CreateCoupon = () => {
 
   const { mutate, isPending } = useCreateCoupon();
 
-  const { data: categorysList } = useAllCategories();
-  const { data: subCategorysList } = useAllSubCategories();
-  const { data: brandList } = useAllBrands();
+  // const { data: categorysList } = useAllCategories();
+  // const { data: subCategorysList } = useAllSubCategories();
+  // const { data: brandList } = useAllBrands();
 
-  const categories = categorysList?.data?.data;
-  const subCategories = subCategorysList?.data?.data;
-  const brands = brandList?.data?.data;
+  // const categories = categorysList?.data?.data;
+  // const subCategories = subCategorysList?.data?.data;
+  // const brands = brandList?.data?.data;
 
-  const couponType = watch("couponType");
+
 
   const onSubmit: SubmitHandler<CouponFormData> = (data) => {
     const payload = {
@@ -71,10 +67,10 @@ const CreateCoupon = () => {
         perUserLimit: data.perUserLimit,
         startDate: data.startDate ? new Date(data.startDate).toISOString() : "",
         expireDate: data.expireDate ? new Date(data.expireDate).toISOString() : "",
-        couponType: data.couponType,
-        categoryID: data.categoryID || undefined,
-        subCategoryID: data.subCategoryID || undefined,
-        brandID: data.brandID || undefined,
+        // couponType: data.couponType,
+        // categoryID: data.categoryID || undefined,
+        // subCategoryID: data.subCategoryID || undefined,
+        // brandID: data.brandID || undefined,
       };
     mutate(payload, {
       onSuccess: (res) => {
@@ -190,8 +186,9 @@ const CreateCoupon = () => {
             required
             inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
           />
+          </div>
 
-          <SelectInput<CouponFormData>
+          {/* <SelectInput<CouponFormData>
             label="Coupon Type"
             name="couponType"
             options={couponTypes}
@@ -199,9 +196,9 @@ const CreateCoupon = () => {
             error={errors.couponType}
             inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-        </div>
+        </div> */}
 
-        {couponType === "category" && (
+        {/* {couponType === "category" && (
           <div className="mt-4">
             <SelectInput<CouponFormData>
               label="Category"
@@ -216,8 +213,8 @@ const CreateCoupon = () => {
               inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-        )}
-        {couponType === "subCategory" && (
+        )} */}
+        {/* {couponType === "subCategory" && (
           <div className="mt-4">
             <SelectInput<CouponFormData>
               label="Sub Category"
@@ -232,9 +229,9 @@ const CreateCoupon = () => {
               inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-        )}
+        )} */}
 
-        {couponType === "brand" && (
+        {/* {couponType === "brand" && (
           <div className="mt-4">
             <SelectInput<CouponFormData>
               label="Brand"
@@ -249,7 +246,7 @@ const CreateCoupon = () => {
               inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-        )}
+        )} */}
 
         {/* Submit Button */}
         <div className="flex items-center justify-between pt-6 mt-2 border-t border-gray-200">

@@ -16,6 +16,17 @@ export const getAllUsers = async (
 
   return data;
 };
+export const getAllAffiliateUsers = async (
+  page: number,
+  limit: number,
+  dateFilter: string,
+) => {
+  const { data } = await AxiosInstance.get(
+    `/user/affiliate?page=${page}&limit=${limit}&dateFilter=${dateFilter}`,
+  );
+
+  return data;
+};
 
 export const getAllStaffs = async () => {
   const { data } = await AxiosInstance.get("/user/staffs");
@@ -51,6 +62,7 @@ export const updateUser = async ({
   payload: {
     role?: string;
     isActive?: string;
+    affiliateStatus?: string;
     name?: string;
     phone?: string;
     address?: string;

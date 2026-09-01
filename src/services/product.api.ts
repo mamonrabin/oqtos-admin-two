@@ -12,7 +12,7 @@ export const createProduct = async (formData: FormData) => {
 };
 
 export const getProducts = async () => {
-  const { data } = await AxiosInstance.get("/product");
+  const { data } = await AxiosInstance.get("/product/withoutBuilder");
   return data;
 };
 

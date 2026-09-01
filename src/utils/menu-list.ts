@@ -1,3 +1,4 @@
+"use client"
 import { TGroup } from "@/types";
 import {
   LayoutGrid,
@@ -19,6 +20,11 @@ import {
   Package,
   FolderOpen,
   Workflow,
+  BookOpen,
+  Handshake,
+  UserRoundPlus,
+  UsersRound,
+  Palette,
 } from "lucide-react";
 
 export function getMenuList(pathname: string): TGroup[] {
@@ -122,6 +128,27 @@ export function getMenuList(pathname: string): TGroup[] {
           ],
         },
 
+      {
+  href: "/affiliates",
+  label: "Affiliate",
+  active: pathname.includes("/affiliates"),
+  icon: Handshake,
+  submenus: [
+    {
+      href: "/affiliate/affiliate-user",
+      label: "Affiliate User",
+      active: pathname.includes("/affiliate/affiliate-user"),
+      icon: UserRoundPlus,
+    },
+    {
+      href: "/affiliate/affiliate",
+      label: "Affiliate",
+      active: pathname.includes("/affiliate/affiliate"),
+      icon: UsersRound,
+    },
+  ],
+},
+
         {
           href: "/user",
           label: "Customer",
@@ -154,6 +181,13 @@ export function getMenuList(pathname: string): TGroup[] {
               label: "About",
               active: pathname.includes("/about"),
               icon: Info,
+            },
+           
+            {
+              href: "/blog",
+              label: "Blog",
+              active: pathname.includes("/blog"),
+              icon: BookOpen,
             },
 
             {
@@ -191,6 +225,13 @@ export function getMenuList(pathname: string): TGroup[] {
           label: "Home Page Control",
           active: pathname.includes("/home_controll"),
           icon: Layout,
+          submenus: [],
+        },
+        {
+          href: "/custome-design",
+          label: "Custome Design",
+          active: pathname.includes("/custome-design"),
+          icon: Palette,
           submenus: [],
         },
       ],

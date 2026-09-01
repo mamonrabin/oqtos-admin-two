@@ -28,11 +28,11 @@ const discountType = [
   { label: "Percentage", value: "percentage" },
 ];
 
-const couponTypes = [
-  { label: "Category wise", value: "category" },
-  { label: "Sub-Category wise", value: "subCategory" },
-  { label: "Brand wise", value: "brand" },
-];
+// const couponTypes = [
+//   { label: "Category wise", value: "category" },
+//   { label: "Sub-Category wise", value: "subCategory" },
+//   { label: "Brand wise", value: "brand" },
+// ];
 
 interface EditCouponProps {
   coupon: TCoupon;
@@ -46,10 +46,10 @@ type CouponUpdateFormData = {
   perUserLimit: number;
   startDate: Date | null;
   expireDate: Date | null;
-  couponType: string;
-  categoryID: string;
-  subCategoryID: string;
-  brandID: string;
+  // couponType: string;
+  // categoryID: string;
+  // subCategoryID: string;
+  // brandID: string;
 };
 
 const EditCoupon = ({ coupon }: EditCouponProps) => {
@@ -59,7 +59,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
     handleSubmit,
     control,
     reset,
-    watch,
     formState: { errors },
   } = useForm<CouponUpdateFormData>({
     defaultValues: {
@@ -71,23 +70,23 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
       perUserLimit: coupon.perUserLimit,
       startDate: new Date(coupon.startDate),
       expireDate: new Date(coupon.expireDate),
-      couponType: coupon.couponType,
-      categoryID: coupon.categoryID?._id,
-      subCategoryID: coupon.subCategoryID?._id,
-      brandID: coupon.brandID?._id,
+      // couponType: coupon.couponType,
+      // categoryID: coupon.categoryID?._id,
+      // subCategoryID: coupon.subCategoryID?._id,
+      // brandID: coupon.brandID?._id,
     },
   });
 
-  const { data: categorysList } = useAllCategories();
-  const { data: subCategorysList } = useAllSubCategories();
-  const { data: brandList } = useAllBrands();
+  // const { data: categorysList } = useAllCategories();
+  // const { data: subCategorysList } = useAllSubCategories();
+  // const { data: brandList } = useAllBrands();
 
-  const categories = categorysList?.data?.data;
-  const subCategories = subCategorysList?.data?.data;
-  const brands = brandList?.data?.data;
+  // const categories = categorysList?.data?.data;
+  // const subCategories = subCategorysList?.data?.data;
+  // const brands = brandList?.data?.data;
 
   const { mutate, isPending } = useUpdateCoupon();
-  const couponType = watch("couponType");
+  // const couponType = watch("couponType");
 
   const onSubmit = (data: CouponUpdateFormData) => {
     const payload = {
@@ -107,10 +106,10 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
       expireDate: data.expireDate
         ? new Date(data.expireDate).toISOString()
         : coupon.expireDate,
-      couponType: data.couponType || coupon.couponType,
-      categoryID: data.categoryID,
-      subCategoryID: data.subCategoryID,
-      brandID: data.brandID,
+      // couponType: data.couponType || coupon.couponType,
+      // categoryID: data.categoryID,
+      // subCategoryID: data.subCategoryID,
+      // brandID: data.brandID,
     };
 
     mutate(
@@ -145,10 +144,10 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
         perUserLimit: coupon.perUserLimit,
         startDate: new Date(coupon.startDate),
         expireDate: new Date(coupon.expireDate),
-        couponType: coupon.couponType,
-        categoryID: coupon.categoryID?._id,
-        subCategoryID: coupon.subCategoryID?._id,
-        brandID: coupon.brandID?._id,
+        // couponType: coupon.couponType,
+        // categoryID: coupon.categoryID?._id,
+        // subCategoryID: coupon.subCategoryID?._id,
+        // brandID: coupon.brandID?._id,
       });
     }
   }, [open, coupon, reset]);
@@ -248,7 +247,7 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                 inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
 
-              <SelectInput<CouponUpdateFormData>
+              {/* <SelectInput<CouponUpdateFormData>
                 label="Coupon Type"
                 name="couponType"
                 options={couponTypes}
@@ -256,10 +255,10 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                 placeholder={coupon.couponType}
                 error={errors.couponType}
                 inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+              /> */}
             </div>
 
-            {couponType === "category" && (
+            {/* {couponType === "category" && (
               <div className="mt-4">
                 <SelectInput<CouponUpdateFormData>
                   label="Category"
@@ -274,8 +273,8 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                   inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-            )}
-            {couponType === "subCategory" && (
+            )} */}
+            {/* {couponType === "subCategory" && (
               <div className="mt-4">
                 <SelectInput<CouponUpdateFormData>
                   label="Sub Category"
@@ -290,9 +289,9 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                   inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-            )}
+            )} */}
 
-            {couponType === "brand" && (
+            {/* {couponType === "brand" && (
               <div className="mt-4">
                 <SelectInput<CouponUpdateFormData>
                   label="Brand"
@@ -307,7 +306,7 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                   inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-            )}
+            )} */}
 
             {/* Action Buttons */}
             <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">

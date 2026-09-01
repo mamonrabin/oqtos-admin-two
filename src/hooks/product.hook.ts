@@ -68,6 +68,8 @@ export const useAllProducts = ({
   });
 };
 
+
+
 // export const useAllProducts = (filters: ProductFilter) => {
 //   return useQuery({
 //     queryKey: ["products", filters],

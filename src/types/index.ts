@@ -133,6 +133,8 @@ export type TCampaign = {
   title: string;
   image?: string;
   status?: string;
+  couponType?: string;
+  campaigntype?: string;
   couponId: TCoupon;
 };
 
@@ -151,6 +153,9 @@ export type TUser = {
   phone: string;
   image: string;
   picture: string;
+  affiliateStatus:string;
+  affiliateCoupon:string;
+  affiliateLink:string[];
   auths: TAuth[];
   role: string;
   createdAt: string;
@@ -166,6 +171,18 @@ export type TBanner = {
   link?: string;
   type: string;
 };
+export type TBlog = {
+  _id: string;
+  title: string;
+  cardDescription: string;
+  content: string;
+  image: string;
+  images: string;
+  tags: string[];
+  status: string;
+  slug: string;
+
+};
 
 export type TPolicy = {
   _id: string;
@@ -175,6 +192,11 @@ export type TPolicy = {
   type: string;
 };
 export type TAbout = {
+  _id: string;
+  description: string;
+  type: string;
+};
+export type TAffiliate = {
   _id: string;
   description: string;
   type: string;

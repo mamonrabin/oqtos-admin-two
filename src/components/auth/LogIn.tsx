@@ -36,7 +36,7 @@ const LogIn = () => {
 
    const { mutate, isPending } = useSingIn();
 
-   console.log(AxiosInstance.defaults.baseURL);
+  
 
   const onSubmit = async (data: LoginForm) => {
   const payload = {

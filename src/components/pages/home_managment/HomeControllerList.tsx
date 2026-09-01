@@ -39,7 +39,7 @@ const pagesections = [
   { label: "About", value: "About" },
   { label: "Brands", value: "Brands" },
   { label: "Testimonials", value: "Testimonials" },
-  { label: "FAQ", value: "FAQ" },
+  { label: "Blog", value: "Blog" },
   { label: "Newsletter", value: "Newsletter" },
 ];
 const ordersections = [
