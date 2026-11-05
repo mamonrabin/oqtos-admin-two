@@ -8,7 +8,7 @@ import { useUpdateAbout } from "@/hooks/about.hook";
 
 
 import RichTextEditor from "@/reuseble_components/RichTextEditor";
-import SelectInput from "@/reuseble_components/SelectInput";
+
 import { TAbout} from "@/types";
 import { SquarePen } from "lucide-react";
 import { useState } from "react";
@@ -76,7 +76,7 @@ const EditAbout = ({ about }: EditAboutProps) => {
           </button>
         </SheetTrigger>
 
-        <SheetContent className="!max-w-2xl p-0 overflow-y-scroll">
+        <SheetContent className="!max-w-3xl p-0 overflow-y-scroll">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-white">
             <div>
@@ -88,7 +88,7 @@ const EditAbout = ({ about }: EditAboutProps) => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="md:p-6 p-3 space-y-6">
             {/* Current Category Preview */}
 
            

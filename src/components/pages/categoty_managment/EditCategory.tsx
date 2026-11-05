@@ -154,7 +154,7 @@ const EditCategory = ({ category }: EditCategoryProps) => {
               </button>
               <button
                 disabled={isPending}
-                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+                className="md:text-base text-xs  px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
                 type="submit"
               >
                 {isPending ? (

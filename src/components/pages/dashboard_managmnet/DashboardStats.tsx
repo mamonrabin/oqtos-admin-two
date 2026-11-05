@@ -44,26 +44,26 @@ const DashboardStats = ({ statsData }: DashboardStatsProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-2 lg:grid-cols-4 md:gap-4 gap-2 mb-6">
       {stats.map((stat, index) => {
         const Icon = stat.icon;
 
         return (
           <div
             key={index}
-            className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow"
+            className="bg-white rounded-xl border border-gray-200 md:p-5 p-4 shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-gray-500 font-medium">
                   {stat.title}
                 </p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="md:text-2xl text-base font-bold text-gray-900 mt-1">
                   {stat.value}
                 </p>
               </div>
 
-              <div className={`${stat.color} p-2.5 rounded-lg`}>
+              <div className={`${stat.color} md:p-2.5 p-1.5 rounded-lg`}>
                 <Icon size={18} className="text-white" />
               </div>
             </div>

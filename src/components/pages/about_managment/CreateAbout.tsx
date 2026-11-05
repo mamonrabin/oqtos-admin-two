@@ -47,7 +47,7 @@ const CreateAbout = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 md:p-6 p-3">
       {/* Header */}
       <div className="flex items-center gap-3 pb-6 border-b border-gray-200">
         <div className="bg-blue-50 p-2.5 rounded">

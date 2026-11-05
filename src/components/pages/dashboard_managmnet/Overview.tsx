@@ -48,17 +48,17 @@ const Overview = () => {
     <div>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Overview</h1>
           <p className="text-sm text-gray-500">
             Welcome back! Here s what s happening with your store today.
           </p>
         </div>
         <div className="flex items-center gap-3 mt-3 sm:mt-0">
           <DaySelector/>
-          <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm hover:shadow-md">
+          {/* <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm hover:shadow-md">
             <Download size={16} />
             Export
-          </button>
+          </button> */}
         </div>
       </div>
 

@@ -105,7 +105,7 @@ const OrderSelector: React.FC<ProductProps> = ({
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 border-b border-gray-200">
+      <div className="flex flex-row sm:items-center justify-between gap-4 p-6 border-b border-gray-200">
         <div className="flex items-center gap-4">
           <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-xl shadow-sm">
             <svg

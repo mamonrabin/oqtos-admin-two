@@ -52,7 +52,6 @@ const BannerList = () => {
   const banners = bannerList?.data;
   //   const meta = bannersList?.data?.meta;
 
-
   const handleDelete = (id: string) => {
     toast("Delete Banner?", {
       description: "This banner will be permanently deleted.",
@@ -132,7 +131,7 @@ const BannerList = () => {
 
                     <TableCell className="py-3 px-4">
                       <span className="text-sm font-semibold text-gray-900">
-                        {banner?.title?.slice(0,20) || "N/A"}..
+                        {banner?.title?.slice(0, 20) || "N/A"}..
                       </span>
                     </TableCell>
 
@@ -154,10 +153,13 @@ const BannerList = () => {
                         {banner.type || "N/A"}
                       </span>
                     </TableCell>
-                    <TableCell className="py-3 px-4">
-                      <span className="text-sm text-gray-700">
+                    <TableCell className="px-2 py-3 sm:px-4">
+                      <p
+                        className="max-w-[120px] truncate text-xs text-gray-700 sm:max-w-[200px] sm:text-sm lg:max-w-[300px] xl:max-w-[400px]"
+                        title={banner.description || "N/A"}
+                      >
                         {banner.description || "N/A"}
-                      </span>
+                      </p>
                     </TableCell>
 
                     <TableCell className="py-3 px-4">
@@ -168,46 +170,11 @@ const BannerList = () => {
 
                     <TableCell className="py-3 px-4">
                       <span className="text-sm text-gray-700">
-                        {banner?.link?.slice(0,20) || "N/A"}..
+                        {banner?.link?.slice(0, 20) || "N/A"}..
                       </span>
                     </TableCell>
 
                     <TableCell className="py-3 px-3">
-                      {/* <Select
-                        defaultValue={banner.status ? banner.status : "N/A"}
-                        onValueChange={(value) => {
-                          const formData = new FormData();
-                          formData.append("status", value);
-
-                          mutate(
-                            {
-                              id: banner._id,
-                              formData,
-                            },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
-                          );
-                        }}
-                      >
-                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Active">Active</SelectItem>
-                          <SelectItem value="InActive">InActive</SelectItem>
-                        </SelectContent>
-                      </Select> */}
                       <StatusSelect
                         value={banner.status ?? "Active"}
                         options={statusOptions}

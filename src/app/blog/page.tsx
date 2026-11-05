@@ -7,7 +7,7 @@ const Blog = () => {
   return (
     <div className="flex flex-col gap-4  rounded md:p-8 p-4 shadow bg-secondary mt-8 relative bottom-4">
       <div className="bg-white rounded-xl shadow-xs border border-gray-200 overflow-hidden">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between gap-4 p-6 border-b border-gray-200">
           <div className="flex items-center gap-4">
             <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-xl shadow-sm">
               <BookOpen size={20} className="text-white" />
@@ -27,7 +27,7 @@ const Blog = () => {
             <Link href="blog/create-blog">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md cursor-pointer">
                 <FilePlus size={16} />
-                <span className="hidden md:inline">Add Blog</span>
+                <span className="">Add Blog</span>
               </div>
             </Link>
           </div>

@@ -7,7 +7,7 @@ export const createReview = async (formData: FormData) => {
 
 export const getAllReviews = async (page: number, limit: number) => {
   const { data } = await AxiosInstance.get(
-    `/review?page=${page}&limit=${limit}`,
+    `/review/all?page=${page}&limit=${limit}`,
   );
   return data;
 };
@@ -23,7 +23,7 @@ export const updateReview = async ({
 }: {
   id: string;
   payload: {
-    type: string;
+    status: string;
   };
 }) => {
   const { data } = await AxiosInstance.patch(`/review/${id}`, payload);

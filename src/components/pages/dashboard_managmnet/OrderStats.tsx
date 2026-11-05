@@ -20,7 +20,7 @@ const OrderStats: React.FC<OrderStatsProps> = ({ orderData, userData }) => {
       <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-5 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-blue-100 text-sm font-medium">Orders Today</p>
+            <p className="text-blue-100 text-sm font-medium">Today Orders</p>
             <p className="text-3xl font-bold mt-1">
               {orderData?.orderToday ?? 0}
             </p>
@@ -86,7 +86,7 @@ const OrderStats: React.FC<OrderStatsProps> = ({ orderData, userData }) => {
       </div>
 
       {/* New Users 30 Days */}
-      <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-5 text-white shadow-lg">
+      {/* <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-5 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-orange-100 text-sm font-medium">
@@ -108,7 +108,7 @@ const OrderStats: React.FC<OrderStatsProps> = ({ orderData, userData }) => {
             Total Users: {totalUsers}
           </span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

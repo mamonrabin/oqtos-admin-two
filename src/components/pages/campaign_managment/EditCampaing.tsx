@@ -158,7 +158,7 @@ const EditCampaing = ({ compain }: EditCampaingProps) => {
               </button>
               <button
                 disabled={isPending}
-                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+                className="px-6 py-2 md:text-base text-sm bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
                 type="submit"
               >
                 {isPending ? (
@@ -186,7 +186,7 @@ const EditCampaing = ({ compain }: EditCampaingProps) => {
                     Updating...
                   </span>
                 ) : (
-                  "Update Campaing"
+                  "Update"
                 )}
               </button>
             </div>

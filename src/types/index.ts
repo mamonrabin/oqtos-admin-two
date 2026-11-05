@@ -153,9 +153,9 @@ export type TUser = {
   phone: string;
   image: string;
   picture: string;
-  affiliateStatus:string;
-  affiliateCoupon:string;
-  affiliateLink:string[];
+  affiliateStatus: string;
+  affiliateCoupon: string;
+  affiliateLink: string[];
   auths: TAuth[];
   role: string;
   createdAt: string;
@@ -181,7 +181,6 @@ export type TBlog = {
   tags: string[];
   status: string;
   slug: string;
-
 };
 
 export type TPolicy = {
@@ -235,6 +234,7 @@ export type TReview = {
   rating: number;
   comment: string;
   type: string;
+  status: string;
 };
 
 export type TOrderProduct = {
@@ -417,5 +417,13 @@ export type THomeControll = {
   subTitle: string;
   landing: string;
   order: string;
+  status: string;
+  sliderStatus: string;
+};
+export type TTheme = {
+    _id: string;
+  primary: string;
+  secondary: string;
+  font: string;
   status: string;
 };

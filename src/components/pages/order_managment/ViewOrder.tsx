@@ -4,7 +4,6 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   Eye,
-
   Package,
   User,
   MapPin,
@@ -28,8 +27,7 @@ interface ViewOrderProps {
 }
 
 const ViewOrder = ({ order }: ViewOrderProps) => {
-
-     const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const getStatusColor = (status?: string) => {
     const colors: Record<string, string> = {
@@ -43,7 +41,9 @@ const ViewOrder = ({ order }: ViewOrderProps) => {
       IN_REVIEW: "bg-gray-100 text-gray-800",
       RETURNED: "bg-pink-100 text-pink-800",
     };
-    return status ? colors[status] || "bg-gray-100 text-gray-800" : "bg-gray-100 text-gray-800";
+    return status
+      ? colors[status] || "bg-gray-100 text-gray-800"
+      : "bg-gray-100 text-gray-800";
   };
 
   const getPaymentStatusColor = (status?: string) => {
@@ -56,7 +56,10 @@ const ViewOrder = ({ order }: ViewOrderProps) => {
     <div>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-           <button className="p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-all duration-200 hover:shadow-sm" title="View Order">
+          <button
+            className="p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-all duration-200 hover:shadow-sm"
+            title="View Order"
+          >
             <Eye size={16} />
           </button>
         </SheetTrigger>
@@ -77,9 +80,10 @@ const ViewOrder = ({ order }: ViewOrderProps) => {
                 </p>
               </div>
             </div>
-            <button 
-            onClick={() => setOpen(false)}
-            className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
+            <button
+              onClick={() => setOpen(false)}
+              className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+            >
               <X size={18} className="text-gray-500" />
             </button>
           </div>
@@ -264,164 +268,209 @@ const ViewOrder = ({ order }: ViewOrderProps) => {
             </div>
 
             {/* Products */}
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-              <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
+            <div className="min-w-0 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+              {/* Header */}
+              <div className="border-b border-gray-200 bg-gray-50 px-3 py-3 sm:px-4">
                 <div className="flex items-center gap-2">
-                  <ShoppingBag size={16} className="text-gray-500" />
+                  <ShoppingBag size={16} className="shrink-0 text-gray-500" />
                   <h3 className="text-sm font-semibold text-gray-700">
                     Products ({order?.products?.length || 0})
                   </h3>
                 </div>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50/50">
+
+              {/* Responsive Table */}
+              <div className="w-full overflow-x-auto overscroll-x-contain">
+                <table className="w-full min-w-[750px] text-left">
+                  <thead className="bg-gray-50/70">
                     <tr>
-                      <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-2">
-                        #
-                      </th>
-                      <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-2">
-                        Product
-                      </th>
-                      <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-2">
-                        Color
-                      </th>
-                      <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-2">
-                        Size
-                      </th>
-                      <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-2">
-                        Qty
-                      </th>
-                      <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-2">
-                        Price
-                      </th>
-                      <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider px-4 py-2">
-                        Total
-                      </th>
+                      {[
+                        "#",
+                        "Product",
+                        "Color",
+                        "Size",
+                        "Qty",
+                        "Price",
+                        "Total",
+                      ].map((heading) => (
+                        <th
+                          key={heading}
+                          className="whitespace-nowrap px-3 py-3 text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-4"
+                        >
+                          {heading}
+                        </th>
+                      ))}
                     </tr>
                   </thead>
+
                   <tbody className="divide-y divide-gray-100">
-                    {order?.products?.map((item: any, index: number) => (
-                      <tr
-                        key={item._id}
-                        className="hover:bg-gray-50/50 transition-colors"
-                      >
-                        <td className="px-4 py-2 text-sm text-gray-500">
-                          {index + 1}
-                        </td>
-                        <td className="px-4 py-2">
-                          <p className="text-sm font-medium text-gray-900">
-                            {item.productRef?.title || "N/A"}
-                          </p>
-                          <p className="text-xs text-gray-400">
-                            ID: {item.productRef?._id?.slice(0, 8) || "N/A"}
-                          </p>
-                        </td>
-                        <td className="px-4 py-2">
-                          <span className="text-sm text-gray-700">
+                    {order?.products?.length ? (
+                      order.products.map((item: any, index: number) => (
+                        <tr
+                          key={item._id || index}
+                          className="transition-colors hover:bg-gray-50/70"
+                        >
+                          {/* Index */}
+                          <td className="whitespace-nowrap px-3 py-3 text-sm text-gray-500 sm:px-4">
+                            {index + 1}
+                          </td>
+
+                          {/* Product */}
+                          <td className="max-w-[240px] px-3 py-3 sm:px-4">
+                            <p
+                              title={item.productRef?.title || "N/A"}
+                              className="truncate text-sm font-medium text-gray-900"
+                            >
+                              {item.productRef?.title || "N/A"}
+                            </p>
+                            <p className="mt-1 text-xs text-gray-400">
+                              ID: {item.productRef?._id?.slice(0, 8) || "N/A"}
+                            </p>
+                          </td>
+
+                          {/* Color */}
+                          <td className="whitespace-nowrap px-3 py-3 text-sm text-gray-700 sm:px-4">
                             {item.color || "N/A"}
-                          </span>
-                        </td>
-                        <td className="px-4 py-2">
-                          <span className="text-sm text-gray-700">
+                          </td>
+
+                          {/* Size */}
+                          <td className="whitespace-nowrap px-3 py-3 text-sm text-gray-700 sm:px-4">
                             {item.size || "N/A"}
-                          </span>
-                        </td>
-                        <td className="px-4 py-2">
-                          <span className="text-sm font-medium text-gray-900">
+                          </td>
+
+                          {/* Quantity */}
+                          <td className="whitespace-nowrap px-3 py-3 text-sm font-medium text-gray-900 sm:px-4">
                             {item.quantity}
-                          </span>
-                        </td>
-                        <td className="px-4 py-2">
-                          <span className="text-sm text-gray-700">
-                            ৳{item.price}
-                          </span>
-                        </td>
-                        <td className="px-4 py-2">
-                          <span className="text-sm font-semibold text-blue-600">
-                            ৳{item.price * item.quantity}
-                          </span>
+                          </td>
+
+                          {/* Price */}
+                          <td className="whitespace-nowrap px-3 py-3 text-sm text-gray-700 sm:px-4">
+                            ৳{Number(item.price || 0).toLocaleString("en-BD")}
+                          </td>
+
+                          {/* Total */}
+                          <td className="whitespace-nowrap px-3 py-3 text-sm font-semibold text-blue-600 sm:px-4">
+                            ৳
+                            {(
+                              Number(item.price || 0) *
+                              Number(item.quantity || 0)
+                            ).toLocaleString("en-BD")}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={7}
+                          className="px-4 py-8 text-center text-sm text-gray-400"
+                        >
+                          No products found for this order.
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
+
+                  {/* ORDER SUMMARY */}
                   <tfoot className="bg-gray-50">
                     <tr>
                       <td
                         colSpan={5}
-                        className="px-4 py-2 text-right text-sm font-medium text-gray-700"
+                        className="px-3 py-3 text-right text-sm font-medium text-gray-700 sm:px-4"
                       >
                         Subtotal:
                       </td>
                       <td
                         colSpan={2}
-                        className="px-4 py-2 text-sm font-semibold text-gray-900"
+                        className="whitespace-nowrap px-3 py-3 text-sm font-semibold text-gray-900 sm:px-4"
                       >
-                        ৳{order?.subTotalPrice || 0}
+                        ৳
+                        {Number(order?.subTotalPrice || 0).toLocaleString(
+                          "en-BD",
+                        )}
                       </td>
                     </tr>
-                    {(order?.couponRef?.discount ?? 0) > 0 && (
+
+                    {Number(order?.couponRef?.discount ?? 0) > 0 && (
                       <tr>
                         <td
                           colSpan={5}
-                          className="px-4 py-2 text-right text-sm font-medium text-green-600"
+                          className="px-3 py-3 text-right text-sm font-medium text-green-600 sm:px-4"
                         >
                           Discount ({order?.couponRef?.code}):
                         </td>
                         <td
                           colSpan={2}
-                          className="px-4 py-2 text-sm font-semibold text-green-600"
+                          className="whitespace-nowrap px-3 py-3 text-sm font-semibold text-green-600 sm:px-4"
                         >
-                          -৳{order?.couponRef?.discount ?? 0}
+                          -৳
+                          {Number(
+                            order?.couponRef?.discount || 0,
+                          ).toLocaleString("en-BD")}
                         </td>
                       </tr>
                     )}
+
                     {Number(order?.discount ?? 0) > 0 && !order?.couponRef && (
                       <tr>
                         <td
                           colSpan={5}
-                          className="px-4 py-2 text-right text-sm font-medium text-green-600"
+                          className="px-3 py-3 text-right text-sm font-medium text-green-600 sm:px-4"
                         >
                           Discount:
                         </td>
                         <td
                           colSpan={2}
-                          className="px-4 py-2 text-sm font-semibold text-green-600"
+                          className="whitespace-nowrap px-3 py-3 text-sm font-semibold text-green-600 sm:px-4"
                         >
-                          -৳{order?.discount}
+                          -৳
+                          {Number(order?.discount || 0).toLocaleString("en-BD")}
                         </td>
                       </tr>
                     )}
+
                     <tr>
                       <td
                         colSpan={5}
-                        className="px-4 py-2 text-right text-sm font-medium text-gray-700"
+                        className="px-3 py-3 text-right text-sm font-medium text-gray-700 sm:px-4"
                       >
                         Shipping:
                       </td>
                       <td
                         colSpan={2}
-                        className="px-4 py-2 text-sm font-semibold text-gray-900"
+                        className="whitespace-nowrap px-3 py-3 text-sm font-semibold text-gray-900 sm:px-4"
                       >
-                        ৳{order?.shippingCost || 0}
+                        ৳
+                        {Number(order?.shippingCost || 0).toLocaleString(
+                          "en-BD",
+                        )}
                       </td>
                     </tr>
-                    <tr className="border-t-2 border-gray-200">
+
+                    <tr className="border-t-2 border-gray-200 bg-blue-50/50">
                       <td
                         colSpan={5}
-                        className="px-4 py-2 text-right text-sm font-bold text-gray-900"
+                        className="px-3 py-3 text-right text-sm font-bold text-gray-900 sm:px-4"
                       >
                         Total:
                       </td>
                       <td
                         colSpan={2}
-                        className="px-4 py-2 text-sm font-bold text-blue-600"
+                        className="whitespace-nowrap px-3 py-3 text-sm font-bold text-blue-600 sm:px-4"
                       >
-                        ৳{order?.totalPrice || 0}
+                        ৳
+                        {Number(order?.totalPrice || 0).toLocaleString("en-BD")}
                       </td>
                     </tr>
                   </tfoot>
                 </table>
+              </div>
+
+              {/* Mobile scroll hint */}
+              <div className="border-t border-gray-100 px-3 py-2 text-[11px] text-gray-400 sm:hidden">
+                <span className="inline-flex items-center gap-1">
+                  Swipe horizontally to view all product details
+                  <span aria-hidden="true">→</span>
+                </span>
               </div>
             </div>
 
@@ -469,9 +518,10 @@ const ViewOrder = ({ order }: ViewOrderProps) => {
 
             {/* Close Button */}
             <div className="flex justify-end">
-              <button 
-              onClick={() => setOpen(false)}
-              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md">
+              <button
+                onClick={() => setOpen(false)}
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+              >
                 Close
               </button>
             </div>

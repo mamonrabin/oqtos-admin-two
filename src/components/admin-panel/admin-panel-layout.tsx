@@ -23,7 +23,7 @@ export default function AdminPanelLayout({
       
       <main
         className={cn(
-          "min-h-screen bg-[#F4F4F5] dark:bg-zinc-900 transition-all duration-300 px-6",
+          "min-h-screen bg-[#F4F4F5] dark:bg-zinc-900 transition-all duration-300 md:px-6",
           isOpen ? "lg:ml-64" : "md:ml-16",
         )}
       >

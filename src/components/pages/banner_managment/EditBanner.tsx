@@ -131,7 +131,7 @@ useEffect(() => {
           </button>
         </SheetTrigger>
 
-        <SheetContent className="!max-w-2xl p-0">
+        <SheetContent className="!max-w-2xl p-0 overflow-y-scroll">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-white">
             <div>

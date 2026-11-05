@@ -30,12 +30,18 @@ const statusOptions = [
   { label: "Active", value: "Active" },
   { label: "Inactive", value: "InActive" },
 ];
+const sliderOptions = [
+  { label: "withslider", value: "withslider" },
+  { label: "withoutslider", value: "withoutslider" },
+];
 const pagesections = [
   { label: "Categories", value: "Categories" },
   { label: "Best Selling", value: "Best Selling" },
   { label: "Flash Sale", value: "Flash Sale" },
   { label: "Featured Products", value: "Featured Products" },
   { label: "New Arrivals", value: "New Arrivals" },
+  { label: "Top Rated", value: "Top Rated" },
+  { label: "Trending", value: "Trending" },
   { label: "About", value: "About" },
   { label: "Brands", value: "Brands" },
   { label: "Testimonials", value: "Testimonials" },
@@ -53,6 +59,8 @@ const ordersections = [
   { label: "eighth", value: "eighth" },
   { label: "ninth", value: "ninth" },
   { label: "tenth", value: "tenth" },
+  { label: "eleventh", value: "eleventh" },
+  { label: "twelfth", value: "twelfth" },
 ];
 
 const tableHeaders = [
@@ -62,6 +70,7 @@ const tableHeaders = [
   "section type",
   "order List",
   "status",
+  "slider",
   "Actions",
 ];
 
@@ -220,6 +229,26 @@ const HomeControllerList = () => {
                               id: item._id,
                               payload: {
                                 status,
+                              },
+                            },
+                            mutationToast,
+                          );
+                        }}
+                      />
+                    </TableCell>
+
+
+                    <TableCell className="py-3 px-4">
+                      <StatusSelect
+                        value={item.sliderStatus ?? "withslider"}
+                        options={sliderOptions}
+                        className="w-[130px]"
+                        onChange={(sliderStatus) => {
+                          mutate(
+                            {
+                              id: item._id,
+                              payload: {
+                                sliderStatus,
                               },
                             },
                             mutationToast,

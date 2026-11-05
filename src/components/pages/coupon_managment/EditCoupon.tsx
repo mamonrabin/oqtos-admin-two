@@ -3,36 +3,27 @@
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-import { useAllBrands } from "@/hooks/brand.hook";
-import { useAllCategories } from "@/hooks/category.hook";
+
 import { useUpdateCoupon } from "@/hooks/coupon.hook";
-import { useAllSubCategories } from "@/hooks/subCategory.hook";
+
 
 import InputField from "@/reuseble_components/InputField";
 import SelectInput from "@/reuseble_components/SelectInput";
-import { TBrand, TCategory, TCoupon, TSubCategory } from "@/types";
+import {  TCoupon } from "@/types";
 import { SquarePen } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-// type EditFormData = {
-//   categoryName: string;
-//   title: string;
-//   image: FileList;
-// };
+
 
 const discountType = [
   { label: "Flat", value: "flat" },
   { label: "Percentage", value: "percentage" },
 ];
 
-// const couponTypes = [
-//   { label: "Category wise", value: "category" },
-//   { label: "Sub-Category wise", value: "subCategory" },
-//   { label: "Brand wise", value: "brand" },
-// ];
+
 
 interface EditCouponProps {
   coupon: TCoupon;
@@ -144,10 +135,6 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
         perUserLimit: coupon.perUserLimit,
         startDate: new Date(coupon.startDate),
         expireDate: new Date(coupon.expireDate),
-        // couponType: coupon.couponType,
-        // categoryID: coupon.categoryID?._id,
-        // subCategoryID: coupon.subCategoryID?._id,
-        // brandID: coupon.brandID?._id,
       });
     }
   }, [open, coupon, reset]);
@@ -161,7 +148,7 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
           </button>
         </SheetTrigger>
 
-        <SheetContent className="md:!max-w-4xl !w-full p-0">
+        <SheetContent className="md:!max-w-4xl !w-full p-0 overflow-y-scroll">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4 bg-white">
             <div>
@@ -247,66 +234,10 @@ const EditCoupon = ({ coupon }: EditCouponProps) => {
                 inputstyle="w-full rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               />
 
-              {/* <SelectInput<CouponUpdateFormData>
-                label="Coupon Type"
-                name="couponType"
-                options={couponTypes}
-                control={control}
-                placeholder={coupon.couponType}
-                error={errors.couponType}
-                inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              /> */}
+             
             </div>
 
-            {/* {couponType === "category" && (
-              <div className="mt-4">
-                <SelectInput<CouponUpdateFormData>
-                  label="Category"
-                  name="categoryID"
-                  options={categories?.map((category: TCategory) => ({
-                    label: category.categoryName,
-                    value: category._id,
-                  }))}
-                  placeholder={coupon?.categoryID?.categoryName}
-                  control={control}
-                  error={errors.categoryID}
-                  inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            )} */}
-            {/* {couponType === "subCategory" && (
-              <div className="mt-4">
-                <SelectInput<CouponUpdateFormData>
-                  label="Sub Category"
-                  name="subCategoryID"
-                  options={subCategories?.map((subcategory: TSubCategory) => ({
-                    label: subcategory.subcategoryName,
-                    value: subcategory._id,
-                  }))}
-                  placeholder={coupon?.subCategoryID?.subcategoryName}
-                  control={control}
-                  error={errors.subCategoryID}
-                  inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            )} */}
-
-            {/* {couponType === "brand" && (
-              <div className="mt-4">
-                <SelectInput<CouponUpdateFormData>
-                  label="Brand"
-                  name="brandID"
-                  options={brands?.map((brand: TBrand) => ({
-                    label: brand.title,
-                    value: brand._id,
-                  }))}
-                  placeholder={coupon?.brandID?.title}
-                  control={control}
-                  error={errors.brandID}
-                  inputstyle="rounded !w-full !h-[42px] border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            )} */}
+   
 
             {/* Action Buttons */}
             <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">

@@ -9,13 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 
 import { Trash, FolderOpen } from "lucide-react";
 
@@ -32,6 +26,13 @@ import {
   useUpdateReview,
 } from "@/hooks/review.hook";
 import ReviewText from "./ReviewText";
+import StatusSelect from "@/reuseble_components/StatusSelect";
+import { mutationToast } from "@/reuseble_components/MutationToast";
+
+const statusOptions = [
+  { label: "pending", value: "pending" },
+  { label: "approve", value: "approve" },
+];
 
 const tableHeaders = [
   "SL",
@@ -53,10 +54,8 @@ const ReviewList = () => {
 
   const { mutate: deleteReview } = useDeleteReview();
 
-  const reviews = reviewList?.data;
+  const reviews = reviewList?.data?.data;
   const meta = reviewList?.data?.meta;
-
-
 
   const handleDelete = (id: string) => {
     toast("Delete Review?", {
@@ -160,42 +159,24 @@ const ReviewList = () => {
                       </span>
                     </TableCell>
                     <TableCell className="py-3 px-4">
-                      <Select
-                        defaultValue={review.type}
-                        onValueChange={(value) => {
+                      <StatusSelect
+                        value={review.status ?? "pending"}
+                        options={statusOptions}
+                        className="w-[100px]"
+                        onChange={(status) => {
+                          const formData = new FormData();
+                          formData.append("status", status);
                           mutate(
                             {
                               id: review._id,
                               payload: {
-                                type: value,
+                                status,
                               },
                             },
-                            {
-                              onSuccess: (res) => {
-                                toast.success(
-                                  res?.message || "Status updated successfully",
-                                );
-                              },
-                              onError: (error: any) => {
-                                toast.error(
-                                  error?.response?.data?.message ||
-                                    "Something went wrong.",
-                                );
-                              },
-                            },
+                            mutationToast,
                           );
                         }}
-                      >
-                        <SelectTrigger className="w-[110px] h-8 text-xs rounded-lg border-gray-300">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                          
-                          <SelectItem value="pending">pending</SelectItem>
-                          <SelectItem value="approve">approve</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      />
                     </TableCell>
 
                     <TableCell className="py-3 px-4">

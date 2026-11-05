@@ -17,17 +17,20 @@ import {
   Pencil,
 } from "lucide-react";
 
-import { useAllCustomeDesign, useUpdateCustomeDesign } from "@/hooks/customeDesign.hook";
+import {
+  useAllCustomeDesign,
+  useUpdateCustomeDesign,
+} from "@/hooks/customeDesign.hook";
 import { mutationToast } from "@/reuseble_components/MutationToast";
 import StatusSelect from "@/reuseble_components/StatusSelect";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
-
 
 const designOptions = {
   bannerType: [
     { label: "Default", value: "Default" },
     { label: "Second Banner", value: "SecondBanner" },
     { label: "Third Banner", value: "ThirdBanner" },
+    { label: "Fourth Banner", value: "FourthBanner" },
   ],
 
   categorySection: [
@@ -46,6 +49,18 @@ const designOptions = {
     { label: "Default", value: "Default" },
     { label: "Second Card", value: "SecondCard" },
     { label: "Third Card", value: "ThirdCard" },
+  ],
+  cardCount: [
+    { label: "Default", value: "4cards" },
+    { label: "3 Cards", value: "3cards" },
+    { label: "5 Cards", value: "5cards" },
+    { label: "6 Cards", value: "6cards" },
+  ],
+  shopCardCount: [
+    { label: "Default", value: "4cards" },
+    { label: "3 Cards", value: "3cards" },
+    { label: "5 Cards", value: "5cards" },
+    { label: "6 Cards", value: "6cards" },
   ],
 
   flashBanner: [
@@ -95,11 +110,7 @@ const CustomeDesignList = () => {
 
   const design = designList?.data?.[0];
 
-  const updateDesign = (
-    section: string,
-    field: string,
-    value: string,
-  ) => {
+  const updateDesign = (section: string, field: string, value: string) => {
     if (!design?._id) return;
 
     mutate(
@@ -188,6 +199,18 @@ const CustomeDesignList = () => {
           value: design?.shop?.cardType,
           options: designOptions.cardType,
         },
+        {
+          label: "Card Count",
+          field: "cardCount",
+          value: design?.shop?.cardCount,
+          options: designOptions.cardCount,
+        },
+        {
+          label: "Shop Card Count",
+          field: "shopCardCount",
+          value: design?.shop?.shopCardCount,
+          options: designOptions.shopCardCount,
+        },
       ],
     },
     {
@@ -234,9 +257,7 @@ const CustomeDesignList = () => {
           </div>
 
           <div>
-            <h1 className="text-xl font-bold text-gray-900">
-              Custom Design
-            </h1>
+            <h1 className="text-xl font-bold text-gray-900">Custom Design</h1>
 
             <p className="mt-1 text-sm text-gray-500">
               Manage your website sections and choose the design you want to
@@ -301,17 +322,11 @@ const CustomeDesignList = () => {
                   <Table>
                     <TableHeader>
                       <TableRow className="hover:bg-transparent">
-                        <TableHead className="w-16 px-6">
-                          SL
-                        </TableHead>
+                        <TableHead className="w-16 px-6">SL</TableHead>
 
-                        <TableHead>
-                          Design Section
-                        </TableHead>
+                        <TableHead>Design Section</TableHead>
 
-                        <TableHead>
-                          Current Design
-                        </TableHead>
+                        <TableHead>Current Design</TableHead>
 
                         <TableHead className="text-right px-6">
                           Action

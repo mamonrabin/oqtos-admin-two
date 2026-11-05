@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { TGroup } from "@/types";
 import {
   LayoutGrid,
@@ -25,6 +25,7 @@ import {
   UserRoundPlus,
   UsersRound,
   Palette,
+  Paintbrush,
 } from "lucide-react";
 
 export function getMenuList(pathname: string): TGroup[] {
@@ -128,26 +129,26 @@ export function getMenuList(pathname: string): TGroup[] {
           ],
         },
 
-      {
-  href: "/affiliates",
-  label: "Affiliate",
-  active: pathname.includes("/affiliates"),
-  icon: Handshake,
-  submenus: [
-    {
-      href: "/affiliate/affiliate-user",
-      label: "Affiliate User",
-      active: pathname.includes("/affiliate/affiliate-user"),
-      icon: UserRoundPlus,
-    },
-    {
-      href: "/affiliate/affiliate",
-      label: "Affiliate",
-      active: pathname.includes("/affiliate/affiliate"),
-      icon: UsersRound,
-    },
-  ],
-},
+        {
+          href: "/affiliates",
+          label: "Affiliate",
+          active: pathname.includes("/affiliates"),
+          icon: Handshake,
+          submenus: [
+            {
+              href: "/affiliate/affiliate-user",
+              label: "Affiliate User",
+              active: pathname.includes("/affiliate/affiliate-user"),
+              icon: UserRoundPlus,
+            },
+            {
+              href: "/affiliate/affiliate",
+              label: "Affiliate",
+              active: pathname.includes("/affiliate/affiliate"),
+              icon: UsersRound,
+            },
+          ],
+        },
 
         {
           href: "/user",
@@ -156,7 +157,6 @@ export function getMenuList(pathname: string): TGroup[] {
           icon: Users,
           submenus: [],
         },
-
       ],
     },
     {
@@ -182,7 +182,7 @@ export function getMenuList(pathname: string): TGroup[] {
               active: pathname.includes("/about"),
               icon: Info,
             },
-           
+
             {
               href: "/blog",
               label: "Blog",
@@ -229,8 +229,15 @@ export function getMenuList(pathname: string): TGroup[] {
         },
         {
           href: "/custome-design",
-          label: "Custome Design",
+          label: "Custom Design",
           active: pathname.includes("/custome-design"),
+          icon: Paintbrush,
+          submenus: [],
+        },
+        {
+          href: "/custome-colors",
+          label: "Custom Colors",
+          active: pathname.includes("/custome-colors"),
           icon: Palette,
           submenus: [],
         },
@@ -241,7 +248,6 @@ export function getMenuList(pathname: string): TGroup[] {
       groupLabel: "Preferences",
 
       menus: [
-        
         {
           href: "/staffs",
           label: "Staffs",
@@ -253,7 +259,7 @@ export function getMenuList(pathname: string): TGroup[] {
           href: "/integration",
           label: "Integration",
           active: pathname.includes("/integration"),
-          icon:Workflow,
+          icon: Workflow,
           submenus: [],
         },
       ],

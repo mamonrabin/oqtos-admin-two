@@ -16,16 +16,19 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        "fixed md:block hidden top-0 left-0  z-50 bg-[#1C2C3F]  h-screen border-r dark:bg-zinc-950 shadow-md transition-all duration-300",
+        "fixed top-0 left-0 z-50 h-screen border-r bg-[#1C2C3F] shadow-md transition-all duration-300 dark:bg-zinc-950",
+        "hidden md:block",
         isOpen ? "w-64" : "w-20",
       )}
     >
       {/* HEADER AREA */}
-      <div className="relative flex items-center justify-center py-2 border-b border-[#ffffff1f]">
-        <Link href="/dashboard" className="">
+      <div className="relative flex items-center justify-center border-b border-[#ffffff1f] py-2">
+        <Link href="/dashboard">
           <div
-            className={`flex items-center  justify-center bg-[#1C2C3F] 
-            ${isOpen ? "pt-4.5" : "pt-4.25"} transition-all duration-200 ease-in-out  relative z-50`}
+            className={cn(
+              "relative z-50 flex items-center justify-center bg-[#1C2C3F] transition-all duration-200 ease-in-out",
+              isOpen ? "pt-4.5" : "pt-4.25",
+            )}
           >
             {isOpen ? (
               <Image
@@ -33,16 +36,16 @@ export function Sidebar() {
                 alt="Logo"
                 width={500}
                 height={500}
-                className="w-32 h-auto mb-5"
+                className="mb-5 h-auto w-32"
                 priority
               />
             ) : (
               <Image
                 src={responsiveLogo}
-                alt="responsiveLogo"
+                alt="Responsive Logo"
                 width={300}
                 height={300}
-                className="w-10 h-auto mb-5"
+                className="mb-5 h-auto w-10"
               />
             )}
           </div>
@@ -50,8 +53,15 @@ export function Sidebar() {
 
         {/* TOGGLE BUTTON */}
         <button
+          type="button"
           onClick={toggleSidebar}
-          className={`  ${isOpen ? "-right-4 top-5 p-1" : "-right-3 top-4 p-0.5 rotate-180"} absolute  bg-secondary text-primary rounded border border-primary/20 transition`}
+          aria-label="Toggle sidebar"
+          className={cn(
+            "absolute rounded border border-primary/20 bg-secondary text-primary transition",
+            isOpen
+              ? "-right-4 top-5 p-1"
+              : "-right-3 top-4 rotate-180 p-0.5",
+          )}
         >
           <ChevronRight size={18} />
         </button>
@@ -59,7 +69,10 @@ export function Sidebar() {
 
       {/* MENU AREA */}
       <div
-        className={` ${isOpen ? "h-[calc(100vh-100px)]" : "h-screen pb-12"} overflow-y-auto custom-scrollbar pt-4`}
+        className={cn(
+          "custom-scrollbar overflow-y-auto pt-4",
+          isOpen ? "h-[calc(100vh-100px)]" : "h-screen pb-12",
+        )}
       >
         <Menu isOpen={isOpen} />
       </div>

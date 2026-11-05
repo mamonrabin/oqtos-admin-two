@@ -113,7 +113,7 @@ const EditPolicy = ({ policy }: EditPolicyProps) => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="md:p-6 p-3 space-y-6">
     
 
             {/* Form Fields */}

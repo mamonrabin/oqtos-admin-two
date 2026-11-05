@@ -26,6 +26,7 @@ export const updatehomeController = async ({
     landing?: string;
     order?: string;
     status?: string;
+    sliderStatus?:string;
   };
 }) => {
   const { data } = await AxiosInstance.patch(`/home/${id}`, payload);
