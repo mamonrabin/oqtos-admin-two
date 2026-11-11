@@ -18,7 +18,6 @@ import {
   useUpdateCategory,
 } from "@/hooks/category.hook";
 import { useState } from "react";
-import { BASE_URL } from "@/config";
 import Image from "next/image";
 import { toast } from "sonner";
 import { TCategory } from "@/types";
@@ -152,10 +151,9 @@ const CategoryList = () => {
                         <Image
                           width={300}
                           height={300}
-                          src={BASE_URL + category.image}
+                          src={category.image}
                           alt={category.categoryName}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          unoptimized
                         />
                       </div>
                     </TableCell>

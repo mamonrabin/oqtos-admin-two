@@ -79,7 +79,7 @@ const ImageUpload = <T extends FieldValues>({
             width={300}
             height={160}
             className="h-40 w-full rounded-xl object-cover"
-            unoptimized
+            
           />
 
           <button

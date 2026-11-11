@@ -2,7 +2,7 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BASE_URL } from "@/config";
+
 
 import { TLogo } from "@/types";
 import { Ellipsis } from "lucide-react";
@@ -70,23 +70,23 @@ const FooterDescription: React.FC<DescriptionProps> = ({ logo }) => {
               <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                 <div className="aspect-square rounded-lg overflow-hidden border border-gray-200">
                   <Image
-                    src={`${BASE_URL}${headerLogo}`}
+                    src={headerLogo}
                     alt="HEARDELOGO"
                     width={200}
                     height={200}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    unoptimized
+                    
                   />
                 </div>
                 {logo.footerLogo ? (
                   <div className="aspect-square rounded-lg overflow-hidden border border-gray-200">
                     <Image
-                      src={`${BASE_URL}${footerLogo}`}
+                      src={footerLogo}
                       alt="HEARDELOGO"
                       width={200}
                       height={200}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      unoptimized
+                      
                     />
                   </div>
                 ) : (

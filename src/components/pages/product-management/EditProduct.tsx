@@ -2,7 +2,7 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BASE_URL } from "@/config";
+
 import { useAllBrands } from "@/hooks/brand.hook";
 import { useAllCategories } from "@/hooks/category.hook";
 import { useAllSubCategories } from "@/hooks/subCategory.hook";
@@ -83,9 +83,9 @@ const EditProduct: React.FC<productProps> = ({ product, refetch }) => {
   const { data: brandsList } = useAllBrands();
   const { mutate: updateProductMutation, isPending } = useUpdateProduct();
 
-  const categories = categorysList?.data?.data;
-  const subcategories = subcategorysList?.data?.data;
-  const brands = brandsList?.data?.data;
+  const categories = categorysList?.data;
+  const subcategories = subcategorysList?.data;
+  const brands = brandsList?.data;
 
   const [selectedCategory, setSelectedCategory] = useState<string>(
     product.category?._id || ""
@@ -382,7 +382,7 @@ const EditProduct: React.FC<productProps> = ({ product, refetch }) => {
                     name="thumbnailImage"
                     existingImage={
                       product.thumbnailImage
-                        ? `${BASE_URL}${product.thumbnailImage}`
+                        ? `${product.thumbnailImage}`
                         : undefined
                     }
                     register={register}
@@ -400,7 +400,7 @@ const EditProduct: React.FC<productProps> = ({ product, refetch }) => {
                     name="backviewImage"
                     existingImage={
                       product.backviewImage
-                        ? `${BASE_URL}${product.backviewImage}`
+                        ? `${product.backviewImage}`
                         : undefined
                     }
                     watch={watch}
@@ -418,7 +418,7 @@ const EditProduct: React.FC<productProps> = ({ product, refetch }) => {
                     register={register}
                     error={errors.images}
                     existingImages={
-                      product.images?.map((img) => `${BASE_URL}${img}`) || []
+                      product.images?.map((img) => `${img}`) || []
                     }
                   />
                   <p className="text-xs text-gray-400 mt-1">

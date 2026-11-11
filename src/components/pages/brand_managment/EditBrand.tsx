@@ -2,7 +2,7 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BASE_URL } from "@/config";
+
 import { useUpdateBrand } from "@/hooks/brand.hook";
 import ImageUpload from "@/reuseble_components/ImageUpload";
 import InputField from "@/reuseble_components/InputField";
@@ -114,7 +114,7 @@ const EditBrand = ({ brand }: EditBrandProps) => {
                 <ImageUpload
                   label="Brand Image"
                   name="image"
-                  existingImage={BASE_URL + brand.image}
+                  existingImage={brand.image}
                   watch={watch}
                   register={register}
                   error={errors.image}

@@ -11,7 +11,7 @@ import {
 
 import { Trash, FolderOpen } from "lucide-react";
 
-import { BASE_URL } from "@/config";
+
 import Image from "next/image";
 import { toast } from "sonner";
 import { TBanner } from "@/types";
@@ -140,10 +140,10 @@ const BannerList = () => {
                         <Image
                           width={300}
                           height={300}
-                          src={BASE_URL + banner.image}
+                          src={banner.image}
                           alt="banner"
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          unoptimized
+                          
                         />
                       </div>
                     </TableCell>

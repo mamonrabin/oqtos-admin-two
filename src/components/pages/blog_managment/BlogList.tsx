@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { BASE_URL } from "@/config";
+
 import {
   useAllBlogs,
   useDeleteBlog,
@@ -123,10 +123,10 @@ const BlogList = () => {
                         <Image
                           width={300}
                           height={300}
-                          src={BASE_URL + blog.image}
+                          src={blog.image}
                           alt="banner"
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          unoptimized
+                          
                         />
                       </div>
                     </TableCell>

@@ -194,7 +194,7 @@ const statusOptions = [
                             src={user.picture}
                             alt={user.name}
                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                            unoptimized
+                            
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">

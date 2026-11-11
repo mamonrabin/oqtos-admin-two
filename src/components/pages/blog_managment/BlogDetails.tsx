@@ -2,7 +2,7 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BASE_URL } from "@/config";
+
 import { TBlog } from "@/types";
 
 import { Ellipsis, X } from "lucide-react";
@@ -99,12 +99,12 @@ const BlogDetails: React.FC<blogDetailsProps> = ({ blog }) => {
                       className="aspect-square rounded-lg overflow-hidden border border-gray-200 bg-white"
                     >
                       <Image
-                        src={`${BASE_URL}${image}`}
+                        src={image}
                         alt={`Product image ${index + 1}`}
                         width={200}
                         height={200}
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        unoptimized
+                        
                       />
                     </div>
                   ))}

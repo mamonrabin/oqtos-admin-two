@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -5,12 +6,18 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { Eye, EyeOff, Mail, Lock, LogIn as LoginIcon } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  LogIn as LoginIcon,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 import logo from "@/assets/logo/qutox.webp";
 import { useSingIn } from "@/hooks/auth.hook";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { AxiosInstance } from "@/lib/AxiosInstance";
 
 type LoginForm = {
   email: string;
@@ -19,7 +26,7 @@ type LoginForm = {
 
 const LogIn = () => {
   const [showPassword, setShowPassword] = useState(false);
- const router = useRouter();
+  const router = useRouter();
 
   const {
     register,
@@ -33,50 +40,66 @@ const LogIn = () => {
     },
   });
 
+  const { mutate, isPending } = useSingIn();
 
-   const { mutate, isPending } = useSingIn();
+  const onSubmit = (data: LoginForm) => {
+    const payload = {
+      email: data.email.trim(),
+      password: data.password,
+    };
 
-  
+    mutate(payload, {
+      onSuccess: (res: any) => {
+        // Debug the actual response structure
+        console.log("LOGIN RESPONSE:", res);
 
-  const onSubmit = async (data: LoginForm) => {
-  const payload = {
-    email: data.email,
-    password: data.password,
+        // Support common response structures
+        const user =
+          res?.data?.user ??
+          res?.data?.data?.user ??
+          res?.user ??
+          res?.data?.data;
+
+        console.log("LOGIN USER:", user);
+        console.log("LOGIN ROLE:", user?.role);
+
+        if (!user) {
+          toast.error("Login succeeded, but user information was not found.");
+          return;
+        }
+
+        if (user.role !== "SUPER_ADMIN") {
+          toast.error(
+            `You are not authorized as Super Admin. Your role: ${user.role ?? "Unknown"}`,
+          );
+          return;
+        }
+
+        reset();
+        toast.success("Successfully logged in!");
+
+        // Redirect to dashboard
+        router.replace("/dashboard");
+        router.refresh();
+      },
+
+      onError: (error: any) => {
+        console.error("LOGIN ERROR:", error);
+
+        toast.error(
+          error?.response?.data?.message ??
+            error?.message ??
+            "Something went wrong. Please try again.",
+        );
+      },
+    });
   };
 
-  mutate(payload, {
-    onSuccess: (res) => {
-      const user = res?.data?.user;
-
-      if (user?.role !== "SUPER_ADMIN") {
-        toast.error("You are not authorized as Super Admin");
-        return;
-      }
-
-      reset();
-
-      toast.success(res?.message || "Successfully you get access");
-
-       
-
-      router.push("/dashboard");
-
-      
-    },
-
-    onError: (error: any) => {
-      toast.error(
-        error?.response?.data?.message ??
-          "Something went wrong. Please try again.",
-      );
-    },
-  });
-};
-
   return (
-    <div className="w-2xl rounded bg-white p-8 shadow md:p-12">
-      <div>
-        <Image src={logo} alt="logo" width={100} height={100} />
+    <div className="w-full max-w-2xl rounded bg-white p-8 shadow md:p-12">
+      <div className="mb-6">
+        <Image src={logo} alt="logo" width={100} height={100} priority />
+
         <p className="pb-2 text-base font-medium text-gray-600">
           Enter your registered email and password to login.
         </p>
@@ -85,7 +108,10 @@ const LogIn = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Email */}
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="text-sm font-medium text-gray-700"
+          >
             Email Address
           </label>
 
@@ -95,7 +121,9 @@ const LogIn = () => {
             </div>
 
             <input
+              id="email"
               type="email"
+              autoComplete="email"
               placeholder="superadmin@gmail.com"
               className="w-full rounded border border-gray-300 bg-gray-50 py-2.5 pr-4 pl-10 outline-none transition-all duration-200 hover:bg-white focus:border-transparent focus:ring-2 focus:ring-blue-500"
               {...register("email", {
@@ -109,13 +137,18 @@ const LogIn = () => {
           </div>
 
           {errors.email && (
-            <p className="text-sm text-red-500">{errors.email.message}</p>
+            <p className="text-sm text-red-500">
+              {errors.email.message}
+            </p>
           )}
         </div>
 
         {/* Password */}
         <div className="space-y-1.5">
-          <label className="text-sm font-medium text-gray-700">
+          <label
+            htmlFor="password"
+            className="text-sm font-medium text-gray-700"
+          >
             Password
           </label>
 
@@ -125,7 +158,9 @@ const LogIn = () => {
             </div>
 
             <input
+              id="password"
               type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
               placeholder="Enter your password"
               className="w-full rounded border border-gray-300 bg-gray-50 py-2.5 pr-12 pl-10 outline-none transition-all duration-200 hover:bg-white focus:border-transparent focus:ring-2 focus:ring-blue-500"
               {...register("password", {
@@ -140,9 +175,14 @@ const LogIn = () => {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
               className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 transition-colors hover:text-gray-600"
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? (
+                <EyeOff size={18} />
+              ) : (
+                <Eye size={18} />
+              )}
             </button>
           </div>
 
@@ -185,12 +225,14 @@ const LogIn = () => {
                   stroke="currentColor"
                   strokeWidth="4"
                 />
+
                 <path
                   className="opacity-75"
                   fill="currentColor"
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
+
               Signing in...
             </>
           ) : (

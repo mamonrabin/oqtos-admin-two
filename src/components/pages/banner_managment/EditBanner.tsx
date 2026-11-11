@@ -2,7 +2,7 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BASE_URL } from "@/config";
+
 import { useUpdateBanner } from "@/hooks/banner.hook";
 import { useAllCategories} from "@/hooks/category.hook";
 import ImageUpload from "@/reuseble_components/ImageUpload";
@@ -201,7 +201,7 @@ useEffect(() => {
                 label="Banner Image"
                 name="image"
                 watch={watch}
-                 existingImage={BASE_URL + banner.image || "N/A"}
+                 existingImage={banner.image || "N/A"}
                 register={register}
                 error={errors.image}
               />

@@ -124,7 +124,7 @@ const MultipleImageUpload = <T extends FieldValues>({
                   width={180}
                   height={180}
                   className="w-full h-36 object-cover"
-                  unoptimized
+                  
                 />
                 <button
                   type="button"
@@ -158,7 +158,7 @@ const MultipleImageUpload = <T extends FieldValues>({
                   width={180}
                   height={180}
                   className="w-full h-36 object-cover"
-                  unoptimized
+                  
                 />
                 <button
                   type="button"

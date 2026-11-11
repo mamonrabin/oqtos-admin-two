@@ -15,7 +15,6 @@ import Pagination from "@/reuseble_components/Paginations";
 import EditSubCategory from "./EditSubCategory";
 import { useState } from "react";
 import { useDeleteSubCategory, useSubCategories, useUpdateSubCategory } from "@/hooks/subCategory.hook";
-import { BASE_URL } from "@/config";
 import { TSubCategory } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { toast } from "sonner";
@@ -143,10 +142,10 @@ const SubCategoryList = () => {
                         <Image
                           width={300}
                           height={300}
-                          src={BASE_URL + subcategory.image}
+                          src={subcategory.image}
                           alt={subcategory.subcategoryName}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          unoptimized
+                          
                         />
                       </div>
                     </TableCell>

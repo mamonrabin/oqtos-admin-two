@@ -26,9 +26,12 @@ const CreateSubCategory = () => {
   // const categories = categorysList?.data?.data;
 
   const categories =
-  categorysList?.data?.data?.filter(
+  categorysList?.data?.filter(
     (category : TCategory) => category.status === "Active"
   ) ?? [];
+
+
+  console.log("Active Categories:", categories); // Debugging line to check the filtered categories
 
   const {
     register,

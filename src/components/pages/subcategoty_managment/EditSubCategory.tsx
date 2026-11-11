@@ -2,7 +2,7 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BASE_URL } from "@/config";
+
 import { useAllCategories } from "@/hooks/category.hook";
 import { useUpdateSubCategory } from "@/hooks/subCategory.hook";
 import ImageUpload from "@/reuseble_components/ImageUpload";
@@ -152,7 +152,7 @@ const EditSubCategory = ({ subcategory }: EditSubCategoryProps) => {
                 <ImageUpload
                   label="Sub Category Image"
                   name="image"
-                  existingImage={BASE_URL + subcategory.image}
+                  existingImage={subcategory.image}
                   watch={watch}
                   register={register}
                   error={errors.image}

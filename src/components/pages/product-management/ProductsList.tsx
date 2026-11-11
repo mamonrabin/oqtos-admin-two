@@ -15,7 +15,7 @@ import Pagination from "@/reuseble_components/Paginations";
 import EditProduct from "./EditProduct";
 import { useDeleteProduct, useUpdateProduct } from "@/hooks/product.hook";
 
-import { BASE_URL } from "@/config";
+
 import ProductDescription from "./ProductDescription";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
 import { toast } from "sonner";
@@ -149,12 +149,12 @@ const ProductsList: React.FC<ProductsListProps> = ({
                     <TableCell className="text-center py-3 px-4">
                       <div className="w-12 h-12 rounded-lg overflow-hidden border border-gray-200 mx-auto">
                         <Image
-                          src={BASE_URL + product.thumbnailImage}
+                          src={product.thumbnailImage}
                           alt={product.title}
                           width={48}
                           height={48}
                           className="w-full h-full object-cover"
-                          unoptimized
+                          
                         />
                       </div>
                     </TableCell>
@@ -164,12 +164,12 @@ const ProductsList: React.FC<ProductsListProps> = ({
                       {product.backviewImage ? (
                         <div className="w-12 h-12 rounded-lg overflow-hidden border border-gray-200 mx-auto">
                           <Image
-                            src={BASE_URL + product.backviewImage}
+                            src={product.backviewImage}
                             alt={product.title}
                             width={48}
                             height={48}
                             className="w-full h-full object-cover"
-                            unoptimized
+                            
                           />
                         </div>
                       ) : (

@@ -1,7 +1,17 @@
 import { AxiosInstance } from "../lib/AxiosInstance";
 
+// export const singIn = async (formData: FormData) => {
+//   const { data } = await AxiosInstance.post("/auth/login", formData);
+//   return data;
+// };
+
 export const singIn = async (formData: FormData) => {
   const { data } = await AxiosInstance.post("/auth/login", formData);
+
+  if (data?.data?.accessToken) {
+    localStorage.setItem("accessToken", data.data.accessToken);
+  }
+
   return data;
 };
 

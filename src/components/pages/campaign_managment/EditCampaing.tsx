@@ -2,7 +2,6 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BASE_URL } from "@/config";
 import { useUpdateampaign } from "@/hooks/campaign.hook";
 import { useAllCoupons } from "@/hooks/coupon.hook";
 import ImageUpload from "@/reuseble_components/ImageUpload";
@@ -138,7 +137,7 @@ const EditCampaing = ({ compain }: EditCampaingProps) => {
                   label="Image"
                   name="image"
                   existingImage={
-                    compain?.image ? BASE_URL + compain.image : undefined
+                    compain?.image ? compain.image : undefined
                   }
                   watch={watch}
                   register={register}

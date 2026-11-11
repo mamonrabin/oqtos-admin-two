@@ -19,7 +19,7 @@ import {
 
 import { Trash, FolderOpen } from "lucide-react";
 
-import { BASE_URL } from "@/config";
+
 import Image from "next/image";
 import { toast } from "sonner";
 import { TLogo } from "@/types";
@@ -148,10 +148,10 @@ const LogoList = () => {
                         <Image
                           width={300}
                           height={300}
-                          src={BASE_URL + logo.headerLogo}
+                          src={logo.headerLogo}
                           alt="hearder"
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          unoptimized
+                          
                         />
                       </div>
                     </TableCell>
@@ -160,12 +160,12 @@ const LogoList = () => {
                       {logo.footerLogo ? (
                         <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200 mx-auto">
                           <Image
-                            src={BASE_URL + logo.footerLogo}
+                            src={logo.footerLogo}
                             alt="FOOTER LOGO"
                             width={48}
                             height={48}
                             className="w-full h-full object-cover"
-                            unoptimized
+                            
                           />
                         </div>
                       ) : (

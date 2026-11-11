@@ -16,7 +16,7 @@ import Pagination from "@/reuseble_components/Paginations";
 import EditBrand from "./EditBrand";
 import { useState } from "react";
 
-import { BASE_URL } from "@/config";
+
 import { useBrands, useDeleteBrand, useUpdateBrand } from "@/hooks/brand.hook";
 import { TBrand } from "@/types";
 import TableSkeleton from "@/reuseble_components/TableSkeleton";
@@ -130,10 +130,10 @@ const BrandList = () => {
                         <Image
                           width={300}
                           height={300}
-                          src={BASE_URL + brand.image}
+                          src={brand.image}
                           alt={brand.title}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          unoptimized
+                          
                         />
                       </div>
                     </TableCell>

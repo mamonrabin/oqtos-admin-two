@@ -2,7 +2,6 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BASE_URL } from "@/config";
 import { useUpdateCategory } from "@/hooks/category.hook";
 import ImageUpload from "@/reuseble_components/ImageUpload";
 import InputField from "@/reuseble_components/InputField";
@@ -132,7 +131,7 @@ const EditCategory = ({ category }: EditCategoryProps) => {
                 <ImageUpload
                   label="Category Image"
                   name="image"
-                  existingImage={BASE_URL + category.image}
+                  existingImage={category.image}
                   watch={watch}
                   register={register}
                   error={errors.image}

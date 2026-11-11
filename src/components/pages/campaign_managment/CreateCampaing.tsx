@@ -8,13 +8,7 @@ import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import SelectInput from "@/reuseble_components/SelectInput";
 import { useAllCoupons } from "@/hooks/coupon.hook";
-import {
-  TBrand,
-  TCategory,
-  TCoupon,
-  TProduct,
-  TSubCategory,
-} from "@/types";
+import { TBrand, TCategory, TCoupon, TProduct, TSubCategory } from "@/types";
 import { useCreateCampaign } from "@/hooks/campaign.hook";
 import { useAllCategories } from "@/hooks/category.hook";
 import { useAllSubCategories } from "@/hooks/subCategory.hook";
@@ -42,7 +36,7 @@ type CampaingFormData = {
   categoryID?: string;
   subCategoryID?: string;
   brandID?: string;
-  products?: string;
+  products?: string[];
   image: FileList;
 };
 
@@ -70,7 +64,7 @@ const CreateCampaing = () => {
   const subCategories = subCategorysList?.data;
   const brands = brandList?.data;
 
-  console.log("----------products-----------", products);
+
 
   const { mutate, isPending } = useCreateCampaign();
 
@@ -84,6 +78,10 @@ const CreateCampaing = () => {
     formData.append("campaigntype", data.campaigntype);
     if (data.brandID) {
       formData.append("brandID", data.brandID);
+    }
+
+    if (data.categoryID) {
+      formData.append("categoryID", data.categoryID);
     }
 
     if (data.subCategoryID) {
@@ -182,32 +180,43 @@ const CreateCampaing = () => {
           />
         </div>
 
-        {couponType === "product" && (
-          <div className="mt-4">
-            <Controller
-              control={control}
-              name="products"
-              render={({ field }) => (
-                <Select
-                  isMulti
-                  options={products?.map((product: TProduct) => ({
-                    label: product.title,
-                    value: product._id,
-                  }))}
-                  value={products
-                    ?.filter((p: TProduct) => field.value?.includes(p._id))
-                    .map((p: TProduct) => ({
-                      label: p.title,
-                      value: p._id,
-                    }))}
-                  onChange={(selected) =>
-                    field.onChange(selected.map((item) => item.value))
-                  }
-                />
-              )}
-            />
-          </div>
-        )}
+       {couponType === "product" && (
+  <div className="mt-4">
+    <label className="block text-sm font-medium mb-2">
+      Select Products
+    </label>
+
+    <Controller
+      control={control}
+      name="products"
+      defaultValue={[]}
+      render={({ field }) => (
+        <Select
+          isMulti
+          options={products?.map((product: TProduct) => ({
+            label: product.title,
+            value: product._id,
+          }))}
+          value={
+            products
+              ?.filter((product: TProduct) =>
+                field.value?.includes(product._id),
+              )
+              .map((product: TProduct) => ({
+                label: product.title,
+                value: product._id,
+              })) || []
+          }
+          onChange={(selected) =>
+            field.onChange(selected.map((item) => item.value))
+          }
+          placeholder="Select campaign products..."
+          className="text-sm"
+        />
+      )}
+    />
+  </div>
+)}
         {couponType === "category" && (
           <div className="mt-4">
             <SelectInput<CampaingFormData>

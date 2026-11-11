@@ -12,6 +12,7 @@ import TopSellingProducts from "./TopSellingProducts";
 import RecenteOrder from "./RecenteOrder";
 import { useAllOrders } from "@/hooks/order.hook";
 import DaySelector from "./DaySelector";
+import VisitorAnalytics from "./VisitorAnalytics";
 
 const Overview = () => {
 
@@ -64,6 +65,7 @@ const Overview = () => {
 
       <DashboardStats statsData={statsData}/>
       <OrderStats orderData={orderData} userData={userData}/>
+      <VisitorAnalytics />
       <RevenueNCategory orderData={orderData}/>
 
       <StatusNStockAlert userData={userData} orderData={orderData} lowStockAlert={productData?.lowStockAlerts}/>

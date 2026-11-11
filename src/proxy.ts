@@ -1,50 +1,7 @@
+
 import { NextRequest, NextResponse } from "next/server";
 
-export function proxy(request: NextRequest) {
-  const accessToken = request.cookies.get("accessToken")?.value;
-
-  const pathname = request.nextUrl.pathname;
-
-  // If user is already logged in and tries to access login page
-  if (pathname === "/" && accessToken) {
-    return NextResponse.redirect(
-      new URL("/dashboard", request.url)
-    );
-  }
-
-  // Protected routes
-  const protectedRoutes = [
-    "/dashboard",
-    "/banners",
-    "/campaign",
-    "/category",
-    "/brand",
-    "/coupon",
-    "/order-list",
-    "/products",
-    "/user",
-    "/product-review",
-    "/new_order",
-    "/home_controll",
-    "/social",
-    "/logo",
-    "/policy",
-    "/contact",
-    "/about",
-    "/staffs",
-  ];
-
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    pathname.startsWith(route)
-  );
-
-  // If user is not logged in, redirect to login page
-  if (isProtectedRoute && !accessToken) {
-    return NextResponse.redirect(
-      new URL("/", request.url)
-    );
-  }
-
+export function proxy(_request: NextRequest) {
   return NextResponse.next();
 }
 

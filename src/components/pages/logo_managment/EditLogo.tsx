@@ -2,7 +2,7 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BASE_URL } from "@/config";
+
 import { useUpdateLogo } from "@/hooks/setLogo.hook";
 import ImageUpload from "@/reuseble_components/ImageUpload";
 import InputField from "@/reuseble_components/InputField";
@@ -133,7 +133,7 @@ const EditLogo = ({ logo }: EditLogoProps) => {
                   watch={watch}
                   register={register}
                   error={errors.headerLogo}
-                  existingImage={BASE_URL + logo.headerLogo}
+                  existingImage={logo.headerLogo}
                   uploaderSyle="max-w-full!"
                 />
                 <ImageUpload
@@ -142,7 +142,7 @@ const EditLogo = ({ logo }: EditLogoProps) => {
                   watch={watch}
                   register={register}
                   existingImage={
-                    logo.footerLogo ? BASE_URL + logo.footerLogo : undefined
+                    logo.footerLogo ? logo.footerLogo : undefined
                   }
                   uploaderSyle="max-w-full!"
                   error={errors.footerLogo}

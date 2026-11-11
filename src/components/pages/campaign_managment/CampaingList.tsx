@@ -22,7 +22,7 @@ import {
   useUpdateampaign,
 } from "@/hooks/campaign.hook";
 import Image from "next/image";
-import { BASE_URL } from "@/config";
+
 import EditCampaing from "./EditCampaing";
 import StatusSelect from "@/reuseble_components/StatusSelect";
 import { mutationToast } from "@/reuseble_components/MutationToast";
@@ -140,10 +140,10 @@ const CampaingList = () => {
                           <Image
                             width={300}
                             height={300}
-                            src={BASE_URL + compain.image}
+                            src={compain.image}
                             alt={compain.title}
                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                            unoptimized
+                            
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
